@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="/css/master.css">
   </head>
   <body>
-    <form action="/api/tester" method="POST">
+    <div class="new_buttons">
+      <button class="new new_paragraph" name="new_paragraph">New Paragraph</button>
+      <button class="new new_image" name="new_image">New Image</button>
+    </div>
+    <form action="/api/tester" method="POST" class="form">
       <textarea name="paragraphs[0]" rows="8" cols="80"></textarea>
       <textarea name="paragraphs[1]" rows="8" cols="80"></textarea>
       <textarea name="paragraphs[2]" rows="8" cols="80"></textarea>
@@ -18,4 +22,5 @@
       </div>
     </form>
   </body>
+  <script type="text/javascript" src="/js/master.js"></script>
 </html>
