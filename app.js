@@ -25,11 +25,19 @@ function convertParagraph (para) {
 app.route('/api/tester')
    .get((req, res) => res.json({ message: 'res ok to route: /api/tester/' }))
    .post((req, res) => {
-     let test_paragraph_arrays = req.body.paragraphs.map(each => each.split('\r\n\r\n'))
-     res.json({
-       test_paragraph_arrays: test_paragraph_arrays,
-       length: test_paragraph_arrays.length
-     })
+     let paragraphArrays = req.body.paragraphs
+        .filter(e => e.length > 0)
+        .map(each => each.split('\r\n'))
+
+     if (req.body.page) {
+       console.log({ paragraphArrays })
+       res.render('show', { paragraphArrays })
+     } else {
+       res.json({
+         paragraphArrays: paragraphArrays,
+         length: paragraphArrays.length
+       })
+     }
    })
 
 

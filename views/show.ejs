@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Title</h1>
+    <% paragraphArrays.forEach(section => { %>
+      <% section.forEach(each => { %>
+        <p><%= each %></p>
+      <% }) %>
+      <hr />
+    <% }) %>
+  </body>
+</html>
