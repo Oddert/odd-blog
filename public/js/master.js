@@ -10,11 +10,15 @@ function handleNewInput (e) {
   let newElem
   switch(e.target.name) {
     case 'new_paragraph':
-      let textAreas = form.querySelectorAll('textarea')
-      newElem = document.createElement('textarea')
-      newElem.name = `paragraph[${textAreas.length}]`
-      newElem.rows = '8'
-      newElem.cols = '80'
+      let textAreas = form.querySelectorAll('text_input')
+      newElem = document.createElement('DIV')
+      newElem.className = 'text_input'
+
+      let newTextInput = document.createElement('textarea')
+      newTextInput.name = `paragraph[${textAreas.length}]`
+      newTextInput.rows = '8'
+      newTextInput.cols = '80'
+      newElem.appendChild(newTextInput)
       form.appendChild(newElem)
       break;
     case 'new_image':
@@ -31,3 +35,5 @@ function handleNewInput (e) {
 }
 
 newButtons.forEach(each => each.onclick = handleNewInput)
+
+for (let i = 0; i < 5; i++) handleNewInput({ target: { name: 'new_paragraph' } })
