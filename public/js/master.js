@@ -17,7 +17,7 @@ function handleNewInput (e) {
       let newTextInput = document.createElement('textarea')
       newTextInput.name = `paragraph[${textAreas.length}]`
       newTextInput.rows = '8'
-      newTextInput.cols = '80'
+      newTextInput.cols = '60'
       newElem.appendChild(newTextInput)
       form.appendChild(newElem)
       break;
@@ -27,17 +27,23 @@ function handleNewInput (e) {
       newElem.className = 'image_input'
 
       let newImageSrcInput = document.createElement('input')
-      let newImageCaptionInput = document.createElement('input')
-      let newImageAltInput = document.createElement('input')
       newImageSrcInput.name = `image[${images.length}][src]`
       newImageSrcInput.className = 'image_input--src'
+      newImageSrcInput.placeholder = 'Image Link'
+      newElem.appendChild(newImageSrcInput)
+
+      let newImageCaptionInput = document.createElement('input')
       newImageCaptionInput.name = `image[${images.length}][caption]`
       newImageCaptionInput.className = 'image_input--caption'
+      newImageCaptionInput.placeholder = 'Image Caption'
+      newElem.appendChild(newImageCaptionInput)
+
+      let newImageAltInput = document.createElement('input')
       newImageAltInput.name = `image[${images.length}][alt]`
       newImageAltInput.className = 'image_input--alt'
-      newElem.appendChild(newImageSrcInput)
-      newElem.appendChild(newImageCaptionInput)
+      newImageAltInput.placeholder = 'Description for Screen Readers'
       newElem.appendChild(newImageAltInput)
+
       form.appendChild(newElem)
       break;
     default:
@@ -48,4 +54,5 @@ function handleNewInput (e) {
 
 newButtons.forEach(each => each.onclick = handleNewInput)
 
-for (let i = 0; i < 5; i++) handleNewInput({ target: { name: 'new_paragraph' } })
+for (let i = 0; i < 4; i++) handleNewInput({ target: { name: 'new_paragraph' } })
+handleNewInput({ target: { name: 'new_image' } })
