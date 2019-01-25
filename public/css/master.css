@@ -1,6 +1,14 @@
+* {
+  font-family: arial, helvetica, sans-serif, "open sans";
+}
+
 html, body, textarea {
   background: #223;
   font-family: helvetica, arial;
+}
+
+textarea {
+  color: #ecf0f1;
 }
 
 form {
