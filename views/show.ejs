@@ -7,11 +7,23 @@
   </head>
   <body>
     <h1>Title</h1>
-    <% paragraphArrays.forEach(section => { %>
-      <% section.forEach(each => { %>
-        <p><%= each %></p>
-      <% }) %>
-      <hr />
+    <% items.forEach(item => { %>
+
+      <% if (item.data_type == "paragraph") { %>
+        <% item.text.forEach(section => { %>
+          <p><%= section %></p>
+        <% }) %>
+        <hr />
+      <% } %>
+
+      <% if (item.data_type == "image") { %>
+        <div class="image">
+          <img src="<%= item.src %>" alt="<%= item.alt %>">
+          <p><%= item.caption %></p>
+        </div>
+        <hr />
+      <% } %>
+
     <% }) %>
   </body>
 </html>

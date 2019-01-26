@@ -48,17 +48,21 @@ app.route('/api/tester')
      const originalData = JSON.parse(JSON.stringify(req.body))
      const displayData = JSON.parse(JSON.stringify(req.body)) // I'm salty that this is apparently the best option of getting a deep clone >:(
 
+
      displayData.inputs = displayData.inputs
       .slice()
       .map(each => {
+        console.log('#', each)
         if (each.data_type === 'paragraph') {
           let newText = each.text.split('\r\n')
-          return each.text = newText
+          each.text = newText
+          return each
         }
         return each
       }) || []
+      console.log({ items: displayData.inputs })
 
-     if (req.body.page) res.render('show', { paragraphArrays })
+     if (req.body.page) res.render('show', { items: displayData.inputs })
      else res.json({
        body: originalData,
        params: req.params,
