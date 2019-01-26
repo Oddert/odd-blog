@@ -40,9 +40,9 @@ function deleteInput (e, idx) {
 function reassignIndeces () {
   const input_groups = document.querySelectorAll('.input')
   for (let i = 0; i < input_groups.length; i++) {
+    console.log('############')
     let input_group = input_groups[i]
     const inputElems = input_group.querySelectorAll('input')
-    console.log('############')
     for (elem of inputElems) {
       let oldName = elem.name
       elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
@@ -53,10 +53,15 @@ function reassignIndeces () {
       let oldName = elem.name
       elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
     }
+
     const label = input_group.querySelector('.control_text')
     const labelContent = label.textContent
     const newLabelContent = `${labelContent.substring(0, labelContent.length-8)}${i}${labelContent.substring(labelContent.length-7)}`
     label.textContent = newLabelContent
+
+    const classLabel = input_group.classList.match(/input_[0-9]*/gi)
+    input_group.classList.remove(classLabel)
+    input_group.classList.push(`input_${i}`)
   }
 }
 
@@ -118,7 +123,6 @@ newButtons.forEach(each => each.onclick = handleNewInput)
 
 for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
 handleNewInput({ target: { name: 'new_image' } })
-handleNewInput({ target: { name: 'new_paragraph' } })
 
 function writeName() {
   let oldElem = document.getElementById('dev_name_test')
