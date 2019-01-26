@@ -59,9 +59,9 @@ function reassignIndeces () {
     const newLabelContent = `${labelContent.substring(0, labelContent.length-8)}${i}${labelContent.substring(labelContent.length-7)}`
     label.textContent = newLabelContent
 
-    const classLabel = input_group.classList.match(/input_[0-9]*/gi)
+    const classLabel = input_group.className.match(/input_[0-9]*/gi)
     input_group.classList.remove(classLabel)
-    input_group.classList.push(`input_${i}`)
+    input_group.classList.add(`input_${i}`)
   }
 }
 
