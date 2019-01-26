@@ -149,7 +149,7 @@ function sample () {
   const sampleImage = {
     src: "http://www.cat-bus.com/wp-content/uploads/2017/12/gadgetbahn.jpg",
     caption: "A very neat image. Monorials are good. Abolish the functionless metal boxes known as automobiles",
-    alt: "A render of a monorail concept"
+    alt: "A render of various monorails and monorail concepts"
   }
   const inputs = document.querySelectorAll('textarea')
   for (let i=0; i<inputs.length; i++) {
@@ -169,10 +169,11 @@ document.querySelector('.sample_data').onclick = e => {
 function writeName() {
   let oldElem = document.getElementById('dev_name_test')
   if (oldElem) document.body.removeChild(oldElem)
+  
   let greeting = ['Hello', 'Hi there', 'Welcome', 'Signed in as', 'Director of Project']
   let name = ['James', 'Erin', 'Felicity', 'Violet', 'Victoria', 'Fiona', 'Heather']
-  const pick = arr => arr[Math.floor(Math.random()*arr.length)]
   let elem = document.createElement('H1')
+  const pick = arr => arr[Math.floor(Math.random()*arr.length)]
   elem.id = "dev_name_test"
   elem.textContent = `${pick(greeting)} Ms Robyn ${pick(name)} Veitch`
   elem.style.position = 'fixed'

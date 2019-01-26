@@ -17,10 +17,10 @@
       <% } %>
 
       <% if (item.data_type == "image") { %>
-        <div class="image">
+        <figure class="image">
           <img src="<%= item.src %>" alt="<%= item.alt %>">
-          <p><%= item.caption %></p>
-        </div>
+          <figcaption><%= item.caption %></figcaption>
+        </figure>
         <hr />
       <% } %>
 
