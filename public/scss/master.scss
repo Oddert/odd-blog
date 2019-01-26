@@ -3,19 +3,35 @@
   font-family: arial, helvetica, sans-serif, 'open sans';
 }
 
+$dark_background_text: #ecf0f1;
+
 html, body, textarea {
   background: #223;
   font-family: helvetica, arial;
 }
 
 textarea {
-  color: #ecf0f1;
+  color: $dark_background_text;
 }
 
 form {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 100px;
-  width: 100vw;
+  grid-auto-rows: 125px;
+  width: 99vw;
 
+}
+
+.input {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  // align-items: center;
+}
+
+.control_text {
+  color: $dark_background_text;
+  padding: 0;
+  margin: 0;
 }

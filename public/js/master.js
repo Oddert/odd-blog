@@ -4,30 +4,80 @@ const form          = document.querySelector('form')
 const newParagraph  = document.querySelector('.new_paragraph')
 const newImage      = document.querySelector('.new_image')
 
+function createLabel (idx, data_type) {
+  let newLabel = document.createElement(`input`)
+  newLabel.name = `inputs[${idx}][data_type]`
+  newLabel.value = `${data_type}`
+  newLabel.hidden = true
+  return newLabel
+}
+
+function createControl (idx, data_type) {
+  let newControl = document.createElement(`DIV`)
+  newControl.className = `input_controll`
+
+  let controlText = document.createElement(`P`)
+  controlText.textContent = `${data_type} ${idx} Input:`
+  controlText.className = `control_text`
+
+  let controlDelete = document.createElement(`button`)
+  controlDelete.textContent = `Delete Input`
+  controlDelete.onclick = e => deleteInput(e, idx)
+
+  newControl.appendChild(controlText)
+  newControl.appendChild(controlDelete)
+  return newControl
+}
+
+function deleteInput (e, idx) {
+  e.preventDefault()
+  const input = document.querySelector(`.input_${idx}`)
+  console.log(input)
+  document.querySelector('.form').removeChild(input)
+  reassignIndeces()
+}
+
+function reassignIndeces () {
+  const input_groups = document.querySelectorAll('.input')
+  for (let i = 0; i < input_groups.length; i++) {
+    let input_group = input_groups[i]
+    const inputElems = input_group.querySelectorAll('input')
+    console.log('############')
+    for (elem of inputElems) {
+      let oldName = elem.name
+      elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
+    }
+
+    let textareaElems = input_group.querySelectorAll('textarea')
+    for (elem of textareaElems) {
+      let oldName = elem.name
+      elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
+    }
+    const label = input_group.querySelector('.control_text')
+    const labelContent = label.textContent
+    const newLabelContent = `${labelContent.substring(0, labelContent.length-8)}${i}${labelContent.substring(labelContent.length-7)}`
+    label.textContent = newLabelContent
+  }
+}
 
 function handleNewInput (e) {
   console.log(e.target.name)
   let newElem
   let inputs = form.querySelectorAll('.input')
+  console.log(inputs)
 
   switch(e.target.name) {
 
     case 'new_paragraph':
       let newTextInput = document.createElement('textarea')
       newTextInput.name = `inputs[${inputs.length}][text]`
-      newTextInput.rows = '6'
-      newTextInput.cols = '60'
-
-      let newTextLabel = document.createElement('input')
-      newTextLabel.name = `inputs[${inputs.length}][type]`
-      newTextLabel.value = `paragraph`
-      newTextLabel.hidden = true
 
       newElem = document.createElement('DIV')
-      newElem.className = 'input text_input'
+      newElem.className = `input text_input input_${inputs.length}`
 
+      newElem.appendChild(createLabel(inputs.length, `paragraph`))
+      newElem.appendChild(createControl(inputs.length, `paragraph`))
       newElem.appendChild(newTextInput)
-      newElem.appendChild(newTextLabel)
       form.appendChild(newElem)
       break;
 
@@ -47,15 +97,11 @@ function handleNewInput (e) {
       newImageAltInput.className    = 'image_input--alt'
       newImageAltInput.placeholder  = 'Description for Screen Readers'
 
-      let newImageLabel = document.createElement('input')
-      newImageLabel.name = `inputs[${inputs.length}][type]`
-      newImageLabel.value = `image`
-      newImageLabel.hidden = true
-
       newElem = document.createElement('DIV')
-      newElem.className = 'input image_input'
+      newElem.className = `input image_input input_${inputs.length}`
 
-      newElem.appendChild(newImageLabel)
+      newElem.appendChild(createLabel(inputs.length, `image`))
+      newElem.appendChild(createControl(inputs.length, `image`))
       newElem.appendChild(newImageSrcInput)
       newElem.appendChild(newImageCaptionInput)
       newElem.appendChild(newImageAltInput)
@@ -63,15 +109,16 @@ function handleNewInput (e) {
       break;
 
     default:
-      console.log('ERROR: Unknown input type')
+      console.log('ERROR: Unknown input data_type')
       break;
   }
 }
 
 newButtons.forEach(each => each.onclick = handleNewInput)
 
-for (let i = 0; i < 4; i++) handleNewInput({ target: { name: 'new_paragraph' } })
+for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
 handleNewInput({ target: { name: 'new_image' } })
+handleNewInput({ target: { name: 'new_paragraph' } })
 
 function writeName() {
   let oldElem = document.getElementById('dev_name_test')
