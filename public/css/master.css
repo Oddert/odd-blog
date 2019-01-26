@@ -1,5 +1,10 @@
 * {
   font-family: arial, helvetica, sans-serif, "open sans";
+  color: #ecf0f1;
+}
+
+button, input, textarea {
+  color: black;
 }
 
 html, body, textarea {

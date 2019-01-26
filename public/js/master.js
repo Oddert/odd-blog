@@ -22,6 +22,7 @@ function createControl (idx, data_type) {
 
   let controlDelete = document.createElement(`button`)
   controlDelete.textContent = `Delete Input`
+  controlDelete.className = `control_delete`
   controlDelete.onclick = e => deleteInput(e, idx)
 
   newControl.appendChild(controlText)
@@ -37,10 +38,14 @@ function deleteInput (e, idx) {
   reassignIndeces()
 }
 
+// When an element is removed and added there can often be conflicts in the index used to define input order
+// This loops over all and checks their classNames and names are correct
 function reassignIndeces () {
   const input_groups = document.querySelectorAll('.input')
   for (let i = 0; i < input_groups.length; i++) {
     console.log('############')
+
+    // Fix the name attr on all input tags
     let input_group = input_groups[i]
     const inputElems = input_group.querySelectorAll('input')
     for (elem of inputElems) {
@@ -48,20 +53,28 @@ function reassignIndeces () {
       elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
     }
 
+    // Do the same for any textareas
     let textareaElems = input_group.querySelectorAll('textarea')
     for (elem of textareaElems) {
       let oldName = elem.name
       elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
     }
 
+    // Recreate the visable label display (no functional value)
     const label = input_group.querySelector('.control_text')
     const labelContent = label.textContent
-    const newLabelContent = `${labelContent.substring(0, labelContent.length-8)}${i}${labelContent.substring(labelContent.length-7)}`
+    const lcLen = labelContent.length
+    const newLabelContent = `${labelContent.substring(0, lcLen-8)}${i}${labelContent.substring(lcLen-7)}`
     label.textContent = newLabelContent
 
+    // Remove old class used for targeting and replace
     const classLabel = input_group.className.match(/input_[0-9]*/gi)
     input_group.classList.remove(classLabel)
     input_group.classList.add(`input_${i}`)
+
+    // Update the delete button for new index
+    const deleteButton = input_group.querySelector(`.control_delete`)
+    deleteButton.onclick = e => deleteInput(e, i)
   }
 }
 
@@ -123,6 +136,35 @@ newButtons.forEach(each => each.onclick = handleNewInput)
 
 for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
 handleNewInput({ target: { name: 'new_image' } })
+handleNewInput({ target: { name: 'new_paragraph' } })
+
+
+function sample () {
+  const sampleParas = [
+    "This is an initial paragraph to get us warmed up.",
+    "Pnuk, this is what we like to all\r\nmulti-lined\r\n\r\nsuper\r\n\r\nduper\r\n\r\n\r\n\r\nparagraphs",
+    "Here we see that numbers are not an issue probably:\r\n\r\n09876543\r\n528491",
+    "lo it is time for this tawdry thing again ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+  ]
+  const sampleImage = {
+    src: "http://www.cat-bus.com/wp-content/uploads/2017/12/gadgetbahn.jpg",
+    caption: "A very neat image. Monorials are good. Abolish the functionless metal boxes known as automobiles",
+    alt: "A render of a monorail concept"
+  }
+  const inputs = document.querySelectorAll('textarea')
+  for (let i=0; i<inputs.length; i++) {
+    inputs[i].value = sampleParas[i]
+  }
+  document.querySelector('.image_input--src').value = sampleImage.src
+  document.querySelector('.image_input--caption').value = sampleImage.caption
+  document.querySelector('.image_input--alt').value = sampleImage.alt
+}
+
+document.querySelector('.sample_data').onclick = e => {
+  e.preventDefault()
+  return sample()
+}
+
 
 function writeName() {
   let oldElem = document.getElementById('dev_name_test')

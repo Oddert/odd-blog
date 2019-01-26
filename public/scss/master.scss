@@ -1,9 +1,15 @@
 
+$dark_background_text: #ecf0f1;
+
 * {
   font-family: arial, helvetica, sans-serif, 'open sans';
+  color: $dark_background_text;
 }
 
-$dark_background_text: #ecf0f1;
+button, input, textarea {
+  color: black;
+}
+
 
 html, body, textarea {
   background: #223;
