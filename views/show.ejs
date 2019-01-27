@@ -12,6 +12,10 @@
       <h2 class="subtitle"><%= data.subtitle %></h2>
       <% data.inputs.forEach(item => { %>
 
+        <% if (/\w/gi.test(item.subhead)) { %>
+          <h3 class="subhead"># <%= item.subhead %></h3>
+        <% } %>
+
         <% if (item.data_type == "paragraph") { %>
           <div class="paragraph <%= item.align %>">
             <% item.text.forEach(section => { %>

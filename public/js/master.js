@@ -12,6 +12,13 @@ function createLabel (idx, data_type) {
   return newLabel
 }
 
+function createSubhead (idx) {
+  let newSubhead = document.createElement('input')
+  newSubhead.placeholder = `Subheading, leave blank to ommit.`
+  newSubhead.name = `inputs[${idx}][subhead]`
+  return newSubhead
+}
+
 function createAlignment (idx, data_type) {
   let alignments = ['large', 'medium_left', 'medium_right', 'small_left', 'small_center', 'small_right']
   function createOption (value) {
@@ -39,7 +46,6 @@ function createControl (idx, data_type) {
   controlDelete.className = `control_delete`
   controlDelete.onclick = e => deleteInput(e, idx)
 
-  newControl.appendChild(createAlignment(idx))
   newControl.appendChild(controlText)
   newControl.appendChild(controlDelete)
   return newControl
@@ -97,44 +103,49 @@ function handleNewInput (e) {
   console.log(e.target.name)
   let newElem
   let inputs = form.querySelectorAll('.input')
+  let idx = inputs.length
   console.log(inputs)
 
   switch(e.target.name) {
 
     case 'new_paragraph':
       let newTextInput = document.createElement('textarea')
-      newTextInput.name = `inputs[${inputs.length}][text]`
+      newTextInput.name = `inputs[${idx}][text]`
 
       newElem = document.createElement('DIV')
-      newElem.className = `input text_input input_${inputs.length}`
+      newElem.className = `input text_input input_${idx}`
 
-      newElem.appendChild(createLabel(inputs.length, `paragraph`))
-      newElem.appendChild(createControl(inputs.length, `paragraph`))
+      newElem.appendChild(createLabel(idx, `paragraph`))
+      newElem.appendChild(createControl(idx, `paragraph`))
+      newElem.appendChild(createAlignment(idx))
+      newElem.appendChild(createSubhead(idx))
       newElem.appendChild(newTextInput)
       form.appendChild(newElem)
       break;
 
     case 'new_image':
       let newImageSrcInput          = document.createElement('input')
-      newImageSrcInput.name         = `inputs[${inputs.length}][src]`
+      newImageSrcInput.name         = `inputs[${idx}][src]`
       newImageSrcInput.className    = 'image_input--src'
       newImageSrcInput.placeholder  = 'Image Link'
 
       let newImageCaptionInput          = document.createElement('input')
-      newImageCaptionInput.name         = `inputs[${inputs.length}][caption]`
+      newImageCaptionInput.name         = `inputs[${idx}][caption]`
       newImageCaptionInput.className    = 'image_input--caption'
-      newImageCaptionInput.placeholder  = 'Image Caption'
+      newImageCaptionInput.placeholder  = 'Caption'
 
       let newImageAltInput          = document.createElement('input')
-      newImageAltInput.name         = `inputs[${inputs.length}][alt]`
+      newImageAltInput.name         = `inputs[${idx}][alt]`
       newImageAltInput.className    = 'image_input--alt'
-      newImageAltInput.placeholder  = 'Description for Screen Readers'
+      newImageAltInput.placeholder  = 'Alt-text (for Screen Readers)'
 
       newElem = document.createElement('DIV')
-      newElem.className = `input image_input input_${inputs.length}`
+      newElem.className = `input image_input input_${idx}`
 
-      newElem.appendChild(createLabel(inputs.length, `image`))
-      newElem.appendChild(createControl(inputs.length, `image`))
+      newElem.appendChild(createLabel(idx, `image`))
+      newElem.appendChild(createControl(idx, `image`))
+      newElem.appendChild(createAlignment(idx))
+      newElem.appendChild(createSubhead(idx))
       newElem.appendChild(newImageSrcInput)
       newElem.appendChild(newImageCaptionInput)
       newElem.appendChild(newImageAltInput)

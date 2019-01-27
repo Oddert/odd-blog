@@ -25,8 +25,11 @@ const PostSchema = new mongoose.Schema ({
     {
       subhead: String,
       data_type: String,
-      data: String,
-      alt: String
+      text: String,
+      alt: String,
+      src: String,
+      caption: String,
+      align: String
     }
   ],
   conclusion: String

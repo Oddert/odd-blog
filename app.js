@@ -1,11 +1,18 @@
-const express = require('express')
-    , app = express()
+
+require('dotenv').config()
+
+const express     = require('express')
+    , app         = express()
     , bodyParser  = require('body-parser')
-    , path = require('path')
+    , path        = require('path')
+
+const mongoose        = require('mongoose')
 
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '/public')))
+
+mongoose.connect(process.env.DATABASE)
 
 app.get('/', (req, res) => {
   res.render('index')
@@ -13,7 +20,7 @@ app.get('/', (req, res) => {
 
 let api = app.route('/api')
     api.get((req, res) => res.json({ message: 'res ok to route: /api/' }))
-    
+
 
 app.route('/api/tester')
    .get((req, res) => res.json({ message: 'res ok to route: /api/tester/' }))
@@ -42,9 +49,6 @@ app.route('/api/tester')
        query: req.query
      })
    })
-
-
-
 
 
 const PORT = process.env.PORT || 3000

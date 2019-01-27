@@ -33,6 +33,10 @@ hr {
   justify-content: center;
   word-break: break-all;
 }
+.paragraph:first-of-type {
+  font-size: 1.2em;
+  text-align: center;
+}
 
 .image img {
   width: 100%;

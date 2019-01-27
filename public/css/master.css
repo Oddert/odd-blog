@@ -3,6 +3,12 @@
   color: #ecf0f1;
 }
 
+body, html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 button, input, textarea {
   color: black;
 }
@@ -14,13 +20,14 @@ html, body, textarea, select {
 
 textarea {
   color: #ecf0f1;
+  min-height: 75px;
 }
 
 form {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 99vw;
-  margin-top: 100px;
+  grid-template-columns: 1fr 2fr 1fr;
+  width: 95vw;
+  margin: 100px auto 0 auto;
 }
 
 .input, .title, .subtitle {
@@ -28,7 +35,8 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 20px 0;
+  margin: 10px 0;
+  border: 1px dashed skyblue;
 }
 
 .control_text {
