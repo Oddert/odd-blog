@@ -13,42 +13,15 @@ app.get('/', (req, res) => {
 
 let api = app.route('/api')
     api.get((req, res) => res.json({ message: 'res ok to route: /api/' }))
-
-
-function convertParagraph (para) {
-  return {
-    data_type: 'paragraph',
-    data: para
-  }
-}
+    
 
 app.route('/api/tester')
    .get((req, res) => res.json({ message: 'res ok to route: /api/tester/' }))
-   // .post((req, res) => {
-   //   console.log(req.body)
-   //   console.log(req.params)
-   //   let paragraphArrays = req.body.paragraphs
-   //      ? req.body.paragraphs
-   //        .filter(e => e.length > 0)
-   //        .map(each => each.split('\r\n'))
-   //      : []
-   //
-   //   if (req.body.page) {
-   //     console.log({ paragraphArrays })
-   //     res.render('show', { paragraphArrays })
-   //   } else {
-   //     res.json({
-   //       body: req.body,
-   //       params: req.params,
-   //       query: req.query
-   //     })
-   //   }
-   // })
    .post((req, res) => {
      const originalData = JSON.parse(JSON.stringify(req.body))
      const displayData = JSON.parse(JSON.stringify(req.body)) // I'm salty that this is apparently the best option of getting a deep clone >:(
 
-
+     displayData.title = /\w/gi.test(displayData.title) ? displayData.title : "Blog Post"
      displayData.inputs = displayData.inputs
       .slice()
       .map(each => {
@@ -60,9 +33,9 @@ app.route('/api/tester')
         }
         return each
       }) || []
-      console.log({ items: displayData.inputs })
+      console.log({ data: displayData })
 
-     if (req.body.page) res.render('show', { items: displayData.inputs })
+     if (req.body.page) res.render('show', { data: displayData })
      else res.json({
        body: originalData,
        params: req.params,

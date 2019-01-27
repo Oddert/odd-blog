@@ -12,6 +12,20 @@ function createLabel (idx, data_type) {
   return newLabel
 }
 
+function createAlignment (idx, data_type) {
+  let alignments = ['large', 'medium_left', 'medium_right', 'small_left', 'small_center', 'small_right']
+  function createOption (value) {
+    let opt = document.createElement('option')
+    opt.value = value
+    opt.textContent = value
+    return opt
+  }
+  let controlAlign = document.createElement('select')
+  controlAlign.name = `inputs[${idx}][align]`
+  for (each of alignments) controlAlign.appendChild(createOption(each))
+  return controlAlign
+}
+
 function createControl (idx, data_type) {
   let newControl = document.createElement(`DIV`)
   newControl.className = `input_controll`
@@ -25,6 +39,7 @@ function createControl (idx, data_type) {
   controlDelete.className = `control_delete`
   controlDelete.onclick = e => deleteInput(e, idx)
 
+  newControl.appendChild(createAlignment(idx))
   newControl.appendChild(controlText)
   newControl.appendChild(controlDelete)
   return newControl
@@ -142,53 +157,29 @@ handleNewInput({ target: { name: 'new_paragraph' } })
 function sample () {
   const sampleParas = [
     "This is an initial paragraph to get us warmed up.",
-    "Pnuk, this is what we like to all\r\nmulti-lined\r\n\r\nsuper\r\n\r\nduper\r\n\r\n\r\n\r\nparagraphs",
+    "Pnuk, this is what we like to call\r\nmulti-lined\r\n\r\nsuper\r\n\r\nduper\r\n\r\n\r\n\r\nparagraphs",
     "Here we see that numbers are not an issue probably:\r\n\r\n09876543\r\n528491",
-    "lo it is time for this tawdry thing again ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+    "lo it is time for this tawdry thing again ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Where does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32."
   ]
   const sampleImage = {
     src: "http://www.cat-bus.com/wp-content/uploads/2017/12/gadgetbahn.jpg",
     caption: "A very neat image. Monorials are good. Abolish the functionless metal boxes known as automobiles",
     alt: "A render of various monorails and monorail concepts"
   }
-  const inputs = document.querySelectorAll('textarea')
+  const inputs = document.querySelectorAll('.input textarea')
   for (let i=0; i<inputs.length; i++) {
     inputs[i].value = sampleParas[i]
   }
   document.querySelector('.image_input--src').value = sampleImage.src
   document.querySelector('.image_input--caption').value = sampleImage.caption
   document.querySelector('.image_input--alt').value = sampleImage.alt
+
+  document.querySelector('.title input').value = "This is a Very Good Article"
+  document.querySelector('.subtitle textarea').value = "Here we will discuss many such topics as 'what is mongodb? And why does it make us sad?' and 'Why have my neighbors, in the last few days, increased their noise level by 420%?'"
 }
 
 document.querySelector('.sample_data').onclick = e => {
   e.preventDefault()
   return sample()
 }
-
-
-function writeName() {
-  let oldElem = document.getElementById('dev_name_test')
-  if (oldElem) document.body.removeChild(oldElem)
-  
-  let greeting = ['Hello', 'Hi there', 'Welcome', 'Signed in as', 'Director of Project']
-  let name = ['James', 'Erin', 'Felicity', 'Violet', 'Victoria', 'Fiona', 'Heather']
-  let elem = document.createElement('H1')
-  const pick = arr => arr[Math.floor(Math.random()*arr.length)]
-  elem.id = "dev_name_test"
-  elem.textContent = `${pick(greeting)} Ms Robyn ${pick(name)} Veitch`
-  elem.style.position = 'fixed'
-  elem.style.top = '0'
-  elem.style.right = '0'
-  elem.style.padding = '10px'
-  elem.style.margin = '0'
-  elem.style.color = '#ecf0f1'
-  elem.style.textShadow = '0px 0px 10px rgba(0,0,0,1)'
-  elem.style.fontFamily = 'helvetica'
-  setTimeout(() => {
-    document.body.append(elem)
-  }, 1000)
-}
-
-writeName()
-
-setInterval(writeName, 30000)

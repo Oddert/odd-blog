@@ -18,13 +18,20 @@
       <textarea name="paragraphs[4]" rows="8" cols="80"></textarea> -->
       <div>
         <div>
-          <input type="checkbox" name="page" value="false">
-          <label>Show a page display (not json)</label>
+          <input id="page_check" type="checkbox" name="page" value="false">
+          <label for="page_check">Show a page display (not json)</label>
         </div>
         <button>Submit</button>
         <button class="sample_data">Sample Data</button>
       </div>
+      <div class="title">
+        <input type="text" name="title" placeholder="The title of the post, will default to 'Blog Post' if left blank." />
+      </div>
+      <div class="subtitle">
+        <textarea name="subtitle" placeholder="A subtitle for the post, leave blank to ommit."></textarea>
+      </div>
     </form>
   </body>
   <script type="text/javascript" src="/js/master.js"></script>
+  <script type="text/javascript" src="/js/name.js"></script>
 </html>

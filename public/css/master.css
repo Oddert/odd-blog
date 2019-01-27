@@ -7,7 +7,7 @@ button, input, textarea {
   color: black;
 }
 
-html, body, textarea {
+html, body, textarea, select {
   background: #223;
   font-family: helvetica, arial;
 }
@@ -19,21 +19,31 @@ textarea {
 form {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 125px;
   width: 99vw;
+  margin-top: 100px;
 }
 
-.input {
+.input, .title, .subtitle {
   grid-column: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin: 20px 0;
 }
 
 .control_text {
   color: #ecf0f1;
   padding: 0;
   margin: 0;
+}
+
+.no_show {
+  opacity: 0;
+}
+
+p {
+  margin: 0;
+  padding: 10px;
 }
 
 /*# sourceMappingURL=css/master.css.map */

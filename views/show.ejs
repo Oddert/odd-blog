@@ -4,26 +4,33 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="/css/master.css" />
+    <link rel="stylesheet" href="/css/show.css" />
   </head>
   <body>
-    <h1>Title</h1>
-    <% items.forEach(item => { %>
+    <article class="main">
+      <h1 class="title"><%= data.title %></h1>
+      <h2 class="subtitle"><%= data.subtitle %></h2>
+      <% data.inputs.forEach(item => { %>
 
-      <% if (item.data_type == "paragraph") { %>
-        <% item.text.forEach(section => { %>
-          <p><%= section %></p>
-        <% }) %>
-        <hr />
-      <% } %>
+        <% if (item.data_type == "paragraph") { %>
+          <div class="paragraph <%= item.align %>">
+            <% item.text.forEach(section => { %>
+              <p class="section"><%= section %></p>
+            <% }) %>
+            <hr />
+          </div>
+        <% } %>
 
-      <% if (item.data_type == "image") { %>
-        <figure class="image">
-          <img src="<%= item.src %>" alt="<%= item.alt %>">
-          <figcaption><%= item.caption %></figcaption>
-        </figure>
-        <hr />
-      <% } %>
+        <% if (item.data_type == "image") { %>
+          <figure class="image <%= item.align %>">
+            <img src="<%= item.src %>" alt="<%= item.alt %>">
+            <figcaption><%= item.caption %></figcaption>
+            <hr />
+          </figure>
+        <% } %>
 
-    <% }) %>
+      <% }) %>
+    </article>
   </body>
+  <script type="text/javascript" src="/js/name.js"></script>
 </html>

@@ -1,0 +1,68 @@
+.main {
+  width: 60vw;
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.paragraph, .image, .title, .subtitle {
+  grid-column: 1/-1;
+}
+
+hr {
+  grid-column: 1/-1;
+  width: 90%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 36px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 60px;
+}
+
+.paragraph {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  word-break: break-all;
+}
+
+.image img {
+  width: 100%;
+}
+.image figcaption {
+  text-align: center;
+}
+
+.large {
+  grid-column: 1/-1;
+}
+
+.medium_left {
+  grid-column: 1/-2;
+}
+
+.medium_right {
+  grid-column: 2/-1;
+}
+
+.small_left {
+  grid-column: 1;
+}
+
+.small_center {
+  grid-column: 2;
+}
+
+.small_right {
+  grid-column: 3;
+}
+
+/*# sourceMappingURL=css/show.css.map */
