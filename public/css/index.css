@@ -3,12 +3,6 @@ textarea {
   min-height: 75px;
 }
 
-.control_text {
-  color: #ecf0f1;
-  padding: 0;
-  margin: 0;
-}
-
 form {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -23,6 +17,21 @@ form {
   justify-content: flex-start;
   margin: 10px 0;
   border: 1px dashed skyblue;
+}
+
+.input_control {
+  display: flex;
+  justify-content: space-between;
+}
+.input_control .control_drag {
+  width: 25px;
+  height: 25px;
+  background: green;
+}
+.input_control .control_text {
+  color: #ecf0f1;
+  padding: 0;
+  margin: 0;
 }
 
 /*# sourceMappingURL=css/index.css.map */

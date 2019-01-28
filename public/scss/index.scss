@@ -9,12 +9,6 @@ textarea {
   min-height: 75px;
 }
 
-.control_text {
-  color: $dark_background_text;
-  padding: 0;
-  margin: 0;
-}
-
 form {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -31,4 +25,19 @@ form {
   // align-items: center;
   margin: 10px 0;
   border: 1px dashed skyblue;
+}
+
+.input_control {
+  display: flex;
+  justify-content: space-between;
+  & .control_drag {
+    width: 25px;
+    height: 25px;
+    background: green;
+  }
+  & .control_text {
+    color: $dark_background_text;
+    padding: 0;
+    margin: 0;
+  }
 }

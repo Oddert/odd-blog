@@ -4,19 +4,78 @@ const form          = document.querySelector('form')
 const newParagraph  = document.querySelector('.new_paragraph')
 const newImage      = document.querySelector('.new_image')
 
+
+function handleDrag (e) {
+  const target = e.target
+  const parentList = e.target.parentNode
+  const x = event.clientX
+  const y = event.clientY
+
+  target.classList.add('drag_active')
+  let itemToSwap = document.elementFromPoint(x, y) === null
+    ? target
+    : document.elementFromPoint(x, y)
+
+  if (parentList === itemToSwap.parentNode) {
+    itemToSwap = itemToSwap !== target.nextSibling
+      ? itemToSwap
+      : itemToSwap.nextSibling
+    parentList.insertBefore(target, itemToSwap)
+  }
+}
+
+function handleDrop (e) {
+  e.target.classList.remove('drag_active')
+  reassignIndeces()
+}
+
+function deleteInput (e, idx) {
+  e.preventDefault()
+  const input = document.querySelector(`.input_${idx}`)
+  console.log(input)
+  document.querySelector('.form').removeChild(input)
+  reassignIndeces()
+}
+
+function createControl (idx, data_type) {
+  let newControl = document.createElement(`DIV`)
+  newControl.className = `input_control`
+
+  let controlDrag = document.createElement(`DIV`)
+  controlDrag.className = `control_drag control_drag_${idx}`
+  controlDrag.dataset.drag = `drag_${idx}`
+  controlDrag.addEventListener('mouseover', e => {
+    let parent = e.target.closest('.input')
+    parent.setAttribute('draggable', true)
+    parent.ondrag = handleDrag
+    parent.ondragend = handleDrop
+  })
+  controlDrag.addEventListener('mouseout', e => {
+    let parent = e.target.closest('.input')
+    parent.setAttribute('draggable', false)
+  })
+
+  let controlText = document.createElement(`P`)
+  controlText.textContent = `${data_type} ${idx} Input:`
+  controlText.className = `control_text`
+
+  let controlDelete = document.createElement(`button`)
+  controlDelete.textContent = `Delete Input`
+  controlDelete.className = `control_delete`
+  controlDelete.onclick = e => deleteInput(e, idx)
+
+  newControl.appendChild(controlDrag)
+  newControl.appendChild(controlText)
+  newControl.appendChild(controlDelete)
+  return newControl
+}
+
 function createLabel (idx, data_type) {
   let newLabel = document.createElement(`input`)
   newLabel.name = `inputs[${idx}][data_type]`
   newLabel.value = `${data_type}`
   newLabel.hidden = true
   return newLabel
-}
-
-function createSubhead (idx) {
-  let newSubhead = document.createElement('input')
-  newSubhead.placeholder = `Subheading, leave blank to ommit.`
-  newSubhead.name = `inputs[${idx}][subhead]`
-  return newSubhead
 }
 
 function createAlignment (idx, data_type) {
@@ -33,30 +92,11 @@ function createAlignment (idx, data_type) {
   return controlAlign
 }
 
-function createControl (idx, data_type) {
-  let newControl = document.createElement(`DIV`)
-  newControl.className = `input_controll`
-
-  let controlText = document.createElement(`P`)
-  controlText.textContent = `${data_type} ${idx} Input:`
-  controlText.className = `control_text`
-
-  let controlDelete = document.createElement(`button`)
-  controlDelete.textContent = `Delete Input`
-  controlDelete.className = `control_delete`
-  controlDelete.onclick = e => deleteInput(e, idx)
-
-  newControl.appendChild(controlText)
-  newControl.appendChild(controlDelete)
-  return newControl
-}
-
-function deleteInput (e, idx) {
-  e.preventDefault()
-  const input = document.querySelector(`.input_${idx}`)
-  console.log(input)
-  document.querySelector('.form').removeChild(input)
-  reassignIndeces()
+function createSubhead (idx) {
+  let newSubhead = document.createElement('input')
+  newSubhead.placeholder = `Subheading, leave blank to ommit.`
+  newSubhead.name = `inputs[${idx}][subhead]`
+  return newSubhead
 }
 
 // When an element is removed and added there can often be conflicts in the index used to define input order
@@ -160,10 +200,10 @@ function handleNewInput (e) {
 
 newButtons.forEach(each => each.onclick = handleNewInput)
 
+
 for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
 handleNewInput({ target: { name: 'new_image' } })
 handleNewInput({ target: { name: 'new_paragraph' } })
-
 
 function sample () {
   const sampleParas = [
