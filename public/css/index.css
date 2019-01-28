@@ -15,8 +15,9 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 10px 0;
+  margin: 5px 0;
   border: 1px dashed skyblue;
+  padding: 10px;
 }
 
 .input_control {
@@ -32,6 +33,14 @@ form {
   color: #ecf0f1;
   padding: 0;
   margin: 0;
+}
+
+.drag_active {
+  border: 1px solid skyblue;
+  background: linear-gradient(45deg, #bec3c7, #ecf0f1);
+}
+.drag_active > * {
+  opacity: 0.35;
 }
 
 /*# sourceMappingURL=css/index.css.map */

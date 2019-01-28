@@ -14,12 +14,21 @@ function handleDrag (e) {
   target.classList.add('drag_active')
   let itemToSwap = document.elementFromPoint(x, y) === null
     ? target
-    : document.elementFromPoint(x, y)
+    : (document.elementFromPoint(x, y).closest('.input'))
+      ? document.elementFromPoint(x, y).closest('.input')
+      : document.elementFromPoint(x, y)
 
-  if (parentList === itemToSwap.parentNode) {
+  // console.log(itemToSwap)
+  if (
+    itemToSwap.closest('.input') &&
+    itemToSwap.closest('.input').parentNode &&
+    parentList === itemToSwap.closest('.input').parentNode
+  ) {
+    // console.log('before', itemToSwap)
     itemToSwap = itemToSwap !== target.nextSibling
       ? itemToSwap
       : itemToSwap.nextSibling
+    // console.log('after', itemToSwap)
     parentList.insertBefore(target, itemToSwap)
   }
 }

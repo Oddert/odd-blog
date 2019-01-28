@@ -23,8 +23,9 @@ form {
   flex-direction: column;
   justify-content: flex-start;
   // align-items: center;
-  margin: 10px 0;
+  margin: 5px 0;
   border: 1px dashed skyblue;
+  padding: 10px;
 }
 
 .input_control {
@@ -40,4 +41,12 @@ form {
     padding: 0;
     margin: 0;
   }
+}
+
+.drag_active {
+  & > * {
+    opacity: .35;
+  }
+  border: 1px solid skyblue;
+  background: linear-gradient(45deg, #bec3c7, #ecf0f1);
 }
