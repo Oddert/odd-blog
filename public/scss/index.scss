@@ -1,0 +1,34 @@
+
+
+$dark_background_text: #ecf0f1;
+
+
+
+textarea {
+  color: $dark_background_text;
+  min-height: 75px;
+}
+
+.control_text {
+  color: $dark_background_text;
+  padding: 0;
+  margin: 0;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  // grid-auto-rows: 125px;
+  width: 95vw;
+  margin: 100px auto 0 auto;
+}
+
+.input, .title, .subtitle {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  // align-items: center;
+  margin: 10px 0;
+  border: 1px dashed skyblue;
+}
