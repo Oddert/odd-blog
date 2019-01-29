@@ -113,7 +113,7 @@ function createSubhead (idx) {
 function reassignIndeces () {
   const input_groups = document.querySelectorAll('.input')
   for (let i = 0; i < input_groups.length; i++) {
-    console.log('############')
+    // console.log('############')
 
     // Fix the name attr on all input tags
     let input_group = input_groups[i]
@@ -213,6 +213,22 @@ newButtons.forEach(each => each.onclick = handleNewInput)
 for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
 handleNewInput({ target: { name: 'new_image' } })
 handleNewInput({ target: { name: 'new_paragraph' } })
+
+function makeSel () {
+  const sel = window.getSelection()
+  if (!sel) return
+  console.log(sel)
+  console.log(sel.toString())
+  console.log(sel.getRangeAt(0))
+  console.log(sel.rangeCount)
+  console.log(sel.anchorNode)
+  console.log(sel.focusOffset)
+  let oldText = sel.anchorNode.value
+  console.log({ oldText })
+  let element = document.createElement('a')
+  sel.getRangeAt(0).surroundContents(element)
+  // sel.anchorNode.innerHtml = oldText.substring(0, )
+}
 
 function sample () {
   const sampleParas = [

@@ -19,7 +19,7 @@
         <% if (item.data_type == "paragraph") { %>
           <div class="paragraph <%= item.align %>">
             <% item.text.forEach(section => { %>
-              <p class="section"><%= section %></p>
+              <p class="section"><%- section %></p>
             <% }) %>
             <hr />
           </div>
