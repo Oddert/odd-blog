@@ -1,6 +1,7 @@
 textarea {
   color: #ecf0f1;
   min-height: 75px;
+  flex: 1;
 }
 
 input {
@@ -61,17 +62,25 @@ form {
   border-radius: 0 0 10px 10px;
   padding: 5px;
 }
+.text_input .subhead {
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
 
 .image_input input {
   padding: 10px;
 }
-.image_input input.image_input--subhead {
-  padding: 10px;
-  border-radius: 10px 10px 0 0;
-}
 .image_input input.image_input--alt {
   padding: 10px;
   border-radius: 0 0 10px 10px;
+}
+.image_input input.image_input--src {
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+.image_input .subhead {
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
 }
 .image_input .image_input__container {
   display: flex;
@@ -103,7 +112,7 @@ form {
   flex-wrap: wrap;
   justify-content: space-around;
   position: relative;
-  padding: 0 5px 5px;
+  padding: 0 5px 10px;
 }
 .align label div {
   width: 60px;
@@ -223,6 +232,25 @@ svg * {
 .input_control .control_delete:hover {
   border: 1px solid #bec3c7;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.input.large {
+  grid-column: 1/-1;
+}
+.input.medium_left {
+  grid-column: 1/-2;
+}
+.input.medium_right {
+  grid-column: 2/-1;
+}
+.input.small_left {
+  grid-column: 1;
+}
+.input.small_center {
+  grid-column: 2;
+}
+.input.small_right {
+  grid-column: 3;
 }
 
 .drag_active {

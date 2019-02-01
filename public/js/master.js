@@ -120,6 +120,7 @@ function createAlignment (idx) {
     let optionIcon = document.createElement('div')
 
     option.title = alignments[itir].desc
+    option.dataset.align = alignments[itir].key
 
     optionRadio.type = `radio`
     optionRadio.name = `inputs[${idx}][align]`
@@ -135,11 +136,13 @@ function createAlignment (idx) {
 
     optionIcon.addEventListener('click', e => {
       e.stopPropagation()
-      console.log(e.target.closest('.input'))
-      let inputs = e.target.closest('ul.align').querySelectorAll('li')
-      inputs.forEach(each => each.classList.remove('align_active'))
+      let options = e.target.closest('ul.align').querySelectorAll('li')
+      options.forEach(each => each.classList.remove('align_active'))
       e.target.closest('li').classList.add('align_active')
-      // e.target.closest('.input').classList.add('align_active')
+      let target = e.target.closest('.input').querySelector('.align_active')
+      let input = e.target.closest('.input')
+      input.classList.remove(...alignments.map(each => each.key))
+      input.classList.add(target.dataset.align)
     })
     if (itir === 0) {
       optionRadio.setAttribute('checked', true)
@@ -158,7 +161,7 @@ function createSubhead (idx) {
   let newSubhead = document.createElement('input')
   newSubhead.placeholder = `Subheading, leave blank to ommit.`
   newSubhead.name = `inputs[${idx}][subhead]`
-  newSubhead.className = `image_input--subhead`
+  newSubhead.className = `subhead`
   return newSubhead
 }
 
@@ -234,13 +237,14 @@ function handleNewInput (e) {
       newImageSrcInput.name         = `inputs[${idx}][src]`
       newImageSrcInput.className    = `image_input--src`
       newImageSrcInput.placeholder  = 'Image Link'
+      newImageSrcInput.title  = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
 
       newImageSrcInput.addEventListener('keydown', e => {
         console.log(e)
         let url = ''
         setTimeout(() => {
           url = e.target.value
-          console.log(url)
+          // console.log(url)
           const image = new Image()
           image.onload = () => document.querySelector(`.image_input__preview_${idx}--img`).src = url
           image.onerror = () => console.log('Fail :(')
@@ -252,11 +256,13 @@ function handleNewInput (e) {
       newImageCaptionInput.name         = `inputs[${idx}][caption]`
       newImageCaptionInput.className    = 'image_input--caption'
       newImageCaptionInput.placeholder  = 'Caption'
+      newImageCaptionInput.title  = 'An optional caption to go with the image.'
 
       let newImageAltInput          = document.createElement('input')
       newImageAltInput.name         = `inputs[${idx}][alt]`
       newImageAltInput.className    = 'image_input--alt'
       newImageAltInput.placeholder  = 'Alt-text (for Screen Readers)'
+      newImageAltInput.title  = 'Add a description of the image. This will be shown if the image breaks and is also what screen-readers will \'see\'.'
 
       let newImageInputContainer = document.createElement('DIV')
       newImageInputContainer.className = `image_input__container`
@@ -270,6 +276,7 @@ function handleNewInput (e) {
       let newImageInputPreview = document.createElement('DIV')
       newImageInputPreview.className = `image_input__preview`
       let newImageInputPreviewImg = document.createElement('img')
+      newImageInputPreviewImg.title = 'Image preview.'
       newImageInputPreviewImg.className = `image_input__preview--img image_input__preview_${idx}--img`
       newImageInputPreviewImg.src = `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
       newImageInputPreview.appendChild(newImageInputPreviewImg)
