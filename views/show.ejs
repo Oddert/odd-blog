@@ -16,7 +16,7 @@
           <h3 class="subhead"># <%= item.subhead %></h3>
         <% } %>
 
-        <% if (item.data_type == "paragraph") { %>
+        <% if (item.data_type == "paragraph" && /\w/gi.test(item.text[0])) { %>
           <div class="paragraph <%= item.align %>">
             <% item.text.forEach(section => { %>
               <p class="section"><%- section %></p>
@@ -25,7 +25,7 @@
           </div>
         <% } %>
 
-        <% if (item.data_type == "image") { %>
+        <% if (item.data_type == "image" && /\w/gi.test(item.src)) { %>
           <figure class="image <%= item.align %>">
             <img src="<%= item.src %>" alt="<%= item.alt %>">
             <figcaption><%= item.caption %></figcaption>

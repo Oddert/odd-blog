@@ -11,7 +11,7 @@ const svgConvert = {
 
 
 const newButtons    = document.querySelectorAll('.new_buttons button')
-const form          = document.querySelector('form')
+const form          = document.querySelector('.form_body')
 const newParagraph  = document.querySelector('.new_paragraph')
 const newImage      = document.querySelector('.new_image')
 
@@ -122,7 +122,7 @@ function createAlignment (idx) {
     option.title = alignments[itir].desc
 
     optionRadio.type = `radio`
-    optionRadio.name = `inputs[${idx}][newAlign]`
+    optionRadio.name = `inputs[${idx}][align]`
     optionRadio.value = alignments[itir].key
     optionRadio.className = `align_radio`
 
@@ -135,9 +135,11 @@ function createAlignment (idx) {
 
     optionIcon.addEventListener('click', e => {
       e.stopPropagation()
+      console.log(e.target.closest('.input'))
       let inputs = e.target.closest('ul.align').querySelectorAll('li')
       inputs.forEach(each => each.classList.remove('align_active'))
       e.target.closest('li').classList.add('align_active')
+      // e.target.closest('.input').classList.add('align_active')
     })
     if (itir === 0) {
       optionRadio.setAttribute('checked', true)
@@ -156,6 +158,7 @@ function createSubhead (idx) {
   let newSubhead = document.createElement('input')
   newSubhead.placeholder = `Subheading, leave blank to ommit.`
   newSubhead.name = `inputs[${idx}][subhead]`
+  newSubhead.className = `image_input--subhead`
   return newSubhead
 }
 
@@ -218,9 +221,8 @@ function handleNewInput (e) {
 
       if (idx === 1) newTextInput.id = "mytextarea"
 
-      newElem.appendChild(createLabel(idx, `paragraph`))
       newElem.appendChild(createControl(idx, `paragraph`))
-      // newElem.appendChild(createAlignNew(idx))
+      newElem.appendChild(createLabel(idx, `paragraph`))
       newElem.appendChild(createAlignment(idx))
       newElem.appendChild(createSubhead(idx))
       newElem.appendChild(newTextInput)
@@ -230,8 +232,21 @@ function handleNewInput (e) {
     case 'new_image':
       let newImageSrcInput          = document.createElement('input')
       newImageSrcInput.name         = `inputs[${idx}][src]`
-      newImageSrcInput.className    = 'image_input--src'
+      newImageSrcInput.className    = `image_input--src`
       newImageSrcInput.placeholder  = 'Image Link'
+
+      newImageSrcInput.addEventListener('keydown', e => {
+        console.log(e)
+        let url = ''
+        setTimeout(() => {
+          url = e.target.value
+          console.log(url)
+          const image = new Image()
+          image.onload = () => document.querySelector(`.image_input__preview_${idx}--img`).src = url
+          image.onerror = () => console.log('Fail :(')
+          image.src = url
+        }, 300)
+      })
 
       let newImageCaptionInput          = document.createElement('input')
       newImageCaptionInput.name         = `inputs[${idx}][caption]`
@@ -243,17 +258,33 @@ function handleNewInput (e) {
       newImageAltInput.className    = 'image_input--alt'
       newImageAltInput.placeholder  = 'Alt-text (for Screen Readers)'
 
+      let newImageInputContainer = document.createElement('DIV')
+      newImageInputContainer.className = `image_input__container`
+
+      let newImageInputGroup = document.createElement('DIV')
+      newImageInputGroup.className = `image_input__group`
+      newImageInputGroup.appendChild(newImageSrcInput)
+      newImageInputGroup.appendChild(newImageCaptionInput)
+      newImageInputGroup.appendChild(newImageAltInput)
+
+      let newImageInputPreview = document.createElement('DIV')
+      newImageInputPreview.className = `image_input__preview`
+      let newImageInputPreviewImg = document.createElement('img')
+      newImageInputPreviewImg.className = `image_input__preview--img image_input__preview_${idx}--img`
+      newImageInputPreviewImg.src = `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
+      newImageInputPreview.appendChild(newImageInputPreviewImg)
+
+      newImageInputContainer.appendChild(newImageInputGroup)
+      newImageInputContainer.appendChild(newImageInputPreview)
+
       newElem = document.createElement('DIV')
       newElem.className = `input image_input input_${idx}`
 
-      newElem.appendChild(createLabel(idx, `image`))
       newElem.appendChild(createControl(idx, `image`))
-      // newElem.appendChild(createAlignNew(idx))
       newElem.appendChild(createAlignment(idx))
       newElem.appendChild(createSubhead(idx))
-      newElem.appendChild(newImageSrcInput)
-      newElem.appendChild(newImageCaptionInput)
-      newElem.appendChild(newImageAltInput)
+      newElem.appendChild(createLabel(idx, `image`))
+      newElem.appendChild(newImageInputContainer)
       form.appendChild(newElem)
       break;
 

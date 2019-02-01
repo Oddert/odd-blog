@@ -40,7 +40,10 @@ app.route('/api/tester')
         }
         return each
       }) || []
+      console.log('=============================')
       console.log({ data: displayData })
+      console.log('-----------------------------')
+      console.log(displayData.inputs)
 
      if (req.body.page) res.render('show', { data: displayData })
      else res.json({
