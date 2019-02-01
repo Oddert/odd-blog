@@ -1,8 +1,21 @@
 
+
+const svgConvert = {
+  'large': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
+  'medium_left': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="25.35" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="25.35" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
+  'medium_right': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="121.94" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="121.94" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
+  'small_left': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="16.79" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="16.79" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
+  'small_center': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="112.78" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="112.78" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
+  'small_right': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
+}
+
+
 const newButtons    = document.querySelectorAll('.new_buttons button')
 const form          = document.querySelector('form')
 const newParagraph  = document.querySelector('.new_paragraph')
 const newImage      = document.querySelector('.new_image')
+
+let lastClicked = document.querySelector('body *')
 
 
 function handleDrag (e) {
@@ -51,8 +64,10 @@ function createControl (idx, data_type) {
   newControl.className = `input_control`
 
   let controlDrag = document.createElement(`DIV`)
+  controlDrag.textContent = `☰`
   controlDrag.className = `control_drag control_drag_${idx}`
   controlDrag.dataset.drag = `drag_${idx}`
+
   controlDrag.addEventListener('mouseover', e => {
     let parent = e.target.closest('.input')
     parent.setAttribute('draggable', true)
@@ -65,11 +80,11 @@ function createControl (idx, data_type) {
   })
 
   let controlText = document.createElement(`P`)
-  controlText.textContent = `${data_type} ${idx} Input:`
+  controlText.textContent = `${data_type.substring(0,1).toUpperCase()}${data_type.substring(1)} ${idx} Input:`
   controlText.className = `control_text`
 
   let controlDelete = document.createElement(`button`)
-  controlDelete.textContent = `Delete Input`
+  controlDelete.textContent = `✖`
   controlDelete.className = `control_delete`
   controlDelete.onclick = e => deleteInput(e, idx)
 
@@ -87,17 +102,44 @@ function createLabel (idx, data_type) {
   return newLabel
 }
 
-function createAlignment (idx, data_type) {
+function createAlignment (idx) {
   let alignments = ['large', 'medium_left', 'medium_right', 'small_left', 'small_center', 'small_right']
-  function createOption (value) {
-    let opt = document.createElement('option')
-    opt.value = value
-    opt.textContent = value
-    return opt
+  let controlAlign = document.createElement('fieldset').appendChild(document.createElement('ul')) // NOTE feildset does not appear to do anything, remove?
+  let itir = 0
+  function createOption (val) {
+    let option = document.createElement('li')
+    let optionRadio = document.createElement('input')
+    let optionLabel = document.createElement('label')
+    let optionIcon = document.createElement('div')
+
+    optionRadio.type = `radio`
+    optionRadio.name = `inputs[${idx}][newAlign]`
+    optionRadio.value = alignments[itir]
+    optionRadio.className = `align_radio`
+
+    optionIcon.innerHTML = svgConvert[alignments[itir]]
+
+    optionLabel.appendChild(optionIcon)
+    optionLabel.appendChild(optionRadio)
+
+    option.appendChild(optionLabel)
+
+    optionIcon.addEventListener('click', e => {
+      e.stopPropagation()
+      let inputs = e.target.closest('ul.align').querySelectorAll('li')
+      inputs.forEach(each => each.classList.remove('align_active'))
+      e.target.closest('li').classList.add('align_active')
+    })
+    if (itir === 0) {
+      optionRadio.setAttribute('checked', true)
+      option.classList.add('align_active')
+    }
+    itir++
+    return option
   }
-  let controlAlign = document.createElement('select')
-  controlAlign.name = `inputs[${idx}][align]`
   for (each of alignments) controlAlign.appendChild(createOption(each))
+  controlAlign.className = `align`
+  controlAlign.name = `placeholder[${idx}]`
   return controlAlign
 }
 
@@ -160,12 +202,16 @@ function handleNewInput (e) {
     case 'new_paragraph':
       let newTextInput = document.createElement('textarea')
       newTextInput.name = `inputs[${idx}][text]`
+      // newTextInput.className = `input_textarea`
 
       newElem = document.createElement('DIV')
       newElem.className = `input text_input input_${idx}`
 
+      if (idx === 1) newTextInput.id = "mytextarea"
+
       newElem.appendChild(createLabel(idx, `paragraph`))
       newElem.appendChild(createControl(idx, `paragraph`))
+      // newElem.appendChild(createAlignNew(idx))
       newElem.appendChild(createAlignment(idx))
       newElem.appendChild(createSubhead(idx))
       newElem.appendChild(newTextInput)
@@ -193,6 +239,7 @@ function handleNewInput (e) {
 
       newElem.appendChild(createLabel(idx, `image`))
       newElem.appendChild(createControl(idx, `image`))
+      // newElem.appendChild(createAlignNew(idx))
       newElem.appendChild(createAlignment(idx))
       newElem.appendChild(createSubhead(idx))
       newElem.appendChild(newImageSrcInput)
@@ -217,17 +264,12 @@ handleNewInput({ target: { name: 'new_paragraph' } })
 function makeSel () {
   const sel = window.getSelection()
   if (!sel) return
-  console.log(sel)
-  console.log(sel.toString())
-  console.log(sel.getRangeAt(0))
-  console.log(sel.rangeCount)
-  console.log(sel.anchorNode)
-  console.log(sel.focusOffset)
-  let oldText = sel.anchorNode.value
-  console.log({ oldText })
-  let element = document.createElement('a')
-  sel.getRangeAt(0).surroundContents(element)
-  // sel.anchorNode.innerHtml = oldText.substring(0, )
+  const txtarea = lastClicked[0]
+  const start = txtarea.selectionStart;
+  const finish = txtarea.selectionEnd;
+  const selection = txtarea.value.substring(start, finish);
+  let val = txtarea.value
+  txtarea.value = val.substring(0, start) + '<a href="https://oddert.github.io/">' + val.substring(start, finish) + '</a>' + val.substring(finish)
 }
 
 function sample () {
@@ -259,3 +301,9 @@ document.querySelector('.sample_data').onclick = e => {
   e.preventDefault()
   return sample()
 }
+
+
+document.addEventListener('mouseup', e => {
+  lastClicked = e.path
+  // console.log(lastClicked)
+})

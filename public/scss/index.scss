@@ -1,7 +1,7 @@
 
 
 $dark_background_text: #ecf0f1;
-
+$input_padding: 5px;
 
 
 textarea {
@@ -24,24 +24,156 @@ form {
   justify-content: flex-start;
   // align-items: center;
   margin: 5px 0;
-  border: 1px dashed skyblue;
-  padding: 10px;
+  // border: 1px dashed skyblue;
+  border: 1px solid #bec3c7;
+  border-radius: 10px;
+  background: #ecf0f1;
+  padding: 0 $input_padding $input_padding $input_padding;
+  & .alignment {
+    border: 1px dashed tomato;
+  }
+}
+
+.align {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  position: relative;
+  & label div {
+    width: 60px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  & .align_radio {
+    margin: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   position: absolute;
+   top: 5px;
+   left: 5px;
+  }
+  li {
+    $light: rgba(27,188,155,.5);
+    $dark: rgba(22,160,134,1);
+    display: inline-block;
+    border: 1px solid $light;
+    border-radius: 10px;
+    &.align_active {
+      border: 1px solid $dark;
+      background: $light;
+    }
+  }
+  & * {
+    color: black;
+  }
+}
+
+svg * {
+  transform: scale(.95);
+}
+
+.align_icon_1 {
+  fill: #fff;
+}
+
+.align_icon_2, .align_icon_4 {
+  fill: none;
+  stroke-linejoin: round;
+  stroke-width: 7px;
+}
+
+.align_icon_2 {
+  stroke: #7e8c8d;
+  stroke-linecap: square;
+  stroke-dasharray: 9.77 9.77;
+}
+
+.align_icon_3 {
+  fill: #3c97d3;
+}
+
+.align_icon_4 {
+  stroke: #297fb9;
+  stroke-linecap: round;
+}
+
+.Layer_1 {
+  width: 50px;
+  height: 50px;
+}
+
+
+.title, .subtitle {
+  padding: $input_padding;
 }
 
 .input_control {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: $input_padding;
   & .control_drag {
     width: 25px;
     height: 25px;
-    background: green;
+    background: #bec3c7;
+    border: 1px solid #bec3c7;
+    color: #7e8c8d;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 800;
+    &:hover {
+      color: #545e5f;
+      box-shadow: 1px 1px 2px rgba(0,0,0,.1);
+    }
   }
   & .control_text {
-    color: $dark_background_text;
+    color: black;
     padding: 0;
     margin: 0;
   }
+  & .control_delete {
+    background: rgba(0,0,0,0);
+    border: none;
+    font-size: 20px;
+    border: 1px solid rgba(0,0,0,0);
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: .25s linear;
+    cursor: pointer;
+    &:hover {
+      border: 1px solid #bec3c7;
+      // background: #bec3c7;
+      box-shadow: 2px 2px 5px rgba(0,0,0,.1);
+    }
+  }
 }
+
+// .input {
+//   & > *:first-child {
+//     border-radius: 0px 0px 10px 10px;
+//   }
+//   & > *:last-child {
+//     border-radius: 0px 0px 10px 10px;
+//   }
+// }
 
 .drag_active {
   & > * {

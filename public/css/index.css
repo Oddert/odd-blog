@@ -16,23 +16,141 @@ form {
   flex-direction: column;
   justify-content: flex-start;
   margin: 5px 0;
-  border: 1px dashed skyblue;
-  padding: 10px;
+  border: 1px solid #bec3c7;
+  border-radius: 10px;
+  background: #ecf0f1;
+  padding: 0 5px 5px 5px;
+}
+.input .alignment, .title .alignment, .subtitle .alignment {
+  border: 1px dashed tomato;
+}
+
+.align {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  position: relative;
+}
+.align label div {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.align .align_radio {
+  margin: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+.align li {
+  display: inline-block;
+  border: 1px solid rgba(27, 188, 155, 0.5);
+  border-radius: 10px;
+}
+.align li.align_active {
+  border: 1px solid #16a086;
+  background: rgba(27, 188, 155, 0.5);
+}
+.align * {
+  color: black;
+}
+
+svg * {
+  transform: scale(0.95);
+}
+
+.align_icon_1 {
+  fill: #fff;
+}
+
+.align_icon_2, .align_icon_4 {
+  fill: none;
+  stroke-linejoin: round;
+  stroke-width: 7px;
+}
+
+.align_icon_2 {
+  stroke: #7e8c8d;
+  stroke-linecap: square;
+  stroke-dasharray: 9.77 9.77;
+}
+
+.align_icon_3 {
+  fill: #3c97d3;
+}
+
+.align_icon_4 {
+  stroke: #297fb9;
+  stroke-linecap: round;
+}
+
+.Layer_1 {
+  width: 50px;
+  height: 50px;
+}
+
+.title, .subtitle {
+  padding: 5px;
 }
 
 .input_control {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 5px;
 }
 .input_control .control_drag {
   width: 25px;
   height: 25px;
-  background: green;
+  background: #bec3c7;
+  border: 1px solid #bec3c7;
+  color: #7e8c8d;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
+}
+.input_control .control_drag:hover {
+  color: #545e5f;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 .input_control .control_text {
-  color: #ecf0f1;
+  color: black;
   padding: 0;
   margin: 0;
+}
+.input_control .control_delete {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  font-size: 20px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: 0.25s linear;
+  cursor: pointer;
+}
+.input_control .control_delete:hover {
+  border: 1px solid #bec3c7;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .drag_active {
