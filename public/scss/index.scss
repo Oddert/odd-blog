@@ -42,12 +42,14 @@ form {
   flex-wrap: wrap;
   justify-content: space-around;
   position: relative;
+  padding: 0 5px 5px;
   & label div {
     width: 60px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
   & .align_radio {
     margin: 0;
@@ -62,14 +64,19 @@ form {
    left: 5px;
   }
   li {
-    $light: rgba(27,188,155,.5);
     $dark: rgba(22,160,134,1);
+    $light: rgba(27,188,155,.5);
+    $lighter: rgba(27,188,155,.2);
     display: inline-block;
     border: 1px solid $light;
     border-radius: 10px;
+    transition: .1s linear;
     &.align_active {
       border: 1px solid $dark;
       background: $light;
+    }
+    &:hover {
+      background: $lighter;
     }
   }
   & * {

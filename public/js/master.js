@@ -103,7 +103,14 @@ function createLabel (idx, data_type) {
 }
 
 function createAlignment (idx) {
-  let alignments = ['large', 'medium_left', 'medium_right', 'small_left', 'small_center', 'small_right']
+  let alignments = [
+    { key: 'large', desc: 'Full sized' },
+    { key: 'medium_left', desc: 'Medium sized (spanning two columns), justified Left.' },
+    { key: 'medium_right', desc: 'Medium sized (spanning two columns), justified Right.' },
+    { key: 'small_left', desc: 'Small sized (just one column), justified Left.' },
+    { key: 'small_center', desc: 'Small sized (just one column), justified in the Middle.' },
+    { key: 'small_right', desc: 'Small sized (just one column), justified Right.' }
+  ]
   let controlAlign = document.createElement('fieldset').appendChild(document.createElement('ul')) // NOTE feildset does not appear to do anything, remove?
   let itir = 0
   function createOption (val) {
@@ -112,12 +119,14 @@ function createAlignment (idx) {
     let optionLabel = document.createElement('label')
     let optionIcon = document.createElement('div')
 
+    option.title = alignments[itir].desc
+
     optionRadio.type = `radio`
     optionRadio.name = `inputs[${idx}][newAlign]`
-    optionRadio.value = alignments[itir]
+    optionRadio.value = alignments[itir].key
     optionRadio.className = `align_radio`
 
-    optionIcon.innerHTML = svgConvert[alignments[itir]]
+    optionIcon.innerHTML = svgConvert[alignments[itir].key]
 
     optionLabel.appendChild(optionIcon)
     optionLabel.appendChild(optionRadio)
