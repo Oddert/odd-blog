@@ -14,14 +14,6 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 mongoose.connect(process.env.DATABASE)
 
-app.get('/', (req, res) => {
-  res.render('create')
-})
-
-let api = app.route('/api')
-    api.get((req, res) => res.json({ message: 'res ok to route: /api/' }))
-
-
 function parseForm (body) {
   const originalData = JSON.parse(JSON.stringify(body))
   const displayData = JSON.parse(JSON.stringify(body)) // I'm salty that this is apparently the best option of getting a deep clone >:(
@@ -40,15 +32,13 @@ function parseForm (body) {
     return displayData
 }
 
-app.route('/api/tester')
-  .get((req, res) => res.json({ message: 'res ok to route: /api/tester/' }))
+app.route('/')
+  .get((req, res) => res.render('index'))
+
+app.route('/post/new')
+  .get((req, res, next) => res.render('create'))
   .post((req, res) => {
     const displayData = parseForm(req.body)
-
-    // console.log('=============================')
-    // console.log({ data: displayData })
-    // console.log('-----------------------------')
-    // console.log(displayData.inputs)
 
      if (req.body.page) res.render('show', { data: displayData })
      else res.json({

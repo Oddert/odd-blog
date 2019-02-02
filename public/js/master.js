@@ -217,20 +217,15 @@ function handleNewInput (e) {
     case 'new_paragraph':
       let newTextInput = document.createElement('textarea')
       newTextInput.name = `inputs[${idx}][text]`
+      newTextInput.placeholder = `Body`
       // newTextInput.className = `input_textarea`
       newTextInput.addEventListener('keydown', function (e) {
-        // if (e.key == 'Enter') {
-          console.log('--------------------------')
-          console.log('scrollHeight:', e.target.scrollHeight)
-          console.log('clientHeight:', e.target.clientHeight)
-          console.log('offsetHeight:', e.target.offsetHeight)
-          if (e.target.clientHeight < e.target.scrollHeight) {
-            this.style.height = `${e.target.scrollHeight + 30}px`
-          }
-          if (e.target.clientHeight > e.target.scrollHeight) {
-            this.style.height = `${e.target.scrollHeight + 30}px`
-          }
-        // }
+        if (e.target.clientHeight < e.target.scrollHeight) {
+          this.style.height = `${e.target.scrollHeight + 30}px`
+        }
+        if (e.target.clientHeight > e.target.scrollHeight) {
+          this.style.height = `${e.target.scrollHeight + 30}px`
+        }
       })
 
       newElem = document.createElement('DIV')
