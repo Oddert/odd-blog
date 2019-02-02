@@ -191,7 +191,7 @@ function reassignIndeces () {
     const label = input_group.querySelector('.control_text')
     const labelContent = label.textContent
     const lcLen = labelContent.length
-    const newLabelContent = `${labelContent.substring(0, lcLen-8)}${i}${labelContent.substring(lcLen-7)}`
+    const newLabelContent = `${labelContent.substring(0, lcLen-8)}${i}${labelContent.substring(lcLen-6)}`
     label.textContent = newLabelContent
 
     // Remove old class used for targeting and replace
@@ -310,7 +310,10 @@ function handleNewInput (e) {
   }
 }
 
-newButtons.forEach(each => each.onclick = handleNewInput)
+newButtons.forEach(each => each.onclick = e => {
+  e.preventDefault()
+  handleNewInput(e)
+})
 
 
 for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
@@ -364,6 +367,10 @@ document.addEventListener('mouseup', e => {
   // console.log(lastClicked)
 })
 
+document.querySelector('.submit').addEventListener('click', e => {
+  let json = document.querySelector('#page_check')
+  json.checked = !json.checked
+})
 
 
 

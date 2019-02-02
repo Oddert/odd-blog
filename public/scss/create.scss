@@ -321,6 +321,36 @@ svg * {
   }
 }
 
+.new_buttons {
+  grid-column: 2;
+  // border: 1px solid tomato;
+  display: flex;
+  justify-content: space-around;
+  & button {
+    $light: rgba(154, 89, 181, 1);
+    $lighter: rgba(154, 89, 181, .5);
+    $dark: rgba(141, 68, 173, 1);
+    border: 3px solid rgba(0,0,0,0);
+    border-radius: 10px;
+    min-width: 75px;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 6px 10px;
+    margin: 10px;
+    border: 3px solid $light;
+    background: $dark;
+    color: #ecf0f1;
+    cursor: pointer;
+    transition: .2s linear;
+    &:hover {
+      text-decoration: underline;
+      border: 3px solid $dark;
+      background: $light;
+      color: #ecf0f1;
+    }
+  }
+}
+
 // .input {
 //   & > *:first-child {
 //     border-radius: 0px 0px 10px 10px;
