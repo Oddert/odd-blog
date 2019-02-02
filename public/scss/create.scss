@@ -43,6 +43,7 @@ form {
   border-radius: $input_border_radius;
   background: #ecf0f1;
   padding: 0 $input_padding $input_padding $input_padding;
+  box-shadow: 0px 14px 26px rgba(0,0,0,.04);
   & .alignment {
     border: 1px dashed tomato;
   }
@@ -53,6 +54,7 @@ form {
   & input {
     font-size: 24px;
     text-align: center;
+    background: #ecf0f1;
     border-radius: $input_border_radius;
     padding: $input_text_padding;
   }
@@ -62,6 +64,8 @@ form {
   padding: $input_padding;
   & textarea {
     font-size: 18px;
+    font-weight: 700;
+    text-align: center;
     border-radius: $input_border_radius;
     padding: $input_text_padding;
   }
@@ -265,6 +269,58 @@ svg * {
   &.small_right  { grid-column: 3; }
 }
 
+.form_submit {
+  grid-column: 3;
+  // border: 1px dashed tomato;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  & button {
+    $light: rgba(45,204,112,1);
+    $lighter: rgba(39, 174, 97,.5);
+    $dark: rgba(39, 174, 97,1);
+    border: 3px solid rgba(0,0,0,0);
+    min-width: 75px;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 6px 10px;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s linear;
+    &.save {
+      background: rgba(0,0,0,0);
+      color: $light;
+      &:hover {
+        border: 3px solid $light;
+        text-decoration: underline;
+        color: $dark;
+      }
+    }
+    &.submit {
+      border: 3px solid $light;
+      background: $dark;
+      color: #ecf0f1;
+      &:hover {
+        text-decoration: underline;
+        border: 3px solid $dark;
+        background: $light;
+        color: #ecf0f1;
+      }
+    }
+  }
+  &.sticky {
+    position: static;
+    flex-direction: row;
+    grid-column: 2;
+  }
+}
+
 // .input {
 //   & > *:first-child {
 //     border-radius: 0px 0px 10px 10px;
@@ -280,4 +336,5 @@ svg * {
   }
   border: 1px solid skyblue;
   background: linear-gradient(45deg, #bec3c7, #ecf0f1);
+  box-shadow: 0px 24px 36px rgba(0,0,0,.11), 0px 24px 46px rgba(20,33,55,.28);
 }

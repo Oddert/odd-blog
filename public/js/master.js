@@ -80,7 +80,7 @@ function createControl (idx, data_type) {
   })
 
   let controlText = document.createElement(`P`)
-  controlText.textContent = `${data_type.substring(0,1).toUpperCase()}${data_type.substring(1)} ${idx} Input:`
+  controlText.textContent = `${data_type.substring(0,1).toUpperCase()}${data_type.substring(1)} ${idx} Input`
   controlText.className = `control_text`
 
   let controlDelete = document.createElement(`button`)
@@ -218,6 +218,20 @@ function handleNewInput (e) {
       let newTextInput = document.createElement('textarea')
       newTextInput.name = `inputs[${idx}][text]`
       // newTextInput.className = `input_textarea`
+      newTextInput.addEventListener('keydown', function (e) {
+        // if (e.key == 'Enter') {
+          console.log('--------------------------')
+          console.log('scrollHeight:', e.target.scrollHeight)
+          console.log('clientHeight:', e.target.clientHeight)
+          console.log('offsetHeight:', e.target.offsetHeight)
+          if (e.target.clientHeight < e.target.scrollHeight) {
+            this.style.height = `${e.target.scrollHeight + 30}px`
+          }
+          if (e.target.clientHeight > e.target.scrollHeight) {
+            this.style.height = `${e.target.scrollHeight + 30}px`
+          }
+        // }
+      })
 
       newElem = document.createElement('DIV')
       newElem.className = `input text_input input_${idx}`
@@ -354,3 +368,22 @@ document.addEventListener('mouseup', e => {
   lastClicked = e.path
   // console.log(lastClicked)
 })
+
+
+
+
+
+// ####################### TO DO LIST #####################################
+// -Add html addition buttons
+// -Add a homescreen
+// -Add backend + proper CRUD
+// -Add authentication
+
+
+
+
+
+
+
+
+//

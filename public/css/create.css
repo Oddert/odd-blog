@@ -30,6 +30,7 @@ form {
   border-radius: 10px;
   background: #ecf0f1;
   padding: 0 5px 5px 5px;
+  box-shadow: 0px 14px 26px rgba(0, 0, 0, 0.04);
 }
 .input .alignment, .title .alignment, .subtitle .alignment {
   border: 1px dashed tomato;
@@ -41,6 +42,7 @@ form {
 .title input {
   font-size: 24px;
   text-align: center;
+  background: #ecf0f1;
   border-radius: 10px;
   padding: 5px;
 }
@@ -50,6 +52,8 @@ form {
 }
 .subtitle textarea {
   font-size: 18px;
+  font-weight: 700;
+  text-align: center;
   border-radius: 10px;
   padding: 5px;
 }
@@ -253,12 +257,61 @@ svg * {
   grid-column: 3;
 }
 
+.form_submit {
+  grid-column: 3;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+.form_submit button {
+  border: 3px solid rgba(0, 0, 0, 0);
+  min-width: 75px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 10px;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s linear;
+}
+.form_submit button.save {
+  background: rgba(0, 0, 0, 0);
+  color: #2dcc70;
+}
+.form_submit button.save:hover {
+  border: 3px solid #2dcc70;
+  text-decoration: underline;
+  color: #27ae61;
+}
+.form_submit button.submit {
+  border: 3px solid #2dcc70;
+  background: #27ae61;
+  color: #ecf0f1;
+}
+.form_submit button.submit:hover {
+  text-decoration: underline;
+  border: 3px solid #27ae61;
+  background: #2dcc70;
+  color: #ecf0f1;
+}
+.form_submit.sticky {
+  position: static;
+  flex-direction: row;
+  grid-column: 2;
+}
+
 .drag_active {
   border: 1px solid skyblue;
   background: linear-gradient(45deg, #bec3c7, #ecf0f1);
+  box-shadow: 0px 24px 36px rgba(0, 0, 0, 0.11), 0px 24px 46px rgba(20, 33, 55, 0.28);
 }
 .drag_active > * {
   opacity: 0.35;
 }
 
-/*# sourceMappingURL=css/index.css.map */
+/*# sourceMappingURL=css/create.css.map */
