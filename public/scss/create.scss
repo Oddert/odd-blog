@@ -9,7 +9,7 @@ $input_border_radius: 10px;
 
 textarea {
   color: $dark_background_text;
-  min-height: 75px;
+  min-height: 100px;
   flex: 1;
 }
 
@@ -28,7 +28,7 @@ form {
 .form_body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-
+  grid-column: 2;
 }
 
 .input, .title, .subtitle {
@@ -349,6 +349,17 @@ svg * {
       color: #ecf0f1;
     }
   }
+}
+
+#page_check {
+  position: fixed;
+  top: 0;
+  right: 0;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  
 }
 
 // .input {

@@ -43,6 +43,7 @@ function handleDrag (e) {
       : itemToSwap.nextSibling
     // console.log('after', itemToSwap)
     parentList.insertBefore(target, itemToSwap)
+    // if (target !== itemToSwap) forceUpdateAlignments(target, itemToSwap)
   }
 }
 
@@ -55,7 +56,7 @@ function deleteInput (e, idx) {
   e.preventDefault()
   const input = document.querySelector(`.input_${idx}`)
   console.log(input)
-  document.querySelector('.form').removeChild(input)
+  document.querySelector('.form_body').removeChild(input)
   reassignIndeces()
 }
 
@@ -102,6 +103,25 @@ function createLabel (idx, data_type) {
   return newLabel
 }
 
+// function forceUpdateAlignments (target, itemToSwap) {
+//   console.log(target, itemToSwap)
+// }
+
+function updateAlignments (e, alignments) {
+  // console.log(e, alignments)
+  e.stopPropagation()
+  let options = e.target.closest('ul.align').querySelectorAll('li')
+  options.forEach(each => each.classList.remove('align_active'))
+  let li = e.target.closest('li')
+  li.classList.add('align_active')
+
+  let input = e.target.closest('.input')
+  let target = input.querySelector('.align_active')
+  console.log(target)
+  input.classList.remove(...alignments.map(each => each.key))
+  input.classList.add(target.dataset.align)
+}
+
 function createAlignment (idx) {
   let alignments = [
     { key: 'large', desc: 'Full sized' },
@@ -136,14 +156,9 @@ function createAlignment (idx) {
 
     optionIcon.addEventListener('click', e => {
       e.stopPropagation()
-      let options = e.target.closest('ul.align').querySelectorAll('li')
-      options.forEach(each => each.classList.remove('align_active'))
-      e.target.closest('li').classList.add('align_active')
-      let target = e.target.closest('.input').querySelector('.align_active')
-      let input = e.target.closest('.input')
-      input.classList.remove(...alignments.map(each => each.key))
-      input.classList.add(target.dataset.align)
+      return updateAlignments(e, alignments)
     })
+
     if (itir === 0) {
       optionRadio.setAttribute('checked', true)
       option.classList.add('align_active')
@@ -191,7 +206,7 @@ function reassignIndeces () {
     const label = input_group.querySelector('.control_text')
     const labelContent = label.textContent
     const lcLen = labelContent.length
-    const newLabelContent = `${labelContent.substring(0, lcLen-8)}${i}${labelContent.substring(lcLen-6)}`
+    const newLabelContent = `${labelContent.substring(0, lcLen-7)}${i}${labelContent.substring(lcLen-6)}`
     label.textContent = newLabelContent
 
     // Remove old class used for targeting and replace

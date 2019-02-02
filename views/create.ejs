@@ -8,14 +8,6 @@
   </head>
   <body>
     <form action="/post/new" method="POST" class="form">
-      <div>
-        <div>
-          <input id="page_check" type="checkbox" name="page" value="false">
-          <label for="page_check">Show a page display (not json)</label>
-        </div>
-        <button>Submit</button>
-        <button class="sample_data">Sample Data</button>
-      </div>
       <div class="form_body">
         <div class="title">
           <input type="text" name="title" placeholder="The title of the post, will default to 'Blog Post' if left blank." />
@@ -29,6 +21,8 @@
         <button class="new new_image" name="new_image">New Image</button>
       </div>
       <div class="form_submit">
+        <input type="checkbox" name="page" id="page_check" />
+        <button class="sample_data">Sample Data</button>
         <button class="save">Save</button>
         <button class="submit">Submit</button>
       </div>
