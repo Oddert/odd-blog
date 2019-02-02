@@ -4,12 +4,18 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="/css/master.css" />
+    <link rel="stylesheet" href="/css/index.css" />
   </head>
   <body>
-    <h1>View all posts:</h1>
-    <div class="">
-
+    <% include ./partials/nav %>
+    <div class="main">
+      <h1 class="title">View all posts:</h1>
+      <div class="posts">
+        <% posts.forEach(each => { %>
+          <h3><a href="/post/<%= each._id %>"><%= each.title %></a></h2>
+        <% }) %>
+      </div>
+      <a href="/post/new">Create a new Post</a>
     </div>
-    <a href="/post/new">Create a new Post</a>
   </body>
 </html>

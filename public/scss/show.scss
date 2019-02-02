@@ -49,10 +49,21 @@ hr {
   }
 }
 
-
 .large        { grid-column: 1 / -1; }
 .medium_left  { grid-column: 1 / -2; }
 .medium_right { grid-column: 2 / -1; }
 .small_left   { grid-column: 1; }
 .small_center { grid-column: 2; }
 .small_right  { grid-column: 3; }
+
+
+@media only screen and (max-width: 700px) {
+  .main {
+    width: 90vw;
+  }
+}
+@media only screen and (max-width: 950px) {
+  .main {
+    width: 75vw;
+  }
+}

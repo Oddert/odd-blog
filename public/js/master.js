@@ -117,7 +117,6 @@ function updateAlignments (e, alignments) {
 
   let input = e.target.closest('.input')
   let target = input.querySelector('.align_active')
-  console.log(target)
   input.classList.remove(...alignments.map(each => each.key))
   input.classList.add(target.dataset.align)
 }

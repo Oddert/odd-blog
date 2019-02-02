@@ -6,9 +6,20 @@ const PostSchema = new mongoose.Schema ({
     default: 'Blog Post',
     required: true
   },
+  title: {
+    type: String,
+    default: 'Blog Post'
+  },
   created: {
     type: Date,
     default: Date.now
+  },
+  year: String,
+  month: String,
+  day: String,
+  active: {
+    type: Boolean,
+    default: false
   },
   updates: [
     {
@@ -18,10 +29,10 @@ const PostSchema = new mongoose.Schema ({
     }
   ],
   author: String,
-  sub_title: String,
+  subtitle: String,
   caption: String,
-  lead: String,
-  body: [
+  // lead: String,
+  inputs: [
     {
       subhead: String,
       data_type: String,
@@ -31,9 +42,11 @@ const PostSchema = new mongoose.Schema ({
       caption: String,
       align: String
     }
-  ],
-  conclusion: String
+  ]
+  // conclusion: String
 })
+
+module.exports = mongoose.model('odd-blog_post', PostSchema)
 
 
 
@@ -45,11 +58,11 @@ Schema Use-case
   -author: The author of the post
   -sub_title: The sub headder for the article
   -caption: Space for an optional subhead / caption
-  -lead: intorductory paragraph
+              X-lead: intorductory paragraph
   -body: Containes the main article, split into objects
     -subhead: each object has an optional subhead
     -data_type: (paragraph, image, quote etc) denotes how the front-end deals with the data
     -data: Actual data (paragraph, img src)
     -alt: Optional feild for alt-text, link data, quote author
-  -conclusion: optional last paragraph seperated out for emphasis
+              X-conclusion: optional last paragraph seperated out for emphasis
 */

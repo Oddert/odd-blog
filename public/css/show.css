@@ -69,4 +69,15 @@ hr {
   grid-column: 3;
 }
 
+@media only screen and (max-width: 700px) {
+  .main {
+    width: 90vw;
+  }
+}
+@media only screen and (max-width: 950px) {
+  .main {
+    width: 75vw;
+  }
+}
+
 /*# sourceMappingURL=css/show.css.map */

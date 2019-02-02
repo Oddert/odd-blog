@@ -6,7 +6,9 @@ const express     = require('express')
     , bodyParser  = require('body-parser')
     , path        = require('path')
 
-const mongoose        = require('mongoose')
+const mongoose    = require('mongoose')
+
+const Post        = require('./models/Post')
 
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -33,10 +35,41 @@ function parseForm (body) {
 }
 
 app.route('/')
-  .get((req, res) => res.render('index'))
+  .get((req, res) => {
+    Post.find({})
+    .then(posts => res.render('index', { posts }))
+    .catch(err => console.log(err))
+  })
 
-app.route('/post/new')
+app.route('/post/:id')
+  .get((req, res, next) => {
+    Post.findById(req.params.id)
+      .then(post => parseForm(post))
+      .then(data => res.render('show', { data }))
+      .catch(err => console.log(err))
+  })
+
+app.route('/post/new/')
   .get((req, res, next) => res.render('create'))
+  .post((req, res, next) => {
+    let date = new Date()
+    Post.create(Object.assign({},
+      req.body,
+      {
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        day: date.getDay(),
+        active: true
+      }
+    ))
+    .then(post => {
+      console.log({ post })
+      const data = parseForm(post)
+      res.render('show', { data })
+    })
+  })
+
+app.route('/post/new/dev')
   .post((req, res) => {
     const displayData = parseForm(req.body)
 
