@@ -14,6 +14,10 @@ body, html {
   padding: 0;
 }
 
+figure {
+  text-align: center;
+}
+
 button, input, textarea {
   color: black;
 }
@@ -35,6 +39,7 @@ p {
   top: 0;
   left: 0;
   z-index: 300;
+  transition: all 0.3s linear;
 }
 .nav ul {
   box-sizing: border-box;
@@ -44,11 +49,15 @@ p {
   list-style-type: none;
   display: flex;
   flex-direction: row;
-  transition: 0.1s linear;
+  transition: all 0.3s linear;
+}
+.nav ul li {
+  transition: all 0.3s linear;
+  background: rgba(0, 0, 0, 0);
 }
 .nav ul li a {
   text-decoration: none;
-  transition: 0.1s linear;
+  transition: all 0.3s linear;
   display: block;
   padding: 10px 20px;
 }

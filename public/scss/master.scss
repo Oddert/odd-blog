@@ -17,6 +17,10 @@ body, html {
   padding: 0;
 }
 
+figure {
+  text-align: center;
+}
+
 button, input, textarea {
   color: black;
 }
@@ -31,6 +35,7 @@ p {
 }
 
 .nav {
+  $nav_general_transition: .3s;
   width: 100%;
   box-sizing: border-box;
   background: #666699;
@@ -38,6 +43,7 @@ p {
   top: 0;
   left: 0;
   z-index: 300;
+  transition: all $nav_general_transition linear;
   & ul {
     box-sizing: border-box;
     width: 100%;
@@ -46,11 +52,13 @@ p {
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    transition: .1s linear;
+    transition: all $nav_general_transition linear;
     & li {
+      transition: all $nav_general_transition linear;
+      background: rgba(0,0,0,0);
       & a {
         text-decoration: none;
-        transition: .1s linear;
+        transition: all $nav_general_transition linear;
         display: block;
         padding: 10px 20px;
       }

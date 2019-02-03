@@ -8,22 +8,30 @@
   </head>
   <body>
     <% include ./partials/nav %>
-    <form action="/posts/new" method="POST" class="form">
+    <form action="/posts/<%= data._id %>/edit" method="POST" class="form">
       <div class="form_body">
         <div class="header_image">
           <div class="header_image__inputs">
-            <input type="text" name="header_image[src]" placeholder="Header Image Link" class="header_image--src" />
-            <input type="text" name="header_image[caption]" placeholder="Image Caption" class="header_image--caption" />
-            <input type="text" name="header_image[alt]" placeholder="Alt text for Screen Readers" class="header_image--alt" />
+            <input type="text" name="header_image[src]" placeholder="Header Image Link" class="header_image--src" value="<%= data.header_image.src %>" />
+            <input type="text" name="header_image[caption]" placeholder="Image Caption" class="header_image--caption" value="<%= data.header_image.caption %>" />
+            <input type="text" name="header_image[alt]" placeholder="Alt text for Screen Readers" class="header_image--alt" value="<%= data.header_image.alt %>" />
           </div>
-          <img src="https://static.umotive.com/img/product_image_thumbnail_placeholder.png" alt="Default image" class="header_image--preview" />
+          <img src="<%= data.header_image.src %>" alt="Default image" class="header_image--preview" />
         </div>
         <div class="title">
-          <input type="text" name="title" placeholder="The title of the post, will default to 'Blog Post' if left blank." />
+          <input type="text" name="title" placeholder="The title of the post, will default to 'Blog Post' if left blank." value="<%= data.title %>" />
         </div>
         <div class="subtitle">
-          <textarea name="subtitle" placeholder="A subtitle for the post, leave blank to ommit."></textarea>
+          <textarea name="subtitle" placeholder="A subtitle for the post, leave blank to ommit."><%= data.subtitle %></textarea>
         </div>
+
+        <% data.inputs.forEach((each, idx) => { %>
+          <p><%= each.data_type %></p>
+          <div class="input text_input input_<%= idx %>">
+            
+          </div>
+        <% }) %>
+
       </div>
       <div class="new_buttons">
         <button class="new new_paragraph" name="new_paragraph">New Paragraph</button>

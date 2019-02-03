@@ -10,6 +10,11 @@ const PostSchema = new mongoose.Schema ({
     type: String,
     default: 'Blog Post'
   },
+  header_image: {
+    src: String,
+    alt: String,
+    caption: String
+  },
   created: {
     type: Date,
     default: Date.now
@@ -21,6 +26,12 @@ const PostSchema = new mongoose.Schema ({
     type: Boolean,
     default: false
   },
+  deleted: {
+    type: Boolean,
+    default: false
+  },
+  deleted_on: Date,
+  word_count: Number,
   updates: [
     {
       date: Date,

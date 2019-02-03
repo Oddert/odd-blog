@@ -9,13 +9,41 @@
   <body>
     <% include ./partials/nav %>
     <div class="main">
+      <a href="/posts/new">Create a new Post</a>
       <h1 class="title">View all posts:</h1>
       <div class="posts">
         <% posts.forEach(each => { %>
-          <h3><a href="/post/<%= each._id %>"><%= each.title %></a></h2>
+          <div class="post">
+            <a href="/posts/<%= each._id %>" class="image">
+              <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>" />
+            </a>
+            <div class="details">
+              <h3><a href="/posts/<%= each._id %>"><%= each.title %></a></h2>
+              <% if (each.subtitle.length > 150) { %>
+                <p><%= each.subtitle.substring(0,150) %>...</p>
+              <% } else { %>
+                <p><%= each.subtitle %></p>
+              <% } %>
+              <p><%= new Date(each.created).toLocaleDateString() %></p>
+              <em>Read Time: <%= each.word_count < 265 ? '1 min' : Math.ceil(each.word_count/265) > 1 ? Math.ceil(each.word_count/265)+' mins' : Math.ceil(each.word_count/265)+' min' %></em>
+            </div>
+            <div class="modify">
+              <a href="/posts/<%= each._id %>/edit">Edit</a>
+              <div class="delete_control">
+                <button class="delete_prompt">Delete</button>
+                <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form no_show">
+                  <button class="cancel">Cancel</button>
+                  <button class="delete">Delete</button>
+                </form>
+              </div>
+              <% if (each.deleted) { %>
+                <a href="/dev/<%= each._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
+              <% } %>
+            </div>
+          </div>
         <% }) %>
       </div>
-      <a href="/post/new">Create a new Post</a>
     </div>
   </body>
+  <script type="text/javascript" src="/js/index.js"></script>
 </html>

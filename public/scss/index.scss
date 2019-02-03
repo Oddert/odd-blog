@@ -1,3 +1,43 @@
 .main {
   margin-top: 50px;
+  padding: 50px;
+}
+
+.post {
+  $border_rad: 20px;
+  $padd: 10px;
+  border: 1px solid #bec3c7;
+  border-radius: $border_rad;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: $padd;
+
+  & .image {
+    flex: 1;
+    align-self: center;
+    & img {
+      border-radius: $border_rad;
+      max-width: 100%;
+    }
+  }
+  & .details {
+    padding: $padd $padd*2;
+    flex: 1;
+    & > * {
+      padding: 0;
+    }
+    display: flex;
+    flex-direction: column;
+    & p {
+      margin: 10px 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .post {
+    flex-direction: column;
+
+  }
 }

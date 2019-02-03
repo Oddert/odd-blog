@@ -5,6 +5,17 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+.header_image {
+  grid-column: 1/-1;
+  position: relative;
+  margin-top: 50px;
+  left: 0;
+  height: 50vh;
+}
+.header_image img {
+  height: 100%;
+}
+
 .paragraph, .image, .title, .subtitle {
   grid-column: 1/-1;
 }

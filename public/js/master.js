@@ -9,6 +9,7 @@ const svgConvert = {
   'small_right': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
 }
 
+console.log(window.location)
 
 const newButtons    = document.querySelectorAll('.new_buttons button')
 const form          = document.querySelector('.form_body')
@@ -260,7 +261,7 @@ function handleNewInput (e) {
       newImageSrcInput.name         = `inputs[${idx}][src]`
       newImageSrcInput.className    = `image_input--src`
       newImageSrcInput.placeholder  = 'Image Link'
-      newImageSrcInput.title  = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
+      newImageSrcInput.title        = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
 
       newImageSrcInput.addEventListener('keydown', e => {
         console.log(e)
@@ -330,9 +331,12 @@ newButtons.forEach(each => each.onclick = e => {
 })
 
 
-for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
-handleNewInput({ target: { name: 'new_image' } })
-handleNewInput({ target: { name: 'new_paragraph' } })
+if (window.location.pathname === "/posts/new") {
+  for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
+  handleNewInput({ target: { name: 'new_image' } })
+  handleNewInput({ target: { name: 'new_paragraph' } })
+}
+
 
 function makeSel () {
   const sel = window.getSelection()
@@ -353,6 +357,11 @@ function sample () {
     "lo it is time for this tawdry thing again ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
     "What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Where does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32."
   ]
+  const sampleHeader = {
+    src: "https://www.theplanner.co.uk/sites/default/files/Web_LondonUnderground_iStock_000077086545_Large.jpg",
+    caption: "Can I come up with an interesting test caption? Should captions even be shown? What evern are best practices?",
+    alt: "An image of a train on London's Northern Line"
+  }
   const sampleImage = {
     src: "http://www.cat-bus.com/wp-content/uploads/2017/12/gadgetbahn.jpg",
     caption: "A very neat image. Monorials are good. Abolish the functionless metal boxes known as automobiles",
@@ -362,6 +371,11 @@ function sample () {
   for (let i=0; i<inputs.length; i++) {
     inputs[i].value = sampleParas[i]
   }
+  document.querySelector('.header_image--src').value = sampleHeader.src
+  document.querySelector('.header_image--caption').value = sampleHeader.caption
+  document.querySelector('.header_image--alt').value = sampleHeader.alt
+  document.querySelector('.header_image--preview').src = sampleHeader.src
+
   document.querySelector('.image_input--src').value = sampleImage.src
   document.querySelector('.image_input--caption').value = sampleImage.caption
   document.querySelector('.image_input--alt').value = sampleImage.alt
@@ -375,23 +389,27 @@ document.querySelector('.sample_data').onclick = e => {
   return sample()
 }
 
-
-document.addEventListener('mouseup', e => {
-  lastClicked = e.path
-  // console.log(lastClicked)
-})
+document.addEventListener('mouseup', e => lastClicked = e.path)
 
 document.querySelector('.submit').addEventListener('click', e => {
   let json = document.querySelector('#page_check')
   json.checked = !json.checked
 })
 
+let devMode = false
+document.querySelector('.dev_toggle').onclick = function (e) {
+  e.preventDefault()
+  this.textContent = devMode ? 'Dev Mode: OFF' : 'Dev Mode: ON'
+  if (devMode) document.querySelector('.form').action = '/posts/new'
+  else document.querySelector('.form').action = '/posts/new/dev'
+  devMode = !devMode
+}
+
 
 
 
 // ####################### TO DO LIST #####################################
 // -Add html addition buttons
-// -Add a homescreen
 // -Add backend + proper CRUD
 // -Add authentication
 

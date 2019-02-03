@@ -1,5 +1,41 @@
 .main {
   margin-top: 50px;
+  padding: 50px;
+}
+
+.post {
+  border: 1px solid #bec3c7;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 10px;
+}
+.post .image {
+  flex: 1;
+  align-self: center;
+}
+.post .image img {
+  border-radius: 20px;
+  max-width: 100%;
+}
+.post .details {
+  padding: 10px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.post .details > * {
+  padding: 0;
+}
+.post .details p {
+  margin: 10px 0;
+}
+
+@media only screen and (max-width: 850px) {
+  .post {
+    flex-direction: column;
+  }
 }
 
 /*# sourceMappingURL=css/index.css.map */
