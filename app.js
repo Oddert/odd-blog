@@ -105,7 +105,19 @@ app.route('/posts/:id')
       .then(data => res.render('show', { data }))
       .catch(err => console.log(err))
   })
-  .put((req, res, next) => res.json({ message: 'Route PUT /posts/:id/ not inplamented yet.' }))
+  .put((req, res, next) => {
+    // Post.findByIdAndUpdate(req.params.id, Object.assign({},
+    //   req.body,
+    //   {
+    //     year: date.getFullYear(),
+    //     month: date.getMonth(),
+    //     day: date.getDay(),
+    //     word_count: calculateRead(req.body),
+    //     active: true
+    //   }
+    // ))
+    res.json({ message: 'Route PUT /posts/:id/ not yet implamented', id: req.params.id })
+  })
   .delete((req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, { deleted: true, deleted_on: Date.now() })
       .then(post => res.redirect('/'))

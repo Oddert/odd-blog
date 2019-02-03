@@ -8,7 +8,7 @@
   </head>
   <body>
     <% include ./partials/nav %>
-    <form action="/posts/<%= data._id %>/edit" method="POST" class="form">
+    <form action="/posts/<%= data._id %>/edit" method="POST" class="form" data-id="<%= data._id %>">
       <div class="form_body">
         <div class="header_image">
           <div class="header_image__inputs">
@@ -27,24 +27,22 @@
 
         <% data.inputs.forEach((each, idx) => { %>
           <% if (each.data_type == "paragraph") { %>
-            <div class="input text_input input_<%= idx %>">
+            <div class="input text_input input_<%= idx %>" data-type="paragraph">
           <% } else if (each.data_type == "image") { %>
-            <div class="input image_input input_<%= idx %>">
+            <div class="input image_input input_<%= idx %>" data-type="image">
           <% } else { %>
             <div class="input input_<%= idx %>">
           <% } %>
             <div class="input_control">
               <div class="control_drag control_drag_<%= idx %>" data-drag="drag_<%= idx %>">☰</div>
-              <p class="control_text">
-                <%= each.data_type.substring(0,1).toUpperCase() %><%= each.data_type.substring(1) %><%= idx %> Input
-              </p>
+              <p class="control_text"><%= each.data_type.substring(0,1).toUpperCase() %><%= each.data_type.substring(1) %> <%= idx %> Input</p>
               <button class="control_delete">✖</button>
             </div>
             <input name="inputs[<%= idx %>][data_type]" value="<%= each.data_type %>" hidden />
             <ul class="align">
-              <li title="Full sized" data-align="large" class="align_active">
+              <li title="Full sized" data-align="large" class="<%= each.align == 'large' ? 'align_active' : '' %>">
                 <label>
-                  <div>
+                  <div class="align_option__icon">
                     <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
                       <g>
                         <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
@@ -67,9 +65,9 @@
                   <input type="radio" name="inputs[2][align]" value="large" class="align_radio" checked="true">
                 </label>
               </li>
-              <li title="Medium sized (spanning two columns), justified Left." data-align="medium_left">
+              <li title="Medium sized (spanning two columns), justified Left." data-align="medium_left"  class="<%= each.align == 'medium_left' ? 'align_active' : '' %>">
                 <label>
-                  <div>
+                  <div class="align_option__icon">
                     <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
                       <g>
                         <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
@@ -92,9 +90,9 @@
                   <input type="radio" name="inputs[2][align]" value="medium_left" class="align_radio">
                 </label>
               </li>
-              <li title="Medium sized (spanning two columns), justified Right." data-align="medium_right">
+              <li title="Medium sized (spanning two columns), justified Right." data-align="medium_right" class="<%= each.align == 'medium_right' ? 'align_active' : '' %>">
                 <label>
-                  <div>
+                  <div class="align_option__icon">
                     <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
                       <g>
                         <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
@@ -117,9 +115,9 @@
                   <input type="radio" name="inputs[2][align]" value="medium_right" class="align_radio">
                 </label>
               </li>
-              <li title="Small sized (just one column), justified Left." data-align="small_left">
+              <li title="Small sized (just one column), justified Left." data-align="small_left" class="<%= each.align == 'large' ? 'small_left' : '' %>">
                 <label>
-                  <div>
+                  <div class="align_option__icon">
                     <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
                       <g>
                         <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
@@ -142,9 +140,9 @@
                   <input type="radio" name="inputs[2][align]" value="small_left" class="align_radio">
                 </label>
               </li>
-              <li title="Small sized (just one column), justified in the Middle." data-align="small_center">
+              <li title="Small sized (just one column), justified in the Middle." data-align="small_center" class="<%= each.align == 'small_center' ? 'align_active' : '' %>">
                 <label>
-                  <div>
+                  <div class="align_option__icon">
                     <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
                       <g>
                         <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
@@ -167,9 +165,9 @@
                   <input type="radio" name="inputs[2][align]" value="small_center" class="align_radio">
                 </label>
               </li>
-              <li title="Small sized (just one column), justified Right." data-align="small_right">
+              <li title="Small sized (just one column), justified Right." data-align="small_right" class="<%= each.align == 'small_right' ? 'align_active' : '' %>">
                 <label>
-                  <div>
+                  <div class="align_option__icon">
                     <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
                       <g>
                         <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
@@ -195,9 +193,7 @@
             </ul>
             <input placeholder="Subheading, leave blank to omit." name="inputs[<%= idx %>][subhead]" class="subhead" value="<%= each.subhead %>" />
             <% if (each.data_type == "paragraph") { %>
-              <textarea name="inputs[<%= idx %>][text]" placeholder="body">
-                <%= each.text %>
-              </textarea>
+              <textarea name="inputs[<%= idx %>][text]" placeholder="body"><%= each.text %></textarea>
             <% } else if (each.data_type == "image") { %>
               <div class="image_input__container">
                 <div class="image_input__group">
@@ -220,13 +216,14 @@
       </div>
       <div class="form_submit">
         <input type="checkbox" name="page" id="page_check" />
-        <button class="dev_toggle">Dev Mode: OFF</button>
-        <button class="sample_data">Sample Data</button>
+        <!-- <button class="dev_toggle">Dev Mode: OFF</button> -->
+        <!-- <button class="sample_data">Sample Data</button> -->
         <button class="save">Save</button>
         <button class="submit">Submit</button>
       </div>
     </form>
   </body>
-  <script type="text/javascript" src="/js/master.js"></script>
+  <!-- <script type="text/javascript" src="/js/master.js"></script> -->
   <script type="text/javascript" src="/js/name.js"></script>
+  <script type="text/javascript" src="/js/edit.js"></script>
 </html>
