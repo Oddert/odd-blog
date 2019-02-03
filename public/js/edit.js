@@ -350,10 +350,48 @@ function updateAlignments (e, alignArray) {
 }
 
 function handleSave () {
+
   const id = document.querySelector('.form').dataset.id
-  const url = `/posts/${id}`
+  const inputs = document.querySelectorAll('.input')
+
+  let body = {
+
+    header_image: {
+      src: document.querySelector('.header_image--src').value,
+      caption: document.querySelector('.header_image--caption').value,
+      alt: document.querySelector('.header_image--alt').value
+    },
+    title: document.querySelector('.title input').value,
+    subtitle: document.querySelector('.subtitle textarea').value,
+    inputs: []
+  }
+
+  function convertInput (input) {
+    console.log(input)
+    let parsed = {
+      data_type: input.dataset.type,
+      subhead: input.querySelector('.subhead').value
+    }
+    if (input.dataset.type == "paragraph") {
+      parsed.text       = input.querySelector('textarea').value
+    }
+    if (input.dataset.type == "image") {
+      parsed.src        = input.querySelector('.image_input--src').value
+      parsed.caption    = input.querySelector('.image_input--caption').value
+      parsed.alt        = input.querySelector('.image_input--alt').value
+    }
+    return parsed
+  }
+
+  inputs.forEach((each, idx) => {
+    body.inputs.push(convertInput(each))
+  })
+
+  const url = `/api/posts/${id}`
   const options = {
-    method: 'PUT'
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
   }
   fetch(url, options)
     .then(res => res.json())

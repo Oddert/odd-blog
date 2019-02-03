@@ -13,6 +13,7 @@ const Post            = require('./models/post')
 
 app.set('view engine', 'ejs')
 app.use(methodOverride('_method'))
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '/public')))
 
@@ -106,22 +107,35 @@ app.route('/posts/:id')
       .catch(err => console.log(err))
   })
   .put((req, res, next) => {
-    // Post.findByIdAndUpdate(req.params.id, Object.assign({},
-    //   req.body,
-    //   {
-    //     year: date.getFullYear(),
-    //     month: date.getMonth(),
-    //     day: date.getDay(),
-    //     word_count: calculateRead(req.body),
-    //     active: true
-    //   }
-    // ))
-    res.json({ message: 'Route PUT /posts/:id/ not yet implamented', id: req.params.id })
+    Post.findByIdAndUpdate(req.params.id, Object.assign({},
+      req.body,
+      {
+        word_count: calculateRead(req.body),
+        $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
+      }
+    ))
+    .then(post => parseForm(post))
+    .then(data => res.render('show', { data }))
+    .catch(err => console.log(err))
   })
   .delete((req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, { deleted: true, deleted_on: Date.now() })
       .then(post => res.redirect('/'))
       .catch(err => console.log(err))
+  })
+
+app.route('/api/posts/:id')
+  .put((req, res, nex) => {
+    Post.findByIdAndUpdate(req.params.id, Object.assign({},
+      req.body,
+      {
+        word_count: calculateRead(req.body),
+        $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
+      }
+    ))
+    .then(post => parseForm(post))
+    .then(data => res.json({ status: 'Success', data, message: 'Saved OK!' }))
+    .catch(err => console.log(err))
   })
 
 app.route('/posts/:id/edit')
