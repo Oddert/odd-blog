@@ -26,9 +26,190 @@
         </div>
 
         <% data.inputs.forEach((each, idx) => { %>
-          <p><%= each.data_type %></p>
-          <div class="input text_input input_<%= idx %>">
-            
+          <% if (each.data_type == "paragraph") { %>
+            <div class="input text_input input_<%= idx %>">
+          <% } else if (each.data_type == "image") { %>
+            <div class="input image_input input_<%= idx %>">
+          <% } else { %>
+            <div class="input input_<%= idx %>">
+          <% } %>
+            <div class="input_control">
+              <div class="control_drag control_drag_<%= idx %>" data-drag="drag_<%= idx %>">☰</div>
+              <p class="control_text">
+                <%= each.data_type.substring(0,1).toUpperCase() %><%= each.data_type.substring(1) %><%= idx %> Input
+              </p>
+              <button class="control_delete">✖</button>
+            </div>
+            <input name="inputs[<%= idx %>][data_type]" value="<%= each.data_type %>" hidden />
+            <ul class="align">
+              <li title="Full sized" data-align="large" class="align_active">
+                <label>
+                  <div>
+                    <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
+                      <g>
+                        <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_3" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_4" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"></rect>
+                      </g>
+                    </svg>
+                  </div>
+                  <input type="radio" name="inputs[2][align]" value="large" class="align_radio" checked="true">
+                </label>
+              </li>
+              <li title="Medium sized (spanning two columns), justified Left." data-align="medium_left">
+                <label>
+                  <div>
+                    <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
+                      <g>
+                        <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_3" x="25.35" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_4" x="25.35" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"></rect>
+                      </g>
+                    </svg>
+                  </div>
+                  <input type="radio" name="inputs[2][align]" value="medium_left" class="align_radio">
+                </label>
+              </li>
+              <li title="Medium sized (spanning two columns), justified Right." data-align="medium_right">
+                <label>
+                  <div>
+                    <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
+                      <g>
+                        <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_3" x="121.94" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_4" x="121.94" y="17.67" width="123.76" height="42.52" rx="5.67" ry="5.67"></rect>
+                      </g>
+                    </svg>
+                  </div>
+                  <input type="radio" name="inputs[2][align]" value="medium_right" class="align_radio">
+                </label>
+              </li>
+              <li title="Small sized (just one column), justified Left." data-align="small_left">
+                <label>
+                  <div>
+                    <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
+                      <g>
+                        <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_3" x="16.79" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_4" x="16.79" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"></rect>
+                      </g>
+                    </svg>
+                  </div>
+                  <input type="radio" name="inputs[2][align]" value="small_left" class="align_radio">
+                </label>
+              </li>
+              <li title="Small sized (just one column), justified in the Middle." data-align="small_center">
+                <label>
+                  <div>
+                    <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
+                      <g>
+                        <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_3" x="112.78" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_4" x="112.78" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"></rect>
+                      </g>
+                    </svg>
+                  </div>
+                  <input type="radio" name="inputs[2][align]" value="small_center" class="align_radio">
+                </label>
+              </li>
+              <li title="Small sized (just one column), justified Right." data-align="small_right">
+                <label>
+                  <div>
+                    <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
+                      <g>
+                        <rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"></rect>
+                      </g>
+                      <g>
+                        <rect class="align_icon_3" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"></rect>
+                        <rect class="align_icon_4" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"></rect>
+                      </g>
+                    </svg>
+                  </div>
+                  <input type="radio" name="inputs[2][align]" value="small_right" class="align_radio">
+                </label>
+              </li>
+            </ul>
+            <input placeholder="Subheading, leave blank to omit." name="inputs[<%= idx %>][subhead]" class="subhead" value="<%= each.subhead %>" />
+            <% if (each.data_type == "paragraph") { %>
+              <textarea name="inputs[<%= idx %>][text]" placeholder="body">
+                <%= each.text %>
+              </textarea>
+            <% } else if (each.data_type == "image") { %>
+              <div class="image_input__container">
+                <div class="image_input__group">
+                  <input name="inputs[<%= idx %>][src]" class="image_input--src" value="<%= each.src %>" placeholder="Image Link" title="Copy in the link of the image, you should see a preview appear if the link is ok." />
+                  <input name="inputs[<%= idx %>][caption]" class="image_input--caption" value="<%= each.caption %>" placeholder="Caption" title="An optional caption to go with the image.">
+                  <input name="inputs[<%= idx %>][alt]" class="image_input--alt" value="<%= each.alt %>" placeholder="Alt-text (for Screen Readers)" title="Add a description of the image. This will be shown if the image breaks and is also what screen-readers will 'see'.">
+                </div>
+                <div class="image_input__preview">
+                  <img src="<%= each.src %>" alt="<%= each.alt %>" title="Image Preview" class="image_input__preview--img image_input__preview_<%= idx %>--img" />
+                </div>
+              </div>
+            <% } %>
           </div>
         <% }) %>
 

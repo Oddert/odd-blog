@@ -24,7 +24,7 @@
               <% } else { %>
                 <p><%= each.subtitle %></p>
               <% } %>
-              <p><%= new Date(each.created).toLocaleDateString() %></p>
+              <strong><%= new Date(each.created).toLocaleDateString() %></strong>
               <em>Read Time: <%= each.word_count < 265 ? '1 min' : Math.ceil(each.word_count/265) > 1 ? Math.ceil(each.word_count/265)+' mins' : Math.ceil(each.word_count/265)+' min' %></em>
             </div>
             <div class="modify">

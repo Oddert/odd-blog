@@ -107,7 +107,6 @@ app.route('/posts/:id')
   })
   .put((req, res, next) => res.json({ message: 'Route PUT /posts/:id/ not inplamented yet.' }))
   .delete((req, res, next) => {
-    // res.json({ message: 'Route DELETE /posts/:id/ not inplamented yet.' })
     Post.findByIdAndUpdate(req.params.id, { deleted: true, deleted_on: Date.now() })
       .then(post => res.redirect('/'))
       .catch(err => console.log(err))
