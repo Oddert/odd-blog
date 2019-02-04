@@ -56,6 +56,17 @@ function calculateRead (body) {
   return wordCount
 }
 
+function handleErrorPage (req, res, next, error) {
+  console.log('ERROR')
+  console.log({ error })
+  return res.render('error', { error })
+}
+function handleErrorJSON (req, res, next, err) {
+  console.log('ERROR')
+  console.log({ error })
+  return res.status(500).json({ err })
+}
+
 // INDEX    get     /dogs
 // NEW      get     /dogs/new
 // CREATE   post    /dogs
@@ -70,7 +81,7 @@ app.route('/')
   .get((req, res) => {
     Post.find({})
       .then(posts => res.render('index', { posts }))
-      .catch(err => console.log(err))
+      .catch(err => handleErrorPage(req, res, next, err))
   })
 
 // NEW
@@ -104,7 +115,7 @@ app.route('/posts/:id')
       .then(post => parseForm(post))
       .then(data => { console.log(data); return data })
       .then(data => res.render('show', { data }))
-      .catch(err => console.log(err))
+      .catch(err => handleErrorPage(req, res, next, err))
   })
   .put((req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
@@ -116,12 +127,12 @@ app.route('/posts/:id')
     ))
     .then(post => parseForm(post))
     .then(data => res.render('show', { data }))
-    .catch(err => console.log(err))
+    .catch(err => handleErrorPage(req, res, next, err))
   })
   .delete((req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, { deleted: true, deleted_on: Date.now() })
       .then(post => res.redirect('/'))
-      .catch(err => console.log(err))
+      .catch(err => handleErrorPage(req, res, next, err))
   })
 
 app.route('/api/posts/:id')
@@ -135,7 +146,7 @@ app.route('/api/posts/:id')
     ))
     .then(post => parseForm(post))
     .then(data => res.json({ status: 'Success', data, message: 'Saved OK!' }))
-    .catch(err => console.log(err))
+    .catch(err => handleErrorJSON(req, res, next, err))
   })
 
 app.route('/posts/:id/edit')
@@ -146,7 +157,7 @@ app.route('/posts/:id/edit')
         console.log(data)
         res.render('edit', { data })
       })
-      .catch(err => console.log(err))
+      .catch(err => handleErrorPage(req, res, next, err))
   })
   .put((req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
@@ -158,7 +169,7 @@ app.route('/posts/:id/edit')
     ))
     .then(post => parseForm(post))
     .then(data => res.render('show', { data }))
-    .catch(err => console.log(err))
+    .catch(err => handleErrorPage(req, res, next, err))
   })
 
 
@@ -182,7 +193,7 @@ app.route('/dev/:id/undelete')
   .get((req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, { deleted: false, deleted_on: null })
       .then(post => res.redirect('/'))
-      .catch(err => console.log(err))
+      .catch(err => handleErrorPage(req, res, next, err))
   })
 
 
