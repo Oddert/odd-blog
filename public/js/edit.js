@@ -371,7 +371,8 @@ function handleSave () {
     console.log(input)
     let parsed = {
       data_type: input.dataset.type,
-      subhead: input.querySelector('.subhead').value
+      subhead: input.querySelector('.subhead').value,
+      align: 'large' //placeholder
     }
     if (input.dataset.type == "paragraph") {
       parsed.text       = input.querySelector('textarea').value
@@ -410,12 +411,19 @@ saveButton.onclick = e => {
   return handleSave(e)
 }
 
+function test () {
+  const input = document.querySelector('.input_1')
+  const radios = input.querySelector('input[type=radio]:checked')
+  return radios
+}
+
 // ==================== / Event Binding ====================
 
 
 // ==================== Page Initialisation ====================
 
 function initialisePage () {
+  console.log(test())
   const inputs = document.querySelectorAll('.input')
   inputs.forEach((each, idx) => {
     const type = each.dataset.type
