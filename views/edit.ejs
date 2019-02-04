@@ -39,6 +39,7 @@
               <button class="control_delete">✖</button>
             </div>
             <input name="inputs[<%= idx %>][data_type]" value="<%= each.data_type %>" hidden />
+            
             <ul class="align">
               <li title="Full sized" data-align="large" class="<%= each.align == 'large' ? 'align_active' : '' %>">
                 <label>
@@ -62,7 +63,11 @@
                       </g>
                     </svg>
                   </div>
-                  <input type="radio" name="inputs[2][align]" value="large" class="align_radio" checked="true">
+                  <% if (each.align == 'large') { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="large" class="align_radio" checked="true">
+                  <% } else { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="large" class="align_radio">
+                  <% } %>
                 </label>
               </li>
               <li title="Medium sized (spanning two columns), justified Left." data-align="medium_left"  class="<%= each.align == 'medium_left' ? 'align_active' : '' %>">
@@ -87,7 +92,11 @@
                       </g>
                     </svg>
                   </div>
-                  <input type="radio" name="inputs[2][align]" value="medium_left" class="align_radio">
+                  <% if (each.align == 'medium_left') { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="medium_left" class="align_radio" checked="true">
+                  <% } else { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="medium_left" class="align_radio">
+                  <% } %>
                 </label>
               </li>
               <li title="Medium sized (spanning two columns), justified Right." data-align="medium_right" class="<%= each.align == 'medium_right' ? 'align_active' : '' %>">
@@ -112,10 +121,14 @@
                       </g>
                     </svg>
                   </div>
-                  <input type="radio" name="inputs[2][align]" value="medium_right" class="align_radio">
+                  <% if (each.align == 'medium_right') { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="medium_right" class="align_radio" checked="true">
+                  <% } else { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="medium_right" class="align_radio">
+                  <% } %>
                 </label>
               </li>
-              <li title="Small sized (just one column), justified Left." data-align="small_left" class="<%= each.align == 'large' ? 'small_left' : '' %>">
+              <li title="Small sized (just one column), justified Left." data-align="small_left" class="<%= each.align == 'small_left' ? 'small_left' : '' %>">
                 <label>
                   <div class="align_option__icon">
                     <svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87">
@@ -137,7 +150,11 @@
                       </g>
                     </svg>
                   </div>
-                  <input type="radio" name="inputs[2][align]" value="small_left" class="align_radio">
+                  <% if (each.align == 'small_left') { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_left" class="align_radio" checked="true">
+                  <% } else { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_left" class="align_radio">
+                  <% } %>
                 </label>
               </li>
               <li title="Small sized (just one column), justified in the Middle." data-align="small_center" class="<%= each.align == 'small_center' ? 'align_active' : '' %>">
@@ -162,7 +179,11 @@
                       </g>
                     </svg>
                   </div>
-                  <input type="radio" name="inputs[2][align]" value="small_center" class="align_radio">
+                  <% if (each.align == 'small_center') { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_left" class="align_radio" checked="true">
+                  <% } else { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_left" class="align_radio">
+                  <% } %>
                 </label>
               </li>
               <li title="Small sized (just one column), justified Right." data-align="small_right" class="<%= each.align == 'small_right' ? 'align_active' : '' %>">
@@ -187,10 +208,15 @@
                       </g>
                     </svg>
                   </div>
-                  <input type="radio" name="inputs[2][align]" value="small_right" class="align_radio">
+                  <% if (each.align == 'small_right') { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_right" class="align_radio" checked="true">
+                  <% } else { %>
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_right" class="align_radio">
+                  <% } %>
                 </label>
               </li>
             </ul>
+
             <input placeholder="Subheading, leave blank to omit." name="inputs[<%= idx %>][subhead]" class="subhead" value="<%= each.subhead %>" />
             <% if (each.data_type == "paragraph") { %>
               <textarea name="inputs[<%= idx %>][text]" placeholder="body"><%= each.text %></textarea>

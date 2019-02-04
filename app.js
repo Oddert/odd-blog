@@ -69,8 +69,8 @@ function calculateRead (body) {
 app.route('/')
   .get((req, res) => {
     Post.find({})
-    .then(posts => res.render('index', { posts }))
-    .catch(err => console.log(err))
+      .then(posts => res.render('index', { posts }))
+      .catch(err => console.log(err))
   })
 
 // NEW

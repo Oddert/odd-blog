@@ -353,6 +353,7 @@ function handleSave () {
 
   const id = document.querySelector('.form').dataset.id
   const inputs = document.querySelectorAll('.input')
+  // const alignments = document.querySelectorAll()
 
   let body = {
 
