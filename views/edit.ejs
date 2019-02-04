@@ -39,7 +39,7 @@
               <button class="control_delete">✖</button>
             </div>
             <input name="inputs[<%= idx %>][data_type]" value="<%= each.data_type %>" hidden />
-            
+
             <ul class="align">
               <li title="Full sized" data-align="large" class="<%= each.align == 'large' ? 'align_active' : '' %>">
                 <label>
@@ -180,9 +180,9 @@
                     </svg>
                   </div>
                   <% if (each.align == 'small_center') { %>
-                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_left" class="align_radio" checked="true">
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_center" class="align_radio" checked="true">
                   <% } else { %>
-                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_left" class="align_radio">
+                    <input type="radio" name="inputs[<%= idx %>][align]" value="small_center" class="align_radio">
                   <% } %>
                 </label>
               </li>
