@@ -8,7 +8,7 @@
   </head>
   <body>
     <% include ./partials/nav %>
-    <form action="/posts/<%= data._id %>/edit" method="POST" class="form" data-id="<%= data._id %>">
+    <form action="/posts/<%= data._id %>/edit?_method=PUT" method="POST" class="form" data-id="<%= data._id %>">
       <div class="form_body">
         <div class="header_image">
           <div class="header_image__inputs">

@@ -148,6 +148,18 @@ app.route('/posts/:id/edit')
       })
       .catch(err => console.log(err))
   })
+  .put((req, res, next) => {
+    Post.findByIdAndUpdate(req.params.id, Object.assign({},
+      req.body,
+      {
+        word_count: calculateRead(req.body),
+        $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
+      }
+    ))
+    .then(post => parseForm(post))
+    .then(data => res.render('show', { data }))
+    .catch(err => console.log(err))
+  })
 
 
 
