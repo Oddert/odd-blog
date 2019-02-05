@@ -8,8 +8,11 @@ const express         = require('express')
     , methodOverride  = require('method-override')
 
 const mongoose        = require('mongoose')
+    , passport        = require('passport')
+    , LocalStrategy   = require('passport-local')
 
 const Post            = require('./models/post')
+    , User            = require('./models/User')
 
 app.set('view engine', 'ejs')
 app.use(methodOverride('_method'))
@@ -18,6 +21,20 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '/public')))
 
 mongoose.connect(process.env.DATABASE)
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+function addUserInstance (req, res, next) {
+  res.locals.user = req.user || {}
+  next()
+}
+
+app.use(addUserInstance)
 
 function parseForm (body) {
   const originalData = JSON.parse(JSON.stringify(body))
@@ -67,14 +84,14 @@ function handleErrorJSON (req, res, next, err) {
   return res.status(500).json({ err })
 }
 
-// INDEX    get     /dogs
-// NEW      get     /dogs/new
-// CREATE   post    /dogs
-// SHOW     get     /dogs/:id
-// EDIT     get     /dogs/:id/edit
-// UPDATE   put     /dogs/:id
-// DESTROY  delete  /dogs/:id
 
+// INDEX    get     /posts
+// NEW      get     /posts/new
+// CREATE   post    /posts
+// SHOW     get     /posts/:id
+// EDIT     get     /posts/:id/edit
+// UPDATE   put     /posts/:id
+// DESTROY  delete  /posts/:id
 
 // INDEX
 app.route('/')
@@ -194,6 +211,28 @@ app.route('/dev/:id/undelete')
     Post.findByIdAndUpdate(req.params.id, { deleted: false, deleted_on: null })
       .then(post => res.redirect('/'))
       .catch(err => handleErrorPage(req, res, next, err))
+  })
+
+
+app.route('/auth/register')
+  .get((req, res, next) => res.render('register'))
+  .post((req, res, next) => { console.log(req.body); res.redirect('/') })
+
+app.route('/auth/login')
+  .get((req, res, next) => res.render('login'))
+
+app.route('/auth/secret')
+  .post((req, res, next) => {
+    console.log(req.body)
+    if (req.body.secret === process.env.SECRET) {
+      console.log('Sucess!')
+      res.status(200)
+          .json({ success: true, message: 'Secret code matches!', error: null })
+    } else {
+      console.log('Fail!')
+      res.status(400)
+          .json({ success: false, message: 'Error!', error: 'Error: 400, seed code does not match, please check your code and try again.' })
+    }
   })
 
 

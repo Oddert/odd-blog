@@ -3,7 +3,12 @@
 <nav class="nav">
   <ul>
     <li class="home"><a href="/">Home</a></li>
-    <li class="new_post"><a href="/posts/new">New Post</a></li>
-    <li class="account"><a href="/">Account</a></li>
+    <% if (user) { %>
+      <li class="new_post"><a href="/auth/login">Signin</a></li>
+      <li class="account"><a href="/auth/register">Register</a></li>
+    <% } else { %>
+      <li class="new_post"><a href="/posts/new">New Post</a></li>
+      <li class="account"><a href="/">Account</a></li>
+    <% } %>
   </ul>
 </nav>

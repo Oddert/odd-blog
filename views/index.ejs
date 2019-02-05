@@ -32,6 +32,7 @@
               <div class="delete_control">
                 <button class="delete_prompt">Delete</button>
                 <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form no_show">
+                  <p>Are you sure you want to delete?</p>
                   <button class="cancel">Cancel</button>
                   <button class="delete">Delete</button>
                 </form>
