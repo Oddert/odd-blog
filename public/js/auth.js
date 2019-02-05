@@ -18,7 +18,7 @@ function checkPasswordsMatch () {
 
 function handleSubmit (e) {
   e.preventDefault()
-  const secret = form.querySelector('auth_code').value
+  const secret = form.querySelector('[name=auth_code]').value
   // const secret = 'n0239jvpwejtg9024joriehgiuwe93ty37iwgt2jfhg8w3ign'
   const url = '/auth/secret'
   const options = {

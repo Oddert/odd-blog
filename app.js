@@ -22,15 +22,22 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 mongoose.connect(process.env.DATABASE)
 
+app.use(require('express-session')({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
+
 app.use(passport.initialize())
 app.use(passport.session())
 
 passport.use(new LocalStrategy(User.authenticate()));
+
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 function addUserInstance (req, res, next) {
-  res.locals.user = req.user || {}
+  res.locals.currentUser = req.user
   next()
 }
 
@@ -44,7 +51,6 @@ function parseForm (body) {
   displayData.inputs = displayData.inputs
     .slice()
     .map(each => {
-      // console.log('#', each)
       if (each.data_type === 'paragraph') {
         let newText = each.text.split('\r\n')
         each.text = newText
@@ -216,10 +222,30 @@ app.route('/dev/:id/undelete')
 
 app.route('/auth/register')
   .get((req, res, next) => res.render('register'))
-  .post((req, res, next) => { console.log(req.body); res.redirect('/') })
+  .post((req, res, next) => {
+    let newUser = new User({ username: req.body.username })
+    User.register(newUser, req.body.password)
+    .then(user => {
+      console.log(user)
+      passport.authenticate("local")(req, res, function () {
+        res.redirect('/')
+      })
+    })
+    .catch(err => handleErrorPage(req, res, next, err))
+  })
 
 app.route('/auth/login')
   .get((req, res, next) => res.render('login'))
+  .post(passport.authenticate("local", {
+    successRedirect: '/',
+    failureRedirect: '/register'
+  }), function (req, res, next){})
+
+app.route('/auth/logout')
+  .get((req, res, next) => {
+    req.logout()
+    res.redirect('/')
+  })
 
 app.route('/auth/secret')
   .post((req, res, next) => {
@@ -233,6 +259,12 @@ app.route('/auth/secret')
       res.status(400)
           .json({ success: false, message: 'Error!', error: 'Error: 400, seed code does not match, please check your code and try again.' })
     }
+  })
+
+app.route('/dev/ping')
+  .get((req, res, next) => {
+    console.log(req.user)
+    res.redirect('/')
   })
 
 

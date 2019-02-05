@@ -3,9 +3,9 @@
 <nav class="nav">
   <ul>
     <li class="home"><a href="/">Home</a></li>
-    <% if (user) { %>
-      <li class="new_post"><a href="/auth/login">Signin</a></li>
-      <li class="account"><a href="/auth/register">Register</a></li>
+    <% if (!currentUser) { %>
+      <li class="new_post"><a href="/auth/login">Log In</a></li>
+      <li class="account"><a href="/auth/register">Sign Up</a></li>
     <% } else { %>
       <li class="new_post"><a href="/posts/new">New Post</a></li>
       <li class="account"><a href="/">Account</a></li>
