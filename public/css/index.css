@@ -1,8 +1,3 @@
-.main {
-  margin-top: 50px;
-  padding: 50px;
-}
-
 .post {
   border: 1px solid #bec3c7;
   border-radius: 20px;
@@ -30,6 +25,9 @@
 }
 .post .details p {
   margin: 10px 0;
+}
+.post .details .details_author {
+  margin-top: 0;
 }
 
 @media only screen and (max-width: 850px) {

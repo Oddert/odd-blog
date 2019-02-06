@@ -22,17 +22,22 @@ button, input, textarea {
   color: black;
 }
 
+.main {
+  margin-top: 50px;
+  padding: 50px;
+}
+
 .no_show {
   opacity: 0;
+}
+
+.hide {
+  display: none;
 }
 
 p {
   margin: 0;
   padding: 10px;
-}
-
-.main {
-  margin-top: 75px;
 }
 
 .nav {

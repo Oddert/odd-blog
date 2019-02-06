@@ -39,7 +39,18 @@ const PostSchema = new mongoose.Schema ({
       author: String
     }
   ],
-  author: String,
+  author: {
+    username: String,
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'odd-blog_user'
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'odd-blog_user'
+    },
+    displayName: String
+  },
   subtitle: String,
   caption: String,
   // lead: String,

@@ -3,12 +3,13 @@
 <nav class="nav">
   <ul>
     <li class="home"><a href="/">Home</a></li>
-    <% if (!currentUser) { %>
+    <% if (!user) { %>
       <li class="new_post"><a href="/auth/login">Log In</a></li>
       <li class="account"><a href="/auth/register">Sign Up</a></li>
     <% } else { %>
       <li class="new_post"><a href="/posts/new">New Post</a></li>
-      <li class="account"><a href="/">Account</a></li>
+      <li class="account"><a href="/"><%= user.username %></a></li>
+      <li class="logout"><a href="/auth/logout">Logout</a></li>
     <% } %>
   </ul>
 </nav>

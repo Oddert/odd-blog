@@ -19,6 +19,21 @@
     <article class="main">
 
       <h1 class="title"><%= data.title %></h1>
+      <div class="details">
+        <p class="details_author">By <a><%= /\w/gi.test(data.author.displayName) ? data.author.displayName : data.author.username %></a></p>
+        <strong><%= new Date(data.created).toLocaleDateString() %></strong>
+        <em>Read Time: <%= data.word_count < 265 ? '1 min' : Math.ceil(data.word_count/265) > 1 ? Math.ceil(data.word_count/265)+' mins' : Math.ceil(data.word_count/265)+' min' %></em>
+        <% if (user && data.author.id == user._id) { %>
+          <div class="delete_control">
+            <button class="delete_prompt">Delete</button>
+            <form action="/posts/<%= data._id %>?_method=DELETE" method="POST" class="delete_form hide">
+              <p>Are you sure you want to delete?</p>
+              <button class="cancel">Cancel</button>
+              <button class="delete">Delete</button>
+            </form>
+          </div>
+        <% } %>
+      </div>
       <h2 class="subtitle"><%= data.subtitle %></h2>
       <% data.inputs.forEach(item => { %>
 
@@ -47,4 +62,5 @@
     </article>
   </body>
   <script type="text/javascript" src="/js/name.js"></script>
+  <script type="text/javascript" src="/js/index.js"></script>
 </html>

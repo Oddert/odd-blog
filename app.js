@@ -37,7 +37,7 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 function addUserInstance (req, res, next) {
-  res.locals.currentUser = req.user
+  res.locals.user = req.user
   next()
 }
 
@@ -91,6 +91,34 @@ function handleErrorJSON (req, res, next, err) {
 }
 
 
+function checkAuth (req, res, next) {
+  if (req.isAuthenticated()) return next()
+  else res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
+}
+
+function checkPostOwnership (req, res, next) {
+  if (!req.isAuthenticated()) return res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
+  Post.findById(req.params.id)
+    .then(post => {
+      if (post.author.id.equals(req.user._id)) return next()
+      else res.json({ error: 402, message: 'You are not the author of whatever that is.' })
+    })
+    .catch(err => handleErrorPage(req, res, next, err))
+}
+function checkPostOwnershipJSON (req, res, next) {
+  if (!req.isAuthenticated()) return res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
+  Post.findById(req.params.id)
+    .then(post => {
+      if (post.author.id.equals(req.user._id)) return next()
+      else res.json({ error: 402, message: 'You are not the author of whatever that is.' })
+    })
+    .catch(err => handleErrorJSON(req, res, next, err))
+}
+
+const combineNames = user => `${user.primary_name ? user.primary_name : ''} ${user.other_names ? user.other_names.join(' ') : ''} ${user.secondary_name ? user.secondary_name : ''}`
+// US / Euro name formating, to be adjusted later
+
+
 // INDEX    get     /posts
 // NEW      get     /posts/new
 // CREATE   post    /posts
@@ -103,14 +131,16 @@ function handleErrorJSON (req, res, next, err) {
 app.route('/')
   .get((req, res) => {
     Post.find({})
+      .populate('author.user')
+      .then(posts => { console.log(posts); return posts })
       .then(posts => res.render('index', { posts }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
 // NEW
 app.route('/posts/new')
-  .get((req, res, next) => res.render('create'))
-  .post((req, res, next) => {
+  .get(checkAuth, (req, res, next) => res.render('create'))
+  .post(checkAuth, (req, res, next) => {
     let date = new Date()
     Post.create(Object.assign({},
       req.body,
@@ -119,7 +149,13 @@ app.route('/posts/new')
         month: date.getMonth(),
         day: date.getDay(),
         word_count: calculateRead(req.body),
-        active: true
+        active: true,
+        author: {
+          username: req.user.username,
+          id: req.user._id,
+          user: req.user._id,
+          displayName: combineNames(req.user)
+        }
       }
     ))
     .then(post => {
@@ -140,7 +176,7 @@ app.route('/posts/:id')
       .then(data => res.render('show', { data }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
-  .put((req, res, next) => {
+  .put(checkPostOwnership, (req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
       req.body,
       {
@@ -159,7 +195,7 @@ app.route('/posts/:id')
   })
 
 app.route('/api/posts/:id')
-  .put((req, res, nex) => {
+  .put(checkPostOwnershipJSON, (req, res, nex) => {
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
       req.body,
       {
@@ -178,11 +214,12 @@ app.route('/posts/:id/edit')
       .then(data => {
         console.log('----------------')
         console.log(data)
-        res.render('edit', { data })
+        return data
       })
+      .then(data => res.render('edit', { data }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
-  .put((req, res, next) => {
+  .put(checkPostOwnership, (req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
       req.body,
       {
@@ -198,6 +235,7 @@ app.route('/posts/:id/edit')
 
 
 // NEW (dev)
+// Used in development to return the data without data persistance
 app.route('/posts/new/dev')
   .post((req, res) => {
     const displayData = parseForm(req.body)
@@ -213,16 +251,20 @@ app.route('/posts/new/dev')
  })
 
 app.route('/dev/:id/undelete')
-  .get((req, res, next) => {
+  .get(checkPostOwnership, (req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, { deleted: false, deleted_on: null })
       .then(post => res.redirect('/'))
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
+function checkSecret (req, res, next) {
+  if (req.body.auth_code === process.env.SECRET) return next()
+  else handleErrorPage(req, res, next, 'Incorrect Access Code.' )
+}
 
 app.route('/auth/register')
   .get((req, res, next) => res.render('register'))
-  .post((req, res, next) => {
+  .post(checkSecret, (req, res, next) => {
     let newUser = new User({ username: req.body.username })
     User.register(newUser, req.body.password)
     .then(user => {
