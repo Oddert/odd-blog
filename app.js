@@ -38,6 +38,7 @@ passport.deserializeUser(User.deserializeUser())
 
 function addUserInstance (req, res, next) {
   res.locals.user = req.user
+  res.locals.blog_name = process.env.BLOG_NAME || 'Blog'
   next()
 }
 
@@ -133,13 +134,13 @@ app.route('/')
     Post.find({})
       .populate('author.user')
       .then(posts => { console.log(posts); return posts })
-      .then(posts => res.render('index', { posts }))
+      .then(posts => res.render('posts/index', { posts }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
 // NEW
 app.route('/posts/new')
-  .get(checkAuth, (req, res, next) => res.render('create'))
+  .get(checkAuth, (req, res, next) => res.render('posts/create'))
   .post(checkAuth, (req, res, next) => {
     let date = new Date()
     Post.create(Object.assign({},
@@ -171,9 +172,10 @@ app.route('/posts/new')
 app.route('/posts/:id')
   .get((req, res, next) => {
     Post.findById(req.params.id)
+      .populate('author.user')
       .then(post => parseForm(post))
       .then(data => { console.log(data); return data })
-      .then(data => res.render('show', { data }))
+      .then(data => res.render('posts/show', { data }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
   .put(checkPostOwnership, (req, res, next) => {
@@ -185,7 +187,7 @@ app.route('/posts/:id')
       }
     ))
     .then(post => parseForm(post))
-    .then(data => res.render('show', { data }))
+    .then(data => res.render('posts/show', { data }))
     .catch(err => handleErrorPage(req, res, next, err))
   })
   .delete((req, res, next) => {
@@ -228,7 +230,7 @@ app.route('/posts/:id/edit')
       }
     ))
     .then(post => parseForm(post))
-    .then(data => res.render('show', { data }))
+    .then(data => res.render('posts/show', { data }))
     .catch(err => handleErrorPage(req, res, next, err))
   })
 
@@ -242,7 +244,7 @@ app.route('/posts/new/dev')
 
     console.log(calculateRead(req.body))
 
-     if (req.body.page) res.render('show', { data: displayData })
+     if (req.body.page) res.render('posts/show', { data: displayData })
      else res.json({
        body: req.body,
        params: req.params,
@@ -263,7 +265,7 @@ function checkSecret (req, res, next) {
 }
 
 app.route('/auth/register')
-  .get((req, res, next) => res.render('register'))
+  .get((req, res, next) => res.render('auth_local/register'))
   .post(checkSecret, (req, res, next) => {
     let newUser = new User({ username: req.body.username })
     User.register(newUser, req.body.password)
@@ -277,7 +279,7 @@ app.route('/auth/register')
   })
 
 app.route('/auth/login')
-  .get((req, res, next) => res.render('login'))
+  .get((req, res, next) => res.render('auth_local/login'))
   .post(passport.authenticate("local", {
     successRedirect: '/',
     failureRedirect: '/register'

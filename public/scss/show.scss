@@ -67,6 +67,21 @@ hr {
   }
 }
 
+.details {
+  display: flex;
+  flex-direction: row;
+  grid-column: 1 / -1;
+  & .details_text {
+    flex: 1;
+  }
+  & .details_image {
+    & img {
+      max-width: 100%;
+      max-height: 100px;
+    }
+  }
+}
+
 .large        { grid-column: 1 / -1; }
 .medium_left  { grid-column: 1 / -2; }
 .medium_right { grid-column: 2 / -1; }

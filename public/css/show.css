@@ -56,6 +56,19 @@ hr {
   text-align: center;
 }
 
+.details {
+  display: flex;
+  flex-direction: row;
+  grid-column: 1/-1;
+}
+.details .details_text {
+  flex: 1;
+}
+.details .details_image img {
+  max-width: 100%;
+  max-height: 100px;
+}
+
 .large {
   grid-column: 1/-1;
 }

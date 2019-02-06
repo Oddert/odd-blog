@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/show.css" />
   </head>
   <body>
-    <% include ./partials/nav %>
+    <% include ../partials/nav %>
 
     <% if (/\w/gi.test(data.header_image.src)) { %>
       <figure class="header_image">
@@ -20,9 +20,14 @@
 
       <h1 class="title"><%= data.title %></h1>
       <div class="details">
-        <p class="details_author">By <a><%= /\w/gi.test(data.author.displayName) ? data.author.displayName : data.author.username %></a></p>
-        <strong><%= new Date(data.created).toLocaleDateString() %></strong>
-        <em>Read Time: <%= data.word_count < 265 ? '1 min' : Math.ceil(data.word_count/265) > 1 ? Math.ceil(data.word_count/265)+' mins' : Math.ceil(data.word_count/265)+' min' %></em>
+        <div class="details_image">
+          <img src="<%= data.author.user.profile %>" alt="User profile picture for <%= data.author.displayName %>">
+        </div>
+        <div class="details_text">
+          <p class="details_author">By <a><%= /\w/gi.test(data.author.displayName) ? data.author.displayName : data.author.username %></a></p>
+          <p><strong><%= new Date(data.created).toLocaleDateString() %></strong></p>
+          <p><em>Read Time: <%= data.word_count < 265 ? '1 min' : Math.ceil(data.word_count/265) > 1 ? Math.ceil(data.word_count/265)+' mins' : Math.ceil(data.word_count/265)+' min' %></em></p>
+        </div>
         <% if (user && data.author.id == user._id) { %>
           <div class="delete_control">
             <button class="delete_prompt">Delete</button>
@@ -60,7 +65,15 @@
 
       <% }) %>
     </article>
+    <footer>
+      <div class="author_bio">
+        <% if (/\w/gi.test(data.author.user.primary_name) && data.author.user.primary_name !== undefined) { %>
+          <h3><%= data.author.user.primary_name ? data.author.user.primary_name : '' %> <%= data.author.user.other_names.length > 0 ? data.author.user.other_names.join(' ') + ' ' : '' %><%= data.author.user.secondary_name %></h3>
+        <% } %>
+        <h3><%= data.author.user.username %></h3>
+      </div>
+    </footer>
   </body>
-  <script type="text/javascript" src="/js/name.js"></script>
+  <!-- <script type="text/javascript" src="/js/name.js"></script> -->
   <script type="text/javascript" src="/js/index.js"></script>
 </html>
