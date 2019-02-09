@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/master.css">
+    <link rel="stylesheet" href="/css/profile.css">
+  </head>
+  <body>
+    <% include ../partials/nav %>
+    <main data-id="<%= viewUser._id %>">
+      <div class="profile_background" style="background-image: url(http://cdn.studiodaily.com/wp-content/uploads/2016/08/star-trek-beyond.jpg);">
+
+      </div>
+      <div class="profile_details">
+        <figure class="profile_details__image">
+          <img src="<%= viewUser.profile %>" alt="<%= viewUser.username %>'s Profile Image'">
+        </figure>
+        <div class="profile_details__content">
+          <div class="title">
+            <h1 class=""><%= viewUser.primary_name %><%= viewUser.other_names.length > 0 ? ` ${viewUser.other_names.join(' ')} ` : ' ' %><%= viewUser.secondary_name %></h1>
+          </div>
+          <h2>@ <%= viewUser.username %></h2>
+        </div>
+      </div>
+    </main>
+  </body>
+  <script type="text/javascript" src="/js/profile.js"></script>
+</html>

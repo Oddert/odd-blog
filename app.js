@@ -79,6 +79,13 @@ app.route('/api/posts/:id')
    .catch(err => handleErrorJSON(req, res, next, err))
  })
 
+app.route('/api/users/:id')
+  .get((req, res, next) => {
+    User.findById(req.params.id)
+      .then(user => res.json({ user, currentUser: req.user }))
+      .catch(err => res.status(500).json({ err }))
+  })
+
 app.route('/dev/:id/undelete')
   .get(mw.checkPostOwnership, (req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, { deleted: false, deleted_on: null })
@@ -88,6 +95,7 @@ app.route('/dev/:id/undelete')
 
 
 app.use('/posts/', require('./routes/posts'))
+app.use('/user/', require('./routes/users'))
 app.use('/auth/', require('./routes/auth'))
 
 

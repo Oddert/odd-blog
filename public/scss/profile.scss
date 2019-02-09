@@ -1,0 +1,36 @@
+
+
+
+.profile_background {
+  background: #334;
+  height: 40vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.profile_details {
+  position: relative;
+  box-shadow: 0 -10px 10px rgba(0,0,0,.1);
+  .profile_details__content {
+    transform: translateY(-10vh);
+    text-align: center;
+  }
+  .profile_details__image {
+    margin: 0 auto;
+    $profile_image_diameter: 175px;
+    width: $profile_image_diameter;
+    height: $profile_image_diameter;
+    overflow: hidden;
+    background: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    img {
+      margin: 5%;
+      max-width: 90%;
+      object-fit: fill;
+      border-radius: 50%;
+    }
+  }
+}
