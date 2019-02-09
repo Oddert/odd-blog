@@ -36,13 +36,13 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
-function addUserInstance (req, res, next) {
+function addUserToLocals (req, res, next) {
   res.locals.user = req.user
   res.locals.blog_name = process.env.BLOG_NAME || 'Blog'
   next()
 }
 
-app.use(addUserInstance)
+app.use(addUserToLocals)
 
 function parseForm (body) {
   const originalData = JSON.parse(JSON.stringify(body))
@@ -72,6 +72,8 @@ function calculateRead (body) {
       return acc += oneStr(each.text)
     } else if (each.data_typ == 'image') {
       return acc += oneStr(each.caption)
+    } else if (each.data_typ == 'quote') {
+      return acc += oneStr(each.text)
     }
     return acc
   }, 0)
@@ -94,9 +96,12 @@ function handleErrorJSON (req, res, next, err) {
 
 function checkAuth (req, res, next) {
   if (req.isAuthenticated()) return next()
+  else res.redirect('/login')
+}
+function checkAuthJSON (req, res, next) {
+  if (req.isAuthenticated()) return next()
   else res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
 }
-
 function checkPostOwnership (req, res, next) {
   if (!req.isAuthenticated()) return res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
   Post.findById(req.params.id)
@@ -144,79 +149,7 @@ app.route('/posts/')
       .then(posts => res.json(posts))
       .catch(err => console.log(err))
   })
-app.route('/posts/:yearTitle/')
-  .get((req, res, next) => {
-    Post.count({ year: req.params.yearTitle })
-      .then(count => {
-        if (count > 0) {
-          Post.find({ year: req.params.yearTitle })
-            .then(posts => res.json(posts))
-            .catch(err => res.json({ err }))
-        } else {
-          Post.count({ title: req.params.yearTitle })
-            .then(count => {
-              if (count > 0) {
-                Post.find({ title: req.params.yearTitle })
-                  .then(posts => res.json(posts))
-                  .catch(err => res.json({ err }))
-              } else {
-                Post.count({ _id: req.params.yearTitle })
-                  .then(count => {
-                    // console.log({ count })
-                    if (count > 0) {
-                      Post.findOne({ _id: req.params.yearTitle })
-                        .populate('author.user')
-                        .then(post => parseForm(post))
-                        .then(data => res.render('posts/show', { data }))
-                        .catch(err => res.json({ err }))
-                    } else {
-                      res.json({ err: 'Thats not an acceptable file type' })
-                    }
-                  })
-                  .catch({ err })
-              }
-            })
-        }
-      })
-      .catch(err => console.log({ err }))
-  })
-app.route('/posts/id/:id')
-  .get((req, res, next) => {
-    Post.findById(req.params.id)
-      .populate('author.user')
-      .then(post => parseForm(post))
-      .then(data => res.render('posts/show', { data }))
-      .catch(err => res.json({ err }))
-  })
 
-function handlePostArr (req, res, next) {
-  Post.count({ _id: req.params.year })
-    .then(count => {
-      console.log({ count })
-      Post.find({ ...req.params })
-      .populate('author.user')
-      .then(posts => res.json(posts))
-      .catch(err => res.json({ err }))
-    })
-    .catch({ err })
-}
-// app.route('/posts/:year/:month/')
-//   .get(handlePostArr)
-// app.route('/posts/:year/:month/:day/')
-//   .get(handlePostArr)
-app.route('/posts/:year/:month/:day/:title')
-  .get((req, res, next) => {
-    Post.findOne({ ...req.params })
-      .populate('author.user')
-      .then(post => {
-        console.log(post)
-        res.render('posts/show', { data: parseForm(post) })
-      })
-      .catch(err => {
-        console.log(err)
-        res.json({ err })
-      })
-  })
 
 
 // NEW
@@ -242,9 +175,10 @@ app.route('/posts/new')
     ))
     .then(post => {
       console.log({ post })
-      const data = parseForm(post)
-      res.render('posts/show', { data })
+      return Post.findById(post._id)
     })
+    .then(post => parseForm(post))
+    .then(data => res.render('posts/show', { data }))
   })
 
 // SHOW
@@ -317,13 +251,41 @@ app.route('/posts/:id/edit')
 
 
 
+
+
 // NEW (dev)
 // Used in development to return the data without data persistance
 app.route('/posts/new/dev')
   .post((req, res) => {
-    const displayData = parseForm(req.body)
-
-    console.log(calculateRead(req.body))
+    const date = new Date()
+    const placeholderData = {
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      day: date.getDay(),
+      word_count: calculateRead(req.body),
+      active: true,
+      author: {
+        username: 'oddert',
+        id: '5c5a0b403df18363606c21ad',
+        displayName: 'Benjamin Sisko',
+        user: {
+          profile: `https://projects.johnmarshallmedia.com/img/users/user.png`,
+          primary_name: '',
+          other_names: [],
+          secondary_name: '',
+          username: 'oddert_but_dev'
+        }
+      }
+    }
+    const displayData = parseForm(
+      Object.assign(
+        {},
+        req.body,
+        placeholderData
+      )
+    )
+    console.log('-------------------')
+    console.log(displayData)
 
      if (req.body.page) res.render('posts/show', { data: displayData })
      else res.json({
@@ -339,6 +301,82 @@ app.route('/dev/:id/undelete')
       .then(post => res.redirect('/'))
       .catch(err => handleErrorPage(req, res, next, err))
   })
+
+
+  app.route('/posts/:yearTitle/')
+    .get((req, res, next) => {
+      Post.count({ year: req.params.yearTitle })
+        .then(count => {
+          if (count > 0) {
+            Post.find({ year: req.params.yearTitle })
+              .then(posts => res.json(posts))
+              .catch(err => res.json({ err }))
+          } else {
+            Post.count({ title: req.params.yearTitle })
+              .then(count => {
+                if (count > 0) {
+                  Post.find({ title: req.params.yearTitle })
+                    .then(posts => res.json(posts))
+                    .catch(err => res.json({ err }))
+                } else {
+                  Post.count({ _id: req.params.yearTitle })
+                    .then(count => {
+                      // console.log({ count })
+                      if (count > 0) {
+                        Post.findOne({ _id: req.params.yearTitle })
+                          .populate('author.user')
+                          .then(post => parseForm(post))
+                          .then(data => res.render('posts/show', { data }))
+                          .catch(err => res.json({ err }))
+                      } else {
+                        res.json({ err: 'Thats not an acceptable file type' })
+                      }
+                    })
+                    .catch(err => res.json({ err }))
+                }
+              })
+          }
+        })
+        .catch(err => console.log({ err }))
+    })
+  app.route('/posts/id/:id')
+    .get((req, res, next) => {
+      Post.findById(req.params.id)
+        .populate('author.user')
+        .then(post => parseForm(post))
+        .then(data => res.render('posts/show', { data }))
+        .catch(err => res.json({ err }))
+    })
+
+  function handlePostArr (req, res, next) {
+    Post.count({ _id: req.params.year })
+      .then(count => {
+        console.log({ count })
+        Post.find({ ...req.params })
+        .populate('author.user')
+        .then(posts => res.json(posts))
+        .catch(err => res.json({ err }))
+      })
+      .catch({ err })
+  }
+  // app.route('/posts/:year/:month/')
+  //   .get(handlePostArr)
+  // app.route('/posts/:year/:month/:day/')
+  //   .get(handlePostArr)
+  app.route('/posts/:year/:month/:day/:title')
+    .get((req, res, next) => {
+      Post.findOne({ ...req.params })
+        .populate('author.user')
+        .then(post => {
+          console.log(post)
+          res.render('posts/show', { data: parseForm(post) })
+        })
+        .catch(err => {
+          console.log(err)
+          res.json({ err })
+        })
+    })
+
 
 function checkSecret (req, res, next) {
   if (req.body.auth_code === process.env.SECRET) return next()

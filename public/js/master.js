@@ -9,15 +9,22 @@ const svgConvert = {
   'small_right': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
 }
 
+// ==================== / Resources ====================
+
+
+// ==================== DOM Nodes + Constants ====================
+
 console.log(window.location)
 
 const newButtons    = document.querySelectorAll('.new_buttons button')
 const form          = document.querySelector('.form_body')
-// const newParagraph  = document.querySelector('.new_paragraph')
-// const newImage      = document.querySelector('.new_image')
 
 let lastClicked = document.querySelector('body *')
 
+// ==================== / DOM Nodes + Constants ====================
+
+
+// ==================== Event Functions ====================
 
 function handleDrag (e) {
   const target = e.target
@@ -60,6 +67,74 @@ function deleteInput (e, idx) {
   document.querySelector('.form_body').removeChild(input)
   reassignIndeces()
 }
+
+// When an element is removed and added there can often be conflicts in the index used to define input order
+// This loops over all and checks their classNames and names are correct
+function reassignIndeces () {
+  const input_groups = document.querySelectorAll('.input')
+  for (let i = 0; i < input_groups.length; i++) {
+    // console.log('############')
+
+    // Fix the name attr on all input tags
+    let input_group = input_groups[i]
+    const inputElems = input_group.querySelectorAll('input')
+    for (elem of inputElems) {
+      let oldName = elem.name
+      elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
+    }
+
+    // Do the same for any textareas
+    let textareaElems = input_group.querySelectorAll('textarea')
+    for (elem of textareaElems) {
+      let oldName = elem.name
+      elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
+    }
+
+    // Recreate the visable label display (no functional value)
+    const label = input_group.querySelector('.control_text')
+    const labelContent = label.textContent
+    const lcLen = labelContent.length
+    const newLabelContent = `${labelContent.substring(0, lcLen-7)}${i}${labelContent.substring(lcLen-6)}`
+    label.textContent = newLabelContent
+
+    // Remove old class used for targeting and replace
+    const classLabel = input_group.className.match(/input_[0-9]*/gi)
+    input_group.classList.remove(classLabel)
+    input_group.classList.add(`input_${i}`)
+
+    // Update the delete button for new index
+    const deleteButton = input_group.querySelector(`.control_delete`)
+    deleteButton.onclick = e => deleteInput(e, i)
+  }
+}
+
+function textInputResize (e) {
+  if (e.target.clientHeight < e.target.scrollHeight) {
+    this.style.height = `${e.target.scrollHeight + 30}px`
+  }
+  if (e.target.clientHeight > e.target.scrollHeight) {
+    this.style.height = `${e.target.scrollHeight + 30}px`
+  }
+}
+
+function imagePreviewUpdate (e) {
+  // console.log(e)
+  let url = ''
+  setTimeout(() => {
+    url = e.target.value
+    const image = new Image()
+    image.onload = () => document.querySelector(`.image_input__preview_${idx}--img`).src = url
+    image.onerror = () => {
+      // console.log('Fail :(')
+    }
+    image.src = url
+  }, 300)
+}
+
+// ==================== / Event Functions ====================
+
+
+// ==================== Create Elems ====================
 
 function createControl (idx, data_type) {
   let newControl = document.createElement(`DIV`)
@@ -180,68 +255,10 @@ function createSubhead (idx) {
   return newSubhead
 }
 
-// When an element is removed and added there can often be conflicts in the index used to define input order
-// This loops over all and checks their classNames and names are correct
-function reassignIndeces () {
-  const input_groups = document.querySelectorAll('.input')
-  for (let i = 0; i < input_groups.length; i++) {
-    // console.log('############')
+// ==================== / Create Elems ====================
 
-    // Fix the name attr on all input tags
-    let input_group = input_groups[i]
-    const inputElems = input_group.querySelectorAll('input')
-    for (elem of inputElems) {
-      let oldName = elem.name
-      elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
-    }
 
-    // Do the same for any textareas
-    let textareaElems = input_group.querySelectorAll('textarea')
-    for (elem of textareaElems) {
-      let oldName = elem.name
-      elem.name = `${oldName.substring(0,7)}${i}${oldName.substring(8)}`
-    }
-
-    // Recreate the visable label display (no functional value)
-    const label = input_group.querySelector('.control_text')
-    const labelContent = label.textContent
-    const lcLen = labelContent.length
-    const newLabelContent = `${labelContent.substring(0, lcLen-7)}${i}${labelContent.substring(lcLen-6)}`
-    label.textContent = newLabelContent
-
-    // Remove old class used for targeting and replace
-    const classLabel = input_group.className.match(/input_[0-9]*/gi)
-    input_group.classList.remove(classLabel)
-    input_group.classList.add(`input_${i}`)
-
-    // Update the delete button for new index
-    const deleteButton = input_group.querySelector(`.control_delete`)
-    deleteButton.onclick = e => deleteInput(e, i)
-  }
-}
-
-function textInputResize (e) {
-  if (e.target.clientHeight < e.target.scrollHeight) {
-    this.style.height = `${e.target.scrollHeight + 30}px`
-  }
-  if (e.target.clientHeight > e.target.scrollHeight) {
-    this.style.height = `${e.target.scrollHeight + 30}px`
-  }
-}
-
-function imagePreviewUpdate (e) {
-  // console.log(e)
-  let url = ''
-  setTimeout(() => {
-    url = e.target.value
-    const image = new Image()
-    image.onload = () => document.querySelector(`.image_input__preview_${idx}--img`).src = url
-    image.onerror = () => {
-      // console.log('Fail :(')
-    }
-    image.src = url
-  }, 300)
-}
+// ==================== New Input ====================
 
 function handleNewInput (e) {
   console.log(e.target.name)
@@ -273,41 +290,41 @@ function handleNewInput (e) {
       break;
 
     case 'new_image':
-      let newImageSrcInput          = document.createElement('input')
-      newImageSrcInput.name         = `inputs[${idx}][src]`
-      newImageSrcInput.className    = `image_input--src`
-      newImageSrcInput.placeholder  = 'Image Link'
-      newImageSrcInput.title        = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
+      let newImageSrcInput              = document.createElement('input')
+      newImageSrcInput.name             = `inputs[${idx}][src]`
+      newImageSrcInput.className        = `image_input--src`
+      newImageSrcInput.placeholder      = 'Image Link'
+      newImageSrcInput.title            = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
 
-      newImageSrcInput.onchange = imagePreviewUpdate
+      newImageSrcInput.onchange         = imagePreviewUpdate
 
       let newImageCaptionInput          = document.createElement('input')
       newImageCaptionInput.name         = `inputs[${idx}][caption]`
       newImageCaptionInput.className    = 'image_input--caption'
       newImageCaptionInput.placeholder  = 'Caption'
-      newImageCaptionInput.title  = 'An optional caption to go with the image.'
+      newImageCaptionInput.title        = 'An optional caption to go with the image.'
 
-      let newImageAltInput          = document.createElement('input')
-      newImageAltInput.name         = `inputs[${idx}][alt]`
-      newImageAltInput.className    = 'image_input--alt'
-      newImageAltInput.placeholder  = 'Alt-text (for Screen Readers)'
-      newImageAltInput.title  = 'Add a description of the image. This will be shown if the image breaks and is also what screen-readers will \'see\'.'
+      let newImageAltInput              = document.createElement('input')
+      newImageAltInput.name             = `inputs[${idx}][alt]`
+      newImageAltInput.className        = 'image_input--alt'
+      newImageAltInput.placeholder      = 'Alt-text (for Screen Readers)'
+      newImageAltInput.title            = 'Add a description of the image. This will be shown if the image breaks and is also what screen-readers will \'see\'.'
 
-      let newImageInputContainer = document.createElement('DIV')
-      newImageInputContainer.className = `image_input__container`
+      let newImageInputContainer        = document.createElement('DIV')
+      newImageInputContainer.className  = `image_input__container`
 
-      let newImageInputGroup = document.createElement('DIV')
-      newImageInputGroup.className = `image_input__group`
+      let newImageInputGroup            = document.createElement('DIV')
+      newImageInputGroup.className      = `image_input__group`
       newImageInputGroup.appendChild(newImageSrcInput)
       newImageInputGroup.appendChild(newImageCaptionInput)
       newImageInputGroup.appendChild(newImageAltInput)
 
-      let newImageInputPreview = document.createElement('DIV')
-      newImageInputPreview.className = `image_input__preview`
-      let newImageInputPreviewImg = document.createElement('img')
-      newImageInputPreviewImg.title = 'Image preview.'
+      let newImageInputPreview          = document.createElement('DIV')
+      newImageInputPreview.className    = `image_input__preview`
+      let newImageInputPreviewImg       = document.createElement('img')
+      newImageInputPreviewImg.title     = 'Image preview.'
       newImageInputPreviewImg.className = `image_input__preview--img image_input__preview_${idx}--img`
-      newImageInputPreviewImg.src = `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
+      newImageInputPreviewImg.src       = `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
       newImageInputPreview.appendChild(newImageInputPreviewImg)
 
       newImageInputContainer.appendChild(newImageInputGroup)
@@ -324,11 +341,47 @@ function handleNewInput (e) {
       form.appendChild(newElem)
       break;
 
+    case 'new_quote':
+      let newQuoteContainer = document.createElement('DIV')
+      newQuoteContainer.className = `quote_input__container`
+
+      let newQuoteBody = document.createElement('textarea')
+      newQuoteBody.name = `inputs[${idx}][text]`
+      newQuoteBody.placeholder = `Quote Text`
+      newQuoteBody.addEventListener('keydown', textInputResize)
+
+      let newQuoteAuthor = document.createElement('input')
+      newQuoteAuthor.type = `text`
+      newQuoteAuthor.name = `inputs[${idx}][author]`
+      newQuoteAuthor.placeholder = `Author`
+
+      let newQuoteCite = document.createElement('input')
+      newQuoteCite.type = `text`
+      newQuoteCite.name = `inputs[${idx}][cite]`
+      newQuoteCite.placeholder = `Citation Link`
+
+      newQuoteContainer.appendChild(newQuoteCite)
+      newQuoteContainer.appendChild(newQuoteBody)
+      newQuoteContainer.appendChild(newQuoteAuthor)
+
+      newElem = document.createElement('DIV')
+      newElem.className = `input quote_input input_${idx}`
+      newElem.appendChild(createControl(idx, `quote`))
+      newElem.appendChild(createAlignment(idx))
+      newElem.appendChild(createSubhead(idx))
+      newElem.appendChild(createLabel(idx, `quote`))
+      newElem.appendChild(newQuoteContainer)
+      form.appendChild(newElem)
+      break;
+
     default:
-      console.log('ERROR: Unknown input data_type')
+      console.log(`ERROR: Unknown input data_type: ${e.target.name}`)
       break;
   }
 }
+
+// ==================== / New Input ====================
+
 
 newButtons.forEach(each => each.onclick = e => {
   e.preventDefault()
@@ -362,11 +415,42 @@ function sample () {
     "lo it is time for this tawdry thing again ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
     "What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Where does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32."
   ]
-  const sampleHeader = {
-    src: "https://www.theplanner.co.uk/sites/default/files/Web_LondonUnderground_iStock_000077086545_Large.jpg",
-    caption: "Can I come up with an interesting test caption? Should captions even be shown? What evern are best practices?",
-    alt: "An image of a train on London's Northern Line"
-  }
+  const sampleHeaders = [
+    {
+      src: "https://www.theplanner.co.uk/sites/default/files/Web_LondonUnderground_iStock_000077086545_Large.jpg",
+      caption: "Can I come up with an interesting test caption? Should captions even be shown? What evern are best practices?",
+      alt: "An image of a train on London's Northern Line"
+    },
+    {
+      src: "https://img.museumoflondon.org.uk/ev/0383d7a9-2e3c-4b0c-abe0-1b40121d8949.jpg",
+      caption: "West Ruislip rip",
+      alt: "An image of West Ruislip probably"
+    },
+    {
+      src: "https://i.ytimg.com/vi/pCIUOt2lLck/maxresdefault.jpg",
+      caption: "Trans Rights",
+      alt: "Trans Rights brought to you by dk 64"
+    },
+    {
+      src: "https://cdn2us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/2019/02/star-trek-discovery-season-2-who-is-number-one-in-canon.jpg?itok=qN635EKp",
+      caption: "Perfect angel, new lead character, needs own seriec, pike plz let us see more number one",
+      alt: "An screenshot of star trek discovery showing my wife"
+    },
+    {
+      src: "http://cdn.studiodaily.com/wp-content/uploads/2016/08/star-trek-beyond.jpg",
+      caption: "Can I come up with an interesting test caption? Should captions even be shown? What evern are best practices?",
+      alt: "An image of a train on London's Northern Line"
+    }
+  ]
+  const sampleTitles = [
+    "This is a Very Good Article",
+    "This is not a Good Article",
+    "This Article is of questionable intent",
+    "A menefesto for the abolition of the automobile",
+    "Experiences working in MHP Thameside",
+    "The design of your very own blog engine",
+    "Mind that time that guy asked us about newspapers on the DLR comming out of Cannary Wharf?"
+  ]
   const sampleImage = {
     src: "http://www.cat-bus.com/wp-content/uploads/2017/12/gadgetbahn.jpg",
     caption: "A very neat image. Monorials are good. Abolish the functionless metal boxes known as automobiles",
@@ -374,18 +458,20 @@ function sample () {
   }
   const inputs = document.querySelectorAll('.input textarea')
   for (let i=0; i<inputs.length; i++) {
-    inputs[i].value = sampleParas[i]
+    inputs[i].value = sampleParas[Math.floor(Math.random()*inputs.length)]
   }
-  document.querySelector('.header_image--src').value = sampleHeader.src
-  document.querySelector('.header_image--caption').value = sampleHeader.caption
-  document.querySelector('.header_image--alt').value = sampleHeader.alt
-  document.querySelector('.header_image--preview').src = sampleHeader.src
+  let ranheader = Math.floor(Math.random()*sampleHeaders.length)
+  let ranTitle = Math.floor(Math.random()*sampleTitles.length)
+  document.querySelector('.header_image--src').value = sampleHeaders[ranheader].src
+  document.querySelector('.header_image--caption').value = sampleHeaders[ranheader].caption
+  document.querySelector('.header_image--alt').value = sampleHeaders[ranheader].alt
+  document.querySelector('.header_image--preview').src = sampleHeaders[ranheader].src
 
   document.querySelector('.image_input--src').value = sampleImage.src
   document.querySelector('.image_input--caption').value = sampleImage.caption
   document.querySelector('.image_input--alt').value = sampleImage.alt
 
-  document.querySelector('.title input').value = "This is a Very Good Article"
+  document.querySelector('.title input').value = sampleTitles[ranTitle]
   document.querySelector('.subtitle textarea').value = "Here we will discuss many such topics as 'what is mongodb? And why does it make us sad?' and 'Why have my neighbors, in the last few days, increased their noise level by 420%?'"
 }
 
@@ -426,10 +512,9 @@ document.querySelector('.header_image--src').onchange = headerPreviewUpdate
 
 
 // ####################### TO DO LIST #####################################
-// -Add html addition buttons
-// -Add backend + proper CRUD
-// -Add authentication
-
+// -Change styling
+// -Add update notes
+// -Profile page
 
 
 

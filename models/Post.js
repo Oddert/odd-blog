@@ -62,6 +62,8 @@ const PostSchema = new mongoose.Schema ({
       alt: String,
       src: String,
       caption: String,
+      cite: String,
+      author: String,
       align: String
     }
   ]
