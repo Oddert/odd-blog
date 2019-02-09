@@ -11,7 +11,7 @@ const mongoose        = require('mongoose')
     , passport        = require('passport')
     , LocalStrategy   = require('passport-local')
 
-const Post            = require('./models/post')
+const Post            = require('./models/Post')
     , User            = require('./models/User')
 
 app.set('view engine', 'ejs')
@@ -44,96 +44,17 @@ function addUserToLocals (req, res, next) {
 
 app.use(addUserToLocals)
 
-function parseForm (body) {
-  const originalData = JSON.parse(JSON.stringify(body))
-  const displayData = JSON.parse(JSON.stringify(body)) // I'm salty that this is apparently the best option of getting a deep clone >:(
+const handleErrorPage = require('./utils/handleErrorPage')
+const handleErrorJSON = require('./utils/handleErrorJSON')
 
-  displayData.title = /\w/gi.test(displayData.title) ? displayData.title : "Blog Post"
-  displayData.inputs = displayData.inputs
-    .slice()
-    .map(each => {
-      if (each.data_type === 'paragraph') {
-        let newText = each.text.split('\r\n')
-        each.text = newText
-      }
-      return each
-    }) || []
-    return displayData
-}
-
-function calculateRead (body) {
-  const oneStr = str => str
-    .split(' ')
-    .map(e => e.split('\r\n'))
-    .reduce((acc, each) => acc = [...acc, ...each], []).length
-
-  let wordCount = body.inputs.reduce((acc, each) => {
-    if (each.data_type == 'paragraph') {
-      return acc += oneStr(each.text)
-    } else if (each.data_typ == 'image') {
-      return acc += oneStr(each.caption)
-    } else if (each.data_typ == 'quote') {
-      return acc += oneStr(each.text)
-    }
-    return acc
-  }, 0)
-  wordCount += oneStr(body.title)
-  wordCount += oneStr(body.subtitle)
-  return wordCount
-}
-
-function handleErrorPage (req, res, next, error) {
-  console.log('ERROR')
-  console.log({ error })
-  return res.render('error', { error })
-}
-function handleErrorJSON (req, res, next, err) {
-  console.log('ERROR')
-  console.log({ error })
-  return res.status(500).json({ err })
-}
-
-
-function checkAuth (req, res, next) {
-  if (req.isAuthenticated()) return next()
-  else res.redirect('/login')
-}
-function checkAuthJSON (req, res, next) {
-  if (req.isAuthenticated()) return next()
-  else res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
-}
-function checkPostOwnership (req, res, next) {
-  if (!req.isAuthenticated()) return res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
-  Post.findById(req.params.id)
-    .then(post => {
-      if (post.author.id.equals(req.user._id)) return next()
-      else res.json({ error: 402, message: 'You are not the author of whatever that is.' })
-    })
-    .catch(err => handleErrorPage(req, res, next, err))
-}
-function checkPostOwnershipJSON (req, res, next) {
-  if (!req.isAuthenticated()) return res.json({ error: 400, message: 'You need to be logged in to do whatever that is.' })
-  Post.findById(req.params.id)
-    .then(post => {
-      if (post.author.id.equals(req.user._id)) return next()
-      else res.json({ error: 402, message: 'You are not the author of whatever that is.' })
-    })
-    .catch(err => handleErrorJSON(req, res, next, err))
-}
+const mw = require('./utils/middleware')
+    , parseForDisplay = require('./utils/parseForDisplay')
+    , calculateRead   = require('./utils/calculateRead')
 
 const combineNames = user => `${user.primary_name ? user.primary_name : ''} ${user.other_names ? user.other_names.join(' ') : ''} ${user.secondary_name ? user.secondary_name : ''}`
 // US / Euro name formating, to be adjusted later
 
 
-// INDEX    get     /posts
-// NEW      get     /posts/new
-// CREATE   post    /posts
-// SHOW     get     /posts/:id
-// EDIT     get     /posts/:id/edit
-// UPDATE   put     /posts/:id
-// DESTROY  delete  /posts/:id
-
-// INDEX
 app.route('/')
   .get((req, res) => {
     Post.find({})
@@ -143,292 +64,32 @@ app.route('/')
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
-app.route('/posts/')
-  .get((req, res, next) => {
-    Post.find({})
-      .then(posts => res.json(posts))
-      .catch(err => console.log(err))
-  })
-
-
-
-// NEW
-app.route('/posts/new')
-  .get(checkAuth, (req, res, next) => res.render('posts/create'))
-  .post(checkAuth, (req, res, next) => {
-    let date = new Date()
-    Post.create(Object.assign({},
-      req.body,
-      {
-        year: date.getFullYear(),
-        month: date.getMonth(),
-        day: date.getDay(),
-        word_count: calculateRead(req.body),
-        active: true,
-        author: {
-          username: req.user.username,
-          id: req.user._id,
-          user: req.user._id,
-          displayName: combineNames(req.user)
-        }
-      }
-    ))
-    .then(post => {
-      console.log({ post })
-      return Post.findById(post._id)
-    })
-    .then(post => parseForm(post))
-    .then(data => res.render('posts/show', { data }))
-  })
-
-// SHOW
-// UPDATE
-// DESTROY
-app.route('/posts/:id')
-  .get((req, res, next) => {
-    Post.findById(req.params.id)
-      .populate('author.user')
-      .then(post => parseForm(post))
-      .then(data => { console.log(data); return data })
-      .then(data => res.render('posts/show', { data }))
-      .catch(err => handleErrorPage(req, res, next, err))
-  })
-  .put(checkPostOwnership, (req, res, next) => {
-    Post.findByIdAndUpdate(req.params.id, Object.assign({},
-      req.body,
-      {
-        word_count: calculateRead(req.body),
-        $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
-      }
-    ))
-    .then(post => parseForm(post))
-    .then(data => res.render('posts/show', { data }))
-    .catch(err => handleErrorPage(req, res, next, err))
-  })
-  .delete((req, res, next) => {
-    Post.findByIdAndUpdate(req.params.id, { deleted: true, deleted_on: Date.now() })
-      .then(post => res.redirect('/'))
-      .catch(err => handleErrorPage(req, res, next, err))
-  })
 
 app.route('/api/posts/:id')
-  .put(checkPostOwnershipJSON, (req, res, nex) => {
-    Post.findByIdAndUpdate(req.params.id, Object.assign({},
-      req.body,
-      {
-        word_count: calculateRead(req.body),
-        $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
-      }
-    ))
-    .then(post => parseForm(post))
-    .then(data => res.json({ status: 'Success', data, message: 'Saved OK!' }))
-    .catch(err => handleErrorJSON(req, res, next, err))
-  })
-
-app.route('/posts/:id/edit')
-  .get(checkPostOwnership, (req, res, next) => {
-    Post.findById(req.params.id)
-      .then(data => {
-        console.log('----------------')
-        console.log(data)
-        return data
-      })
-      .then(data => res.render('posts/edit', { data }))
-      .catch(err => handleErrorPage(req, res, next, err))
-  })
-  .put(checkPostOwnership, (req, res, next) => {
-    Post.findByIdAndUpdate(req.params.id, Object.assign({},
-      req.body,
-      {
-        word_count: calculateRead(req.body),
-        $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
-      }
-    ))
-    .then(post => parseForm(post))
-    .then(data => res.render('posts/show', { data }))
-    .catch(err => handleErrorPage(req, res, next, err))
-  })
-
-
-
-
-
-// NEW (dev)
-// Used in development to return the data without data persistance
-app.route('/posts/new/dev')
-  .post((req, res) => {
-    const date = new Date()
-    const placeholderData = {
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      day: date.getDay(),
-      word_count: calculateRead(req.body),
-      active: true,
-      author: {
-        username: 'oddert',
-        id: '5c5a0b403df18363606c21ad',
-        displayName: 'Benjamin Sisko',
-        user: {
-          profile: `https://projects.johnmarshallmedia.com/img/users/user.png`,
-          primary_name: '',
-          other_names: [],
-          secondary_name: '',
-          username: 'oddert_but_dev'
-        }
-      }
-    }
-    const displayData = parseForm(
-      Object.assign(
-        {},
-        req.body,
-        placeholderData
-      )
-    )
-    console.log('-------------------')
-    console.log(displayData)
-
-     if (req.body.page) res.render('posts/show', { data: displayData })
-     else res.json({
-       body: req.body,
-       params: req.params,
-       query: req.query
-     })
+ .put(mw.checkPostOwnershipJSON, (req, res, nex) => {
+   Post.findByIdAndUpdate(req.params.id, Object.assign({},
+     req.body,
+     {
+       word_count: calculateRead(req.body),
+       $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
+     }
+   ))
+   .then(post => parseForDisplay(post))
+   .then(data => res.json({ status: 'Success', data, message: 'Saved OK!' }))
+   .catch(err => handleErrorJSON(req, res, next, err))
  })
 
 app.route('/dev/:id/undelete')
-  .get(checkPostOwnership, (req, res, next) => {
+  .get(mw.checkPostOwnership, (req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, { deleted: false, deleted_on: null })
       .then(post => res.redirect('/'))
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
 
-  app.route('/posts/:yearTitle/')
-    .get((req, res, next) => {
-      Post.count({ year: req.params.yearTitle })
-        .then(count => {
-          if (count > 0) {
-            Post.find({ year: req.params.yearTitle })
-              .then(posts => res.json(posts))
-              .catch(err => res.json({ err }))
-          } else {
-            Post.count({ title: req.params.yearTitle })
-              .then(count => {
-                if (count > 0) {
-                  Post.find({ title: req.params.yearTitle })
-                    .then(posts => res.json(posts))
-                    .catch(err => res.json({ err }))
-                } else {
-                  Post.count({ _id: req.params.yearTitle })
-                    .then(count => {
-                      // console.log({ count })
-                      if (count > 0) {
-                        Post.findOne({ _id: req.params.yearTitle })
-                          .populate('author.user')
-                          .then(post => parseForm(post))
-                          .then(data => res.render('posts/show', { data }))
-                          .catch(err => res.json({ err }))
-                      } else {
-                        res.json({ err: 'Thats not an acceptable file type' })
-                      }
-                    })
-                    .catch(err => res.json({ err }))
-                }
-              })
-          }
-        })
-        .catch(err => console.log({ err }))
-    })
-  app.route('/posts/id/:id')
-    .get((req, res, next) => {
-      Post.findById(req.params.id)
-        .populate('author.user')
-        .then(post => parseForm(post))
-        .then(data => res.render('posts/show', { data }))
-        .catch(err => res.json({ err }))
-    })
+app.use('/posts/', require('./routes/posts'))
+app.use('/auth/', require('./routes/auth'))
 
-  function handlePostArr (req, res, next) {
-    Post.count({ _id: req.params.year })
-      .then(count => {
-        console.log({ count })
-        Post.find({ ...req.params })
-        .populate('author.user')
-        .then(posts => res.json(posts))
-        .catch(err => res.json({ err }))
-      })
-      .catch({ err })
-  }
-  // app.route('/posts/:year/:month/')
-  //   .get(handlePostArr)
-  // app.route('/posts/:year/:month/:day/')
-  //   .get(handlePostArr)
-  app.route('/posts/:year/:month/:day/:title')
-    .get((req, res, next) => {
-      Post.findOne({ ...req.params })
-        .populate('author.user')
-        .then(post => {
-          console.log(post)
-          res.render('posts/show', { data: parseForm(post) })
-        })
-        .catch(err => {
-          console.log(err)
-          res.json({ err })
-        })
-    })
-
-
-function checkSecret (req, res, next) {
-  if (req.body.auth_code === process.env.SECRET) return next()
-  else handleErrorPage(req, res, next, 'Incorrect Access Code.' )
-}
-
-app.route('/auth/register')
-  .get((req, res, next) => res.render('auth_local/register'))
-  .post(checkSecret, (req, res, next) => {
-    let newUser = new User({ username: req.body.username })
-    User.register(newUser, req.body.password)
-    .then(user => {
-      console.log(user)
-      passport.authenticate("local")(req, res, function () {
-        res.redirect('/')
-      })
-    })
-    .catch(err => handleErrorPage(req, res, next, err))
-  })
-
-app.route('/auth/login')
-  .get((req, res, next) => res.render('auth_local/login'))
-  .post(passport.authenticate("local", {
-    successRedirect: '/',
-    failureRedirect: '/register'
-  }), function (req, res, next){})
-
-app.route('/auth/logout')
-  .get((req, res, next) => {
-    req.logout()
-    res.redirect('/')
-  })
-
-app.route('/auth/secret')
-  .post((req, res, next) => {
-    console.log(req.body)
-    if (req.body.secret === process.env.SECRET) {
-      console.log('Sucess!')
-      res.status(200)
-          .json({ success: true, message: 'Secret code matches!', error: null })
-    } else {
-      console.log('Fail!')
-      res.status(400)
-          .json({ success: false, message: 'Error!', error: 'Error: 400, seed code does not match, please check your code and try again.' })
-    }
-  })
-
-app.route('/dev/ping')
-  .get((req, res, next) => {
-    console.log(req.user)
-    res.redirect('/')
-  })
 
 
 const PORT = process.env.PORT || 3000

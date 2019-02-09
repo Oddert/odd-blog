@@ -261,6 +261,39 @@ function handleNewInput (e) {
       form.appendChild(newElem)
       break;
 
+    case 'new_quote':
+      let newQuoteContainer = document.createElement('DIV')
+      newQuoteContainer.className = `quote_input__container`
+
+      let newQuoteBody = document.createElement('textarea')
+      newQuoteBody.name = `inputs[${idx}][text]`
+      newQuoteBody.placeholder = `Quote Text`
+      newQuoteBody.addEventListener('keydown', textInputResize)
+
+      let newQuoteAuthor = document.createElement('input')
+      newQuoteAuthor.type = `text`
+      newQuoteAuthor.name = `inputs[${idx}][author]`
+      newQuoteAuthor.placeholder = `Author`
+
+      let newQuoteCite = document.createElement('input')
+      newQuoteCite.type = `text`
+      newQuoteCite.name = `inputs[${idx}][cite]`
+      newQuoteCite.placeholder = `Citation Link`
+
+      newQuoteContainer.appendChild(newQuoteCite)
+      newQuoteContainer.appendChild(newQuoteBody)
+      newQuoteContainer.appendChild(newQuoteAuthor)
+
+      newElem = document.createElement('DIV')
+      newElem.className = `input quote_input input_${idx}`
+      newElem.appendChild(createControl(idx, `quote`))
+      newElem.appendChild(createAlignment(idx))
+      newElem.appendChild(createSubhead(idx))
+      newElem.appendChild(createLabel(idx, `quote`))
+      newElem.appendChild(newQuoteContainer)
+      form.appendChild(newElem)
+      break;
+
     default:
       console.log('ERROR: Unknown input data_type')
       break;

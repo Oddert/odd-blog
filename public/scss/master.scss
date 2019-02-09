@@ -61,20 +61,25 @@ p {
     list-style-type: none;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     transition: all $nav_general_transition linear;
-    & li {
-      transition: all $nav_general_transition linear;
-      background: rgba(0,0,0,0);
-      & a {
-        text-decoration: none;
+    & div {
+      display: flex;
+      flex-direction: row;
+      & li {
         transition: all $nav_general_transition linear;
-        display: block;
-        padding: 10px 20px;
-      }
-      &:hover {
-        background: linear-gradient(45deg, #1bbc9b, #9a59b5);
+        background: rgba(0,0,0,0);
         & a {
-          text-decoration: underline;
+          text-decoration: none;
+          transition: all $nav_general_transition linear;
+          display: block;
+          padding: 10px 20px;
+        }
+        &:hover {
+          background: linear-gradient(45deg, #1bbc9b, #9a59b5);
+          & a {
+            text-decoration: underline;
+          }
         }
       }
     }

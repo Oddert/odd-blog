@@ -2,14 +2,23 @@
 
 <nav class="nav">
   <ul>
-    <li class="home"><a href="/"><%= blog_name %> Home</a></li>
     <% if (!user) { %>
-      <li class="new_post"><a href="/auth/login">Log In</a></li>
-      <li class="account"><a href="/auth/register">Sign Up</a></li>
+      <div class="">
+        <li class="home"><a href="/"><%= blog_name %> Home</a></li>
+      </div>
+      <div class="">
+        <li class="new_post"><a href="/auth/login">Log In</a></li>
+        <li class="account"><a href="/auth/register">Sign Up</a></li>
+      </div>
     <% } else { %>
-      <li class="new_post"><a href="/posts/new">New Post</a></li>
-      <li class="account"><a href="/"><%= user.username %></a></li>
-      <li class="logout"><a href="/auth/logout">Logout</a></li>
+      <div class="">
+        <li class="home"><a href="/"><%= blog_name %> Home</a></li>
+        <li class="new_post"><a href="/posts/new">New Post</a></li>
+      </div>
+      <div class="">
+        <li class="logout"><a href="/auth/logout">Logout</a></li>
+        <li class="account"><a href="/user/<%= user.username %>"/><%= user.username %></a></li>
+      </div>
     <% } %>
   </ul>
 </nav>

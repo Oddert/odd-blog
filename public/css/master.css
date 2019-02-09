@@ -58,22 +58,27 @@ p {
   list-style-type: none;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   transition: all 0.3s linear;
 }
-.nav ul li {
+.nav ul div {
+  display: flex;
+  flex-direction: row;
+}
+.nav ul div li {
   transition: all 0.3s linear;
   background: rgba(0, 0, 0, 0);
 }
-.nav ul li a {
+.nav ul div li a {
   text-decoration: none;
   transition: all 0.3s linear;
   display: block;
   padding: 10px 20px;
 }
-.nav ul li:hover {
+.nav ul div li:hover {
   background: linear-gradient(45deg, #1bbc9b, #9a59b5);
 }
-.nav ul li:hover a {
+.nav ul div li:hover a {
   text-decoration: underline;
 }
 
