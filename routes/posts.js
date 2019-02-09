@@ -1,10 +1,11 @@
 const router = require('express').Router()
 
-const mw              = require('../utils/middleware')
-    , parseForDisplay = require('../utils/parseForDisplay')
-    , calculateRead   = require('../utils/calculateRead')
-    , handleErrorPage = require('../utils/handleErrorPage')
-    , handleErrorJSON = require('../utils/handleErrorJSON')
+const mw                  = require('../utils/middleware')
+    , parseForDisplay     = require('../utils/parseForDisplay')
+    , calculateRead       = require('../utils/calculateRead')
+    , handleErrorPage     = require('../utils/handleErrorPage')
+    , handleErrorJSON     = require('../utils/handleErrorJSON')
+    , createReadableName  = require('../utils/createReadableName')
 
 const Post = require('../models/Post')
     , User = require('../models/User')
@@ -33,7 +34,7 @@ router.route('/new')
           username: req.user.username,
           id: req.user._id,
           user: req.user._id,
-          displayName: combineNames(req.user)
+          displayName: createReadableName(req.user)
         }
       }
     ))
