@@ -138,6 +138,87 @@ app.route('/')
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
+app.route('/posts/')
+  .get((req, res, next) => {
+    Post.find({})
+      .then(posts => res.json(posts))
+      .catch(err => console.log(err))
+  })
+app.route('/posts/:yearTitle/')
+  .get((req, res, next) => {
+    Post.count({ year: req.params.yearTitle })
+      .then(count => {
+        if (count > 0) {
+          Post.find({ year: req.params.yearTitle })
+            .then(posts => res.json(posts))
+            .catch(err => res.json({ err }))
+        } else {
+          Post.count({ title: req.params.yearTitle })
+            .then(count => {
+              if (count > 0) {
+                Post.find({ title: req.params.yearTitle })
+                  .then(posts => res.json(posts))
+                  .catch(err => res.json({ err }))
+              } else {
+                Post.count({ _id: req.params.yearTitle })
+                  .then(count => {
+                    // console.log({ count })
+                    if (count > 0) {
+                      Post.findOne({ _id: req.params.yearTitle })
+                        .populate('author.user')
+                        .then(post => parseForm(post))
+                        .then(data => res.render('posts/show', { data }))
+                        .catch(err => res.json({ err }))
+                    } else {
+                      res.json({ err: 'Thats not an acceptable file type' })
+                    }
+                  })
+                  .catch({ err })
+              }
+            })
+        }
+      })
+      .catch(err => console.log({ err }))
+  })
+app.route('/posts/id/:id')
+  .get((req, res, next) => {
+    Post.findById(req.params.id)
+      .populate('author.user')
+      .then(post => parseForm(post))
+      .then(data => res.render('posts/show', { data }))
+      .catch(err => res.json({ err }))
+  })
+
+function handlePostArr (req, res, next) {
+  Post.count({ _id: req.params.year })
+    .then(count => {
+      console.log({ count })
+      Post.find({ ...req.params })
+      .populate('author.user')
+      .then(posts => res.json(posts))
+      .catch(err => res.json({ err }))
+    })
+    .catch({ err })
+}
+// app.route('/posts/:year/:month/')
+//   .get(handlePostArr)
+// app.route('/posts/:year/:month/:day/')
+//   .get(handlePostArr)
+app.route('/posts/:year/:month/:day/:title')
+  .get((req, res, next) => {
+    Post.findOne({ ...req.params })
+      .populate('author.user')
+      .then(post => {
+        console.log(post)
+        res.render('posts/show', { data: parseForm(post) })
+      })
+      .catch(err => {
+        console.log(err)
+        res.json({ err })
+      })
+  })
+
+
 // NEW
 app.route('/posts/new')
   .get(checkAuth, (req, res, next) => res.render('posts/create'))
@@ -162,7 +243,7 @@ app.route('/posts/new')
     .then(post => {
       console.log({ post })
       const data = parseForm(post)
-      res.render('show', { data })
+      res.render('posts/show', { data })
     })
   })
 
@@ -211,14 +292,14 @@ app.route('/api/posts/:id')
   })
 
 app.route('/posts/:id/edit')
-  .get((req, res, next) => {
+  .get(checkPostOwnership, (req, res, next) => {
     Post.findById(req.params.id)
       .then(data => {
         console.log('----------------')
         console.log(data)
         return data
       })
-      .then(data => res.render('edit', { data }))
+      .then(data => res.render('posts/edit', { data }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
   .put(checkPostOwnership, (req, res, next) => {
