@@ -11,6 +11,16 @@
   position: relative;
   box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.1);
 }
+.profile_details .title_edit input {
+  font-size: 2em;
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  padding: 0;
+  margin: 0.67em 0;
+  color: #ecf0f1;
+  font-weight: bold;
+  border-bottom: 1px dashed #ecf0f1;
+}
 .profile_details .profile_details__content {
   transform: translateY(-10vh);
   text-align: center;

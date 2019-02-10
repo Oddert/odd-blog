@@ -17,6 +17,19 @@ fetch(`/api/users/${id}`)
 const title = document.querySelector('.title')
 let titleEditing = false
 
+function updateUserData (data, cb) {
+  const url = `/api/users/${id}`
+  const options = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }
+  fetch(url, options)
+    .then(res => res.json())
+    .then(cb)
+    .catch(err => console.log(err))
+}
+
 function submitTitleChanges (e) {
   e.preventDefault()
   const title_edit = document.querySelector('.title_edit')
@@ -24,20 +37,13 @@ function submitTitleChanges (e) {
   const primary_name = names.shift()
   const secondary_name = names.pop()
   const other_names = names
-  fetch(`/api/users/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ primary_name, other_names, secondary_name })
-  })
-  .then(res => res.json())
-  .then(res => {
+  updateUserData({ primary_name, other_names, secondary_name }, res => {
     title.removeChild(title_edit)
     let title_text = title.querySelector('h1')
     title_text.textContent = title_edit.querySelector('input[type=text]').value.split(', ').join(' ')
     title_text.classList.remove('hide')
     setTimeout(() => { titleEditing = false }, 200)
   })
-  .catch(err => console.log(err))
 }
 
 function createTitleEditor (title_text) {
