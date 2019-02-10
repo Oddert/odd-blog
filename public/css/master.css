@@ -1,10 +1,10 @@
 * {
   font-family: arial, helvetica, sans-serif, "open sans";
-  color: #ecf0f1;
+  color: #2d3e50;
 }
 
 html, body, textarea, select {
-  background: #223;
+  background: linear-gradient(-45deg, #f0f0f5, #fafefd);
   font-family: helvetica, arial;
 }
 
@@ -20,6 +20,14 @@ figure {
 
 button, input, textarea {
   color: black;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.1s linear;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 .main {
@@ -70,6 +78,7 @@ p {
   background: rgba(0, 0, 0, 0);
 }
 .nav ul div li a {
+  color: #ecf0f1;
   text-decoration: none;
   transition: all 0.3s linear;
   display: block;

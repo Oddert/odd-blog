@@ -1,13 +1,22 @@
 
+$light_background_text: #2d3e50;
+$light_background_colour: linear-gradient(-45deg, #cecede, #f6fefc);
+$light_background_colour: linear-gradient(-45deg, #f0f0f5, #fafefd);
+// $light_background_colour: linear-gradient(135deg, red, blue);
+
 $dark_background_text: #ecf0f1;
+$dark_background_colour: #223;
+
+$nav_background: #666699;
+$nav_background--hover: linear-gradient(45deg, #1bbc9b, #9a59b5);
 
 * {
   font-family: arial, helvetica, sans-serif, 'open sans';
-  color: $dark_background_text;
+  color: $light_background_text;
 }
 
 html, body, textarea, select {
-  background: #223;
+  background: $light_background_colour;
   font-family: helvetica, arial;
 }
 
@@ -23,6 +32,14 @@ figure {
 
 button, input, textarea {
   color: black;
+}
+
+a {
+  text-decoration: none;
+  transition: .1s linear;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .main {
@@ -47,7 +64,7 @@ p {
   $nav_general_transition: .3s;
   width: 100%;
   box-sizing: border-box;
-  background: #666699;
+  background: $nav_background;
   position: fixed;
   top: 0;
   left: 0;
@@ -70,13 +87,14 @@ p {
         transition: all $nav_general_transition linear;
         background: rgba(0,0,0,0);
         & a {
+          color: #ecf0f1;
           text-decoration: none;
           transition: all $nav_general_transition linear;
           display: block;
           padding: 10px 20px;
         }
         &:hover {
-          background: linear-gradient(45deg, #1bbc9b, #9a59b5);
+          background: $nav_background--hover;
           & a {
             text-decoration: underline;
           }
