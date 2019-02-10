@@ -79,8 +79,8 @@ function createTitleEditor (title_text) {
 }
 
 function editNames (e) {
-  // if (!titleEditing && author) {
-  if (!titleEditing) {
+  if (!titleEditing && author) {
+  // if (!titleEditing) {
     titleEditing = true
     const title_text = title.querySelector('h1')
     title_text.classList.add('hide')
@@ -135,8 +135,8 @@ function createBioEditor (bio_text) {
 }
 
 function editBio (e) {
-  // if (!bioEditing && author) {
-  if (!bioEditing) {
+  if (!bioEditing && author) {
+  // if (!bioEditing) {
     bioEditing = true
     const bio_text = biography.querySelector('p')
     bio_text.classList.add('hide')
@@ -147,3 +147,12 @@ function editBio (e) {
 biography.addEventListener('click', editBio)
 
 // ==================== / Bio Edit ====================
+
+
+function fullSizeHeader () {
+  const background = document.querySelector('.profile_background')
+  background.style.height = '100vh'
+  window.scroll(0, window.innerHeight / 2)
+}
+
+document.addEventListener('DOMContentLoaded', fullSizeHeader)

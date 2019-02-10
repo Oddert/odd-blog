@@ -16,9 +16,11 @@
       <div class="posts">
         <% posts.forEach(each => { %>
           <div class="post">
-            <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image">
-              <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>" />
-            </a>
+            <% if (each.header_image.src && /\w/gi.test(each.header_image.src)) { %>
+              <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image">
+                <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>" />
+              </a>
+            <% } %>
             <div class="details">
               <h3><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>"><%= each.title %></a></h3>
               <h4 class="details_author">By <a><%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></a></h4>

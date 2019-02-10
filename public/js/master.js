@@ -515,7 +515,8 @@ document.querySelector('.header_image--src').onchange = headerPreviewUpdate
 // -Change styling
 // -Add update notes
 // -Profile page
-
+// -Support for no header image
+// -Tags
 
 
 
