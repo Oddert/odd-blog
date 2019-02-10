@@ -5,6 +5,7 @@
     <title></title>
     <link rel="stylesheet" href="/css/master.css">
     <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/index.css">
   </head>
   <body>
     <% include ../partials/nav %>
@@ -21,7 +22,46 @@
             <h1 class=""><%= viewUser.primary_name %><%= viewUser.other_names.length > 0 ? ` ${viewUser.other_names.join(' ')} ` : ' ' %><%= viewUser.secondary_name %></h1>
           </div>
           <h2>@ <%= viewUser.username %></h2>
+          <div class="bio">
+            <p class="profile_details__bio"><%= viewUser.bio.length > 0 ? viewUser.bio : 'No Biography Supplied' %></p>
+          </div>
         </div>
+      </div>
+      <div class="posts">
+        <% viewUser.posts.forEach(each => { %>
+          <div class="post">
+            <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image">
+              <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>">
+            </a>
+            <div class="details">
+              <h3><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>"><%= each.title %></a></h3>
+              <h4 class="details_author">By <%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></h4>
+              <% if (each.subtitle.length > 150) { %>
+                <p><%= each.subtitle.substring(0,150) %>...</p>
+              <% } else { %>
+                <p><%= each.subtitle %></p>
+              <% } %>
+              <strong><%= new Date(each.created).toLocaleDateString() %></strong>
+              <em>Read Time: <%= each.word_count < 265 ? '1 min' : Math.ceil(each.word_count/265) > 1 ? Math.ceil(each.word_count/265)+' mins' : Math.ceil(each.word_count/265)+' min' %></em>
+            </div>
+            <% if (user && each.author.id.equals(user._id)) { %>
+              <div class="modify">
+                <a href="/posts/<%= each._id %>/edit">Edit</a>
+                <div class="delete_control">
+                  <button class="delete_prompt">Delete</button>
+                  <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form hide">
+                    <p>Are you sure you want to delete?</p>
+                    <button class="cancel">Cancel</button>
+                    <button class="delete">Delete</button>
+                  </form>
+                </div>
+                <% if (each.deleted) { %>
+                  <a href="/dev/<%= each._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
+                  <% } %>
+              </div>
+            <% } %>
+          </div>
+        <% }) %>
       </div>
     </main>
   </body>

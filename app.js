@@ -82,6 +82,7 @@ app.route('/api/posts/:id')
 app.route('/api/users/:id')
   .get((req, res, next) => {
     User.findById(req.params.id)
+      .populate('posts')
       .then(user => res.json({ user, currentUser: req.user }))
       .catch(err => res.status(500).json({ err }))
   })

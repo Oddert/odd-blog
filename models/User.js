@@ -4,6 +4,10 @@ const passportLocalMongoose = require('passport-local-mongoose')
 const UserSchema = new mongoose.Schema ({
   username: String,
   password: String,
+  bio: {
+    type: String,
+    default: ""
+  },
   profile: {
     type: String,
     default: 'https://projects.johnmarshallmedia.com/img/users/user.png'
@@ -16,7 +20,13 @@ const UserSchema = new mongoose.Schema ({
   secondary_name: {
     type: String,
     default: ' '
-  }
+  },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'odd-blog_post'
+    }
+  ]
 })
 
 UserSchema.plugin(passportLocalMongoose)

@@ -7,6 +7,7 @@ const handleErrorPage = require('../utils/handleErrorPage')
 router.route('/:username')
   .get((req, res, next) => {
     User.findOne({ username: req.params.username })
+      .populate('posts')
       .then(viewUser => res.render('users/show', { viewUser }))
       .catch(err => handleErrorPage(req, res, next, err))
   })

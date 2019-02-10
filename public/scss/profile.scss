@@ -1,5 +1,6 @@
 
-
+$dark_background_text: #ecf0f1;
+$bio_height: 100px;
 
 .profile_background {
   background: #334;
@@ -25,9 +26,27 @@
       border: none;
       padding: 0;
       margin: .67em 0;
-      color: #ecf0f1;
+      color: $dark_background_text;
       font-weight: bold;
-      border-bottom: 1px dashed #ecf0f1;
+      border-bottom: 1px dashed $dark_background_text;
+    }
+  }
+  .bio {
+    width: 60vw;
+    border: 1px solid #bec3c7;
+    border-radius: 10px;
+    word-break: break-all;
+    margin: 0 auto;
+    height: $bio_height;
+    .bio_edit {
+      .bio_edit__input {
+        color: $dark_background_text;
+        box-sizing: border-box;
+        width: 100%;
+        height: $bio_height;
+        border: none;
+        border-radius: 10px;
+      }
     }
   }
   .profile_details__content {

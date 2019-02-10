@@ -20,7 +20,7 @@
               <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>" />
             </a>
             <div class="details">
-              <h3><a href="/posts/<%= each._id %>"><%= each.title %></a></h2>
+              <h3><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>"><%= each.title %></a></h3>
               <h4 class="details_author">By <a><%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></a></h4>
               <% if (each.subtitle.length > 150) { %>
                 <p><%= each.subtitle.substring(0,150) %>...</p>
@@ -44,7 +44,7 @@
                 <% if (each.deleted) { %>
                   <a href="/dev/<%= each._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
                   <% } %>
-                </div>
+              </div>
             <% } %>
           </div>
         <% }) %>
