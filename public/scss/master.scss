@@ -37,6 +37,7 @@ button, input, textarea {
 a {
   text-decoration: none;
   transition: .1s linear;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
