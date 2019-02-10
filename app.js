@@ -85,6 +85,12 @@ app.route('/api/users/:id')
       .then(user => res.json({ user, currentUser: req.user }))
       .catch(err => res.status(500).json({ err }))
   })
+  .put((req, res, next) => {
+    console.log(req.body)
+    User.findByIdAndUpdate(req.params.id, req.body)
+      .then(user => res.json({ user }))
+      .catch(err => handleErrorJSON(req, res, next, err))
+  })
 
 app.route('/dev/:id/undelete')
   .get(mw.checkPostOwnership, (req, res, next) => {
