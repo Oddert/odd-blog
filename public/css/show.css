@@ -144,15 +144,15 @@ blockquote > * {
 .article_social .social.facebook:hover i {
   color: #4267B2;
 }
-.article_social .social.instagram {
-  border-color: #e1306c;
+.article_social .social.linkedin {
+  border-color: #0077B5;
 }
-.article_social .social.instagram:hover {
-  color: #e1306c;
-  box-shadow: 0 0 10px #e1306c;
+.article_social .social.linkedin:hover {
+  color: #0077B5;
+  box-shadow: 0 0 10px #0077B5;
 }
-.article_social .social.instagram:hover i {
-  color: #e1306c;
+.article_social .social.linkedin:hover i {
+  color: #0077B5;
 }
 
 footer .author_bio {
