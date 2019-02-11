@@ -118,11 +118,24 @@ $readButtonColour--hover: $light_readButtonColour--hover;
     border: $light_postBorder--hover;
     box-shadow: $light_cardShadow, 5px 0 20px rgba(0,0,0,0), -5px 0 20px rgba(0,0,0,0);
   }
+
+  &.experimental {
+    .image {
+      background: none;
+      img {
+        border-radius: 4px;
+        width: 90%;
+        transform: translateY(-10px);
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 850px) {
-  .post {
-    flex-direction: column;
-
+  .posts {
+    width: auto;
+    .post {
+      flex-direction: column;
+    }
   }
 }

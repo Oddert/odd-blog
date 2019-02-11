@@ -8,6 +8,10 @@ const UserSchema = new mongoose.Schema ({
     type: String,
     default: ""
   },
+  bio_forward_facing: {
+    type: String,
+    default: ""
+  },
   profile: {
     type: String,
     default: 'https://projects.johnmarshallmedia.com/img/users/user.png'

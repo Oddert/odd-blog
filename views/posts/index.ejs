@@ -19,7 +19,7 @@
       <h1 class="title">View all posts:</h1>
       <div class="posts">
         <% posts.forEach(each => { %>
-          <div class="post">
+          <div class="post experimental">
             <% if (each.header_image.src && /\w/gi.test(each.header_image.src)) { %>
               <!-- <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image"> -->
               <a href="/posts/<%= each._id %>" class="image">

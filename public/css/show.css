@@ -1,8 +1,9 @@
-.main {
+article.main {
   width: 60vw;
   margin: 30px auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  padding: 20px;
 }
 
 .header_image {
@@ -73,15 +74,25 @@ blockquote > * {
   display: flex;
   flex-direction: row;
   grid-column: 1/-1;
+  margin-bottom: 40px;
 }
-.details .details_text {
+.details .details_wrapper {
+  border: 1px solid #bec3c7;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px;
+}
+.details .details_wrapper .details_text {
   flex: 1;
 }
-.details .details_image {
+.details .details_wrapper .details_image {
   position: relative;
   margin-right: 20px;
 }
-.details .details_image figure {
+.details .details_wrapper .details_image figure {
   margin: 0;
   height: 100%;
   display: flex;
@@ -90,12 +101,58 @@ blockquote > * {
   background: white;
   border-radius: 50%;
 }
-.details .details_image figure img {
+.details .details_wrapper .details_image figure img {
   max-width: 100%;
   max-height: 100px;
   border-radius: 50%;
   margin: 5px;
   object-fit: cover;
+}
+
+footer .author_bio {
+  border: 1px solid #bec3c7;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 80vw;
+  margin: 0 auto;
+  position: relative;
+}
+footer .author_bio .author_bio_main {
+  padding: 10px 20px;
+}
+footer .author_bio .author_bio_main .author_bio__names h3 {
+  margin-top: 0;
+}
+footer .author_bio .author_bio_main .author_bio__outward p {
+  padding: 0;
+}
+footer .author_bio .author_bio__profile {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+footer .author_bio .author_bio__profile img {
+  width: 150px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px 0px 0px 10px;
+}
+footer .author_bio .author_bio__social {
+  border: 1px dashed tomato;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+footer .author_bio .author_bio__social .social {
+  border: 1px solid steelblue;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .large {

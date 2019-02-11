@@ -20,34 +20,36 @@
       </figure>
     <% } %>
 
-    <article class="main">
+    <article class="main post_show">
 
       <h1 class="title"><%= data.title %></h1>
       <h2 class="subtitle"><%= data.subtitle %></h2>
       <div class="details">
-        <div class="details_image">
-          <a href="/user/<%= data.author.username %>">
-            <figure>
-              <img src="<%= data.author.user.profile %>" alt="<%= data.author.user.username %>'s Profile Image'">
-            </figure>
-          </a>
-        </div>
-        <div class="details_text">
-          <p class="details_author">By <a href="/user/<%= data.author.username %>"><strong><%= /\w/gi.test(data.author.displayName) ? data.author.displayName : data.author.username %></strong></a></p>
-          <p><strong><%= new Date(data.created).toLocaleDateString() %></strong></p>
-          <p><em>Read Time: <%= data.word_count < 265 ? '1 min' : Math.ceil(data.word_count/265) > 1 ? Math.ceil(data.word_count/265)+' mins' : Math.ceil(data.word_count/265)+' min' %></em></p>
-        </div>
-        <% if (user && data.author.id == user._id) { %>
-          <a href="/posts/<%= data._id %>/edit">Edit</a>
-          <div class="delete_control">
-            <button class="delete_prompt">Delete</button>
-            <form action="/posts/<%= data._id %>?_method=DELETE" method="POST" class="delete_form hide">
-              <p>Are you sure you want to delete?</p>
-              <button class="cancel">Cancel</button>
-              <button class="delete">Delete</button>
-            </form>
+        <div class="details_wrapper">
+          <div class="details_image">
+            <a href="/user/<%= data.author.username %>">
+              <figure>
+                <img src="<%= data.author.user.profile %>" alt="<%= data.author.user.username %>'s Profile Image'">
+              </figure>
+            </a>
           </div>
-        <% } %>
+          <div class="details_text">
+            <p class="details_author">By <a href="/user/<%= data.author.username %>"><strong><%= /\w/gi.test(data.author.displayName) ? data.author.displayName : data.author.username %></strong></a></p>
+            <p><strong><%= new Date(data.created).toLocaleDateString() %></strong></p>
+            <p><em>Read Time: <%= data.word_count < 265 ? '1 min' : Math.ceil(data.word_count/265) > 1 ? Math.ceil(data.word_count/265)+' mins' : Math.ceil(data.word_count/265)+' min' %></em></p>
+          </div>
+          <% if (user && data.author.id == user._id) { %>
+            <a href="/posts/<%= data._id %>/edit">Edit</a>
+            <div class="delete_control">
+              <button class="delete_prompt">Delete</button>
+              <form action="/posts/<%= data._id %>?_method=DELETE" method="POST" class="delete_form hide">
+                <p>Are you sure you want to delete?</p>
+                <button class="cancel">Cancel</button>
+                <button class="delete">Delete</button>
+              </form>
+            </div>
+          <% } %>
+        </div>
       </div>
       <% data.inputs.forEach(item => { %>
 
@@ -83,10 +85,27 @@
     </article>
     <footer>
       <div class="author_bio">
-        <% if (/\w/gi.test(data.author.user.primary_name) && data.author.user.primary_name !== undefined) { %>
-          <h3><%= data.author.user.primary_name ? data.author.user.primary_name : '' %> <%= data.author.user.other_names.length > 0 ? data.author.user.other_names.join(' ') + ' ' : '' %><%= data.author.user.secondary_name %></h3>
-        <% } %>
-        <h3><%= data.author.user.username %></h3>
+      <!-- <a href="/user/<%= data.author.user.username %>"> -->
+      <!-- </a> -->
+        <figure class="author_bio__profile">
+            <img src="<%= data.author.user.profile %>" alt="Profile image for <%= data.author.user.username %>" />
+        </figure>
+        <div class="author_bio_main">
+          <div class="author_bio__names">
+            <% if (/\w/gi.test(data.author.user.primary_name) && data.author.user.primary_name !== undefined) { %>
+              <h3><a href="/user/<%= data.author.user.username %>"><%= data.author.user.primary_name ? data.author.user.primary_name : '' %> <%= data.author.user.other_names.length > 0 ? data.author.user.other_names.join(' ') + ' ' : '' %><%= data.author.user.secondary_name %></a></h3>
+            <% } %>
+            <h3><a href="/user/<%= data.author.user.username %>">@ <%= data.author.user.username %></a></h3>
+          </div>
+          <div class="author_bio__outward">
+            <p><%= data.author.user.bio_forward_facing %></p>
+          </div>
+        </div>
+        <div class="author_bio__social">
+          <a href="#" class="social">F</a>
+          <a href="#" class="social">T</a>
+          <a href="#" class="social">N</a>
+        </div>
       </div>
     </footer>
   </body>

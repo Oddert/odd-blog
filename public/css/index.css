@@ -85,9 +85,20 @@
   border: 1px solid #ecf0f1;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 5px 0 20px rgba(0, 0, 0, 0), -5px 0 20px rgba(0, 0, 0, 0);
 }
+.post.experimental .image {
+  background: none;
+}
+.post.experimental .image img {
+  border-radius: 4px;
+  width: 90%;
+  transform: translateY(-10px);
+}
 
 @media only screen and (max-width: 850px) {
-  .post {
+  .posts {
+    width: auto;
+  }
+  .posts .post {
     flex-direction: column;
   }
 }

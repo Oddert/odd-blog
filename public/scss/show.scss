@@ -1,10 +1,10 @@
 
-.main {
+article.main {
   width: 60vw;
   margin: 30px auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr)
-
+  grid-template-columns: repeat(3, 1fr);
+  padding: 20px;
 }
 
 .header_image {
@@ -84,26 +84,90 @@ blockquote {
   display: flex;
   flex-direction: row;
   grid-column: 1 / -1;
-  & .details_text {
-    flex: 1;
+  margin-bottom: 40px;
+  .details_wrapper {
+    border: 1px solid #bec3c7;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px;
+    & .details_text {
+      flex: 1;
+    }
+    & .details_image {
+      position: relative;
+      margin-right: 20px;
+        figure {
+          margin: 0;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: white;
+          border-radius: 50%;
+          & img {
+            max-width: 100%;
+            max-height: 100px;
+            border-radius: 50%;
+            margin: 5px;
+            object-fit: cover;
+          }
+        }
+
+    }
   }
-  & .details_image {
+}
+
+footer {
+  .author_bio {
+    border: 1px solid #bec3c7;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 80vw;
+    margin: 0 auto;
     position: relative;
-    margin-right: 20px;
-    figure {
+    .author_bio_main {
+      padding: 10px 20px;
+      .author_bio__names {
+        h3 {
+          margin-top: 0;
+        }
+      }
+      .author_bio__outward {
+        p {
+          padding: 0;
+        }
+      }
+    }
+    .author_bio__profile {
       margin: 0;
-      height: 100%;
+      padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: white;
-      border-radius: 50%;
-      & img {
-        max-width: 100%;
-        max-height: 100px;
-        border-radius: 50%;
-        margin: 5px;
+      img {
+        width: 150px;
+        height: 100%;
         object-fit: cover;
+        border-radius: 10px 0px 0px 10px;
+      }
+    }
+    .author_bio__social {
+      $social_diameter: 30px;
+      border: 1px dashed tomato;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      .social {
+        border: 1px solid steelblue;
+        width: $social_diameter;
+        height: $social_diameter;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
