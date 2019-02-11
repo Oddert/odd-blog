@@ -85,9 +85,9 @@
       <% }) %>
 
       <div class="article_social">
-        <a href="https://twitter.com/intent/tweet?text=<%= location %>post/<%= data._id %>/ <%= data.title %> -By <%= data.author.displayName %>" class="social twitter" title="Share on Twitter"><i class="fab fa-3x fa-twitter"></i></a>
-        <a href="https://www.facebook.com/sharer.php?s=100&p[title]=<%= data.title %>&p[url]=<%= location %>post/<%= data._id %>/&p[summary]=<%= data.title %> -By <%= data.displayName %>&p[images][0]=<%= data.header_image.onsite ? location : '' %><%= data.header_image.src %>" class="social facebook" title="Share on Facebook"><i class="fab fa-3x fa-facebook"></i></a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= location %>post/<%= data._id %>&title=<%= data.title %>&summary=<%= data.subtitle %>&source=LinkedIn" class="social instagram" title="Share on Instagram"><i class="fab fa-3x fa-instagram"></i></a>
+        <a href="https://twitter.com/intent/tweet?text=<%= location %>posts/<%= data._id %>/ <%= data.title %> -By <%= data.author.displayName %>" class="social twitter" title="Share on Twitter" target="_blank"><i class="fab fa-3x fa-twitter"></i></a>
+        <a href="https://www.facebook.com/sharer.php?s=100&p[title]=<%= data.title %>&p[url]=<%= location %>posts/<%= data._id %>/&p[summary]=<%= data.title %> -By <%= data.displayName %>&p[images][0]=<%= data.header_image.onsite ? location : '' %><%= data.header_image.src %>" class="social facebook" title="Share on Facebook" target="_blank"><i class="fab fa-3x fa-facebook"></i></a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= location %>posts/<%= data._id %>&title=<%= data.title %>&summary=<%= data.subtitle %>&source=LinkedIn" class="social instagram" title="Share on Instagram" target="_blank"><i class="fab fa-3x fa-instagram"></i></a>
       </div>
 
     </article>
