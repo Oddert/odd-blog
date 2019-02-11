@@ -39,6 +39,7 @@ passport.deserializeUser(User.deserializeUser())
 function addUserToLocals (req, res, next) {
   res.locals.user = req.user
   res.locals.blog_name = process.env.BLOG_NAME || 'Blog'
+  res.locals.location = process.env.LOCATION || "https://oddert.github.io/"
   next()
 }
 

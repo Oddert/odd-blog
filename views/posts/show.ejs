@@ -5,6 +5,7 @@
     <title><%= data.title %> | Odd-Blog</title>
     <link rel="stylesheet" href="/css/master.css" />
     <link rel="stylesheet" href="/css/show.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, initial-scale=0.666667, maximum-scale=0.666667, user-scalable=0">
     <meta name="viewport" content="width=device-width">
@@ -82,6 +83,13 @@
         <% } %>
 
       <% }) %>
+
+      <div class="article_social">
+        <a href="https://twitter.com/intent/tweet?text=<%= location %>post/<%= data._id %>/ <%= data.title %> -By <%= data.author.displayName %>" class="social twitter" title="Share on Twitter"><i class="fab fa-3x fa-twitter"></i></a>
+        <a href="https://www.facebook.com/sharer.php?s=100&p[title]=<%= data.title %>&p[url]=<%= location %>post/<%= data._id %>/&p[summary]=<%= data.title %> -By <%= data.displayName %>&p[images][0]=<%= data.header_image.onsite ? location : '' %><%= data.header_image.src %>" class="social facebook" title="Share on Facebook"><i class="fab fa-3x fa-facebook"></i></a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= location %>post/<%= data._id %>&title=<%= data.title %>&summary=<%= data.subtitle %>&source=LinkedIn" class="social instagram" title="Share on Instagram"><i class="fab fa-3x fa-instagram"></i></a>
+      </div>
+
     </article>
     <footer>
       <div class="author_bio">
@@ -95,18 +103,19 @@
             <% if (/\w/gi.test(data.author.user.primary_name) && data.author.user.primary_name !== undefined) { %>
               <h3><a href="/user/<%= data.author.user.username %>"><%= data.author.user.primary_name ? data.author.user.primary_name : '' %> <%= data.author.user.other_names.length > 0 ? data.author.user.other_names.join(' ') + ' ' : '' %><%= data.author.user.secondary_name %></a></h3>
             <% } %>
-            <h3><a href="/user/<%= data.author.user.username %>">@ <%= data.author.user.username %></a></h3>
+            <h4><em><a href="/user/<%= data.author.user.username %>">@ <%= data.author.user.username %></a></em></h4>
           </div>
           <div class="author_bio__outward">
             <p><%= data.author.user.bio_forward_facing %></p>
           </div>
         </div>
         <div class="author_bio__social">
-          <a href="#" class="social">F</a>
-          <a href="#" class="social">T</a>
-          <a href="#" class="social">N</a>
+          <a href="#" class="social twitter"><i class="fab fa-2x fa-twitter"></i></a>
+          <a href="#" class="social facebook"><i class="fab fa-2x fa-facebook"></i></a>
+          <a href="#" class="social instagram"><i class="fab fa-2x fa-instagram"></i></a>
         </div>
       </div>
+
     </footer>
   </body>
   <!-- <script type="text/javascript" src="/js/name.js"></script> -->

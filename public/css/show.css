@@ -109,6 +109,52 @@ blockquote > * {
   object-fit: cover;
 }
 
+.article_social {
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: space-around;
+}
+.article_social .social {
+  border: 2px solid;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.article_social .social.twitter {
+  border-color: #1DA1F2;
+}
+.article_social .social.twitter:hover {
+  color: #1DA1F2;
+  box-shadow: 0 0 10px #1DA1F2;
+}
+.article_social .social.twitter:hover i {
+  color: #1DA1F2;
+}
+.article_social .social.facebook {
+  border-color: #4267B2;
+}
+.article_social .social.facebook:hover {
+  color: #4267B2;
+  box-shadow: 0 0 10px #4267B2;
+}
+.article_social .social.facebook:hover i {
+  color: #4267B2;
+}
+.article_social .social.instagram {
+  border-color: #e1306c;
+}
+.article_social .social.instagram:hover {
+  color: #e1306c;
+  box-shadow: 0 0 10px #e1306c;
+}
+.article_social .social.instagram:hover i {
+  color: #e1306c;
+}
+
 footer .author_bio {
   border: 1px solid #bec3c7;
   border-radius: 10px;
@@ -141,18 +187,36 @@ footer .author_bio .author_bio__profile img {
   border-radius: 10px 0px 0px 10px;
 }
 footer .author_bio .author_bio__social {
-  border: 1px dashed tomato;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  padding: 0 15px;
 }
 footer .author_bio .author_bio__social .social {
-  border: 1px solid steelblue;
   width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+}
+footer .author_bio .author_bio__social .social.twitter:hover {
+  color: #1DA1F2;
+}
+footer .author_bio .author_bio__social .social.twitter:hover i {
+  color: #1DA1F2;
+}
+footer .author_bio .author_bio__social .social.facebook:hover {
+  color: #4267B2;
+}
+footer .author_bio .author_bio__social .social.facebook:hover i {
+  color: #4267B2;
+}
+footer .author_bio .author_bio__social .social.instagram:hover {
+  color: #e1306c;
+}
+footer .author_bio .author_bio__social .social.instagram:hover i {
+  color: #e1306c;
 }
 
 .large {

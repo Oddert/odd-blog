@@ -120,6 +120,53 @@ blockquote {
   }
 }
 
+.article_social {
+  $social_diameter: 80px;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-around;
+  .social {
+    border: 2px solid;
+    border-radius: 50%;
+    width: $social_diameter;
+    height: $social_diameter;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    &.twitter {
+      border-color: #1DA1F2;
+      &:hover {
+        color: #1DA1F2;
+        box-shadow: 0 0 10px #1DA1F2;
+        & i {
+          color: #1DA1F2;
+        }
+      }
+    }
+    &.facebook {
+      border-color: #4267B2;
+      &:hover {
+        color: #4267B2;
+        box-shadow: 0 0 10px #4267B2;
+        & i {
+          color: #4267B2;
+        }
+      }
+    }
+    &.instagram {
+      border-color: #e1306c;
+      &:hover {
+        color: #e1306c;
+        box-shadow: 0 0 10px #e1306c;
+        & i {
+          color: #e1306c;
+        }
+      }
+    }
+  }
+}
+
 footer {
   .author_bio {
     border: 1px solid #bec3c7;
@@ -157,17 +204,43 @@ footer {
     }
     .author_bio__social {
       $social_diameter: 30px;
-      border: 1px dashed tomato;
+      // border: 1px dashed tomato;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
+      padding: 0 15px;
       .social {
-        border: 1px solid steelblue;
+        // border: 1px solid steelblue;
         width: $social_diameter;
         height: $social_diameter;
         display: flex;
         align-items: center;
         justify-content: center;
+        text-decoration: none;
+        &.twitter {
+          &:hover {
+            color: #1DA1F2;
+            & i {
+              color: #1DA1F2;
+            }
+          }
+        }
+        &.facebook {
+          &:hover {
+            color: #4267B2;
+            & i {
+              color: #4267B2;
+            }
+          }
+        }
+        &.instagram {
+          &:hover {
+            color: #e1306c;
+            & i {
+              color: #e1306c;
+            }
+          }
+        }
       }
     }
   }
