@@ -28,7 +28,7 @@
   width: 100%;
   border-radius: 20px 20px 0 0;
   object-fit: cover;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 .post .details {
   transition: 0.2s linear;
@@ -83,14 +83,17 @@
 }
 .post:hover {
   border: 1px solid #ecf0f1;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 5px 0 20px rgba(0, 0, 0, 0), -5px 0 20px rgba(0, 0, 0, 0);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 5px 0 20px rgba(0, 0, 0, 0), -5px 0 20px rgba(0, 0, 0, 0);
+}
+.post.experimental {
+  margin: 30px 0;
 }
 .post.experimental .image {
   background: none;
 }
 .post.experimental .image img {
   border-radius: 4px;
-  width: 90%;
+  width: 94%;
   transform: translateY(-10px);
 }
 
