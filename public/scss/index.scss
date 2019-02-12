@@ -34,6 +34,9 @@ $readButtonColour--hover: $light_readButtonColour--hover;
   $padd: 20px;
   $image_height: 350px;
 
+  & a {
+    border-radius: $border_rad $border_rad 0 0;
+  }
   transition: .2s linear;
   border: $light_postBorder;
   border-radius: $border_rad;

@@ -121,53 +121,150 @@ blockquote {
 }
 
 .article_social {
-  $social_diameter: 80px;
+  $social_diameter: 65px;
   grid-column: 1 / -1;
   display: flex;
-  justify-content: space-around;
-  .social {
-    border: 2px solid;
-    border-radius: 50%;
-    width: $social_diameter;
-    height: $social_diameter;
+  flex-direction: column;
+  .links {
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    &.twitter {
-      border-color: #1DA1F2;
-      &:hover {
-        color: #1DA1F2;
-        box-shadow: 0 0 10px #1DA1F2;
-        & i {
+    justify-content: space-around;
+    margin-top: 20px;
+    .social {
+      border: 2px solid;
+      border-radius: 50%;
+      width: $social_diameter;
+      height: $social_diameter;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      background: rgba(0,0,0,0);
+      cursor: pointer;
+      transition: .1s linear;
+      i {
+        font-size: 30px;
+      }
+      &.twitter {
+        border-color: #1DA1F2;
+        &:hover {
+          border-color: #ecf0f1;
           color: #1DA1F2;
+          box-shadow: 0 0 10px #1DA1F2;
+          & i {
+            color: #1DA1F2;
+          }
         }
       }
-    }
-    &.facebook {
-      border-color: #4267B2;
-      &:hover {
-        color: #4267B2;
-        box-shadow: 0 0 10px #4267B2;
-        & i {
+      &.facebook {
+        border-color: #4267B2;
+        &:hover {
+          border-color: #ecf0f1;
           color: #4267B2;
+          box-shadow: 0 0 10px #4267B2;
+          & i {
+            color: #4267B2;
+          }
         }
       }
-    }
-    &.linkedin {
-      border-color: #0077B5;
-      &:hover {
-        color: #0077B5;
-        box-shadow: 0 0 10px #0077B5;
-        & i {
+      &.linkedin {
+        border-color: #0077B5;
+        &:hover {
+          border-color: #ecf0f1;
           color: #0077B5;
+          box-shadow: 0 0 10px #0077B5;
+          & i {
+            color: #0077B5;
+          }
+        }
+      }
+      &.link {
+        // border-top-color: #2dcc70;
+        // border-right-color: #1bbc9b;
+        // border-bottom-color: #9a59b5;
+        // border-left-color: #e84c3d;
+        &:hover {
+          border-color: #ecf0f1;
+          $off: 3px;
+          $offi: -3px;
+          $blr: 8px;
+          $spr: 0px;
+          // box-shadow: 0px $off $blr $spr #2dcc70, 0px $offi $blr $spr #9a59b5, $off 0px $blr $spr #e84c3d, $offi 0px $blr $spr #e84c3d;
+          box-shadow: 0px $off $blr $spr #1bbc9b, 0px $offi $blr $spr #9a59b5, $off 0px $blr $spr #1bbc9b, $offi 0px $blr $spr #9a59b5;
+          background: linear-gradient(45deg, #2dcc70, #1bbc9b, #9a59b5, #e84c3d);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          -webkit-box-decoration-break: clone;
+          & i {
+            color: #0077B5;
+          }
         }
       }
     }
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.notifier {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: #222;
+  z-index: 990;
+  border-radius: 10px;
+  transform: translateY(100%);
+  transition: .05s linear;
+  opacity: 0;
+  &.show {
+    transition: .1s linear;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  &.fade {
+    animation: fadeOut 1s linear;
+  }
+  p, span {
+    color: #ecf0f1;
+  }
+}
+
 footer {
+  .tags {
+    $tag_background: #9a59b5;
+    $tag_shadow: #8d44ad;
+    // border: 1px  dashed tomato;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 80vw;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    .tag {
+      padding: 4px 8px;
+      margin: 5px;
+      border-radius: 6px;
+      background: $tag_background;
+      border-bottom: 4px solid $tag_shadow;
+      display: flex;
+      justify-content: center;
+      color: #ecf0f1;
+      &:hover {
+        margin-bottom: 1px;
+        border-bottom: 4px solid $tag_shadow;
+      }
+    }
+  }
+  padding-bottom: 100px;
   .author_bio {
     border: 1px solid #bec3c7;
     border-radius: 10px;
@@ -238,6 +335,14 @@ footer {
             color: #e1306c;
             & i {
               color: #e1306c;
+            }
+          }
+        }
+        &.linkedin {
+          &:hover {
+            color: #0077B5;
+            & i {
+              color: #0077B5;
             }
           }
         }

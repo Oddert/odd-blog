@@ -85,13 +85,31 @@
       <% }) %>
 
       <div class="article_social">
-        <a href="https://twitter.com/intent/tweet?text=<%= location %>posts/<%= data._id %>/ <%= data.title %> -By <%= data.author.displayName %>" class="social twitter" title="Share on Twitter" target="_blank"><i class="fab fa-3x fa-twitter"></i></a>
-        <a href="https://www.facebook.com/sharer.php?u=<%= location %>posts/<%= data._id %>" class="social facebook" title="Share on Facebook" target="_blank"><i class="fab fa-3x fa-facebook"></i></a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= location %>posts/<%= data._id %>&title=<%= data.title %>&summary=<%= data.subtitle %>&source=<%= blog_name %>" class="social linkedin" title="Share on Linkedin" target="_blank"><i class="fab fa-3x fa-linkedin"></i></a>
+        <p>Share this post:</p>
+        <div class="links">
+          <a href="https://twitter.com/intent/tweet?text=<%= location %>posts/<%= data._id %>/ <%= data.title %> -By <%= data.author.displayName %>" class="social twitter" title="Share on Twitter" target="_blank"><i class="fab fa-3x fa-twitter"></i></a>
+          <a href="https://www.facebook.com/sharer.php?u=<%= location %>posts/<%= data._id %>" class="social facebook" title="Share on Facebook" target="_blank"><i class="fab fa-3x fa-facebook"></i></a>
+          <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= location %>posts/<%= data._id %>&title=<%= data.title %>&summary=<%= data.subtitle %>&source=<%= blog_name %>" class="social linkedin" title="Share on Linkedin" target="_blank"><i class="fab fa-3x fa-linkedin"></i></a>
+          <button class="social link" title="Copy Link" target="_blank" data-link="<%= location %>posts/<%= data._id %>"><i class="fas fa-3x fa-link"></i></button>
+        </div>
+        <div class="notifier">
+          <p>Copied: "<span><%= location %>posts/<%= data._id %></span>" to clipboard.</p>
+        </div>
       </div>
 
     </article>
     <footer>
+      <div class="tags">
+        <!-- <div class="tag"> -->
+          <a href="/tags/design" class="tag">design</a>
+        <!-- </div> -->
+        <!-- <div class="tag"> -->
+          <a href="/tags/london" class="tag">london</a>
+        <!-- </div> -->
+        <!-- <div class="tag"> -->
+          <a href="/tags/digital" class="tag">digital</a>
+        <!-- </div> -->
+      </div>
       <div class="author_bio">
       <!-- <a href="/user/<%= data.author.user.username %>"> -->
       <!-- </a> -->
@@ -110,9 +128,20 @@
           </div>
         </div>
         <div class="author_bio__social">
-          <a href="#" class="social twitter"><i class="fab fa-2x fa-twitter"></i></a>
-          <a href="#" class="social facebook"><i class="fab fa-2x fa-facebook"></i></a>
-          <a href="#" class="social instagram"><i class="fab fa-2x fa-instagram"></i></a>
+          <% data.author.user.links.forEach(each => { %>
+            <% if (each.link_type == "twitter") { %>
+              <a href="<%= each.src %>" class="social twitter"><i class="fab fa-2x fa-twitter"></i></a>
+            <% } %>
+            <% if (each.link_type == "facebook") { %>
+              <a href="<%= each.src %>" class="social facebook"><i class="fab fa-2x fa-facebook"></i></a>
+            <% } %>
+            <% if (each.link_type == "linkedin") { %>
+              <a href="<%= each.src %>" class="social linkedin"><i class="fab fa-2x fa-linkedin"></i></a>
+            <% } %>
+            <% if (each.link_type == "web") { %>
+              <a href="<%= each.src %>" class="social link"><i class="fab fa-2x fa-link"></i></a>
+            <% } %>
+          <% }) %>
         </div>
       </div>
 

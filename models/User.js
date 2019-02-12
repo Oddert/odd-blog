@@ -12,6 +12,15 @@ const UserSchema = new mongoose.Schema ({
     type: String,
     default: ""
   },
+  links: [
+    {
+      link_type: String,
+      name: String,
+      src: String,
+      caption: String,
+      username: String
+    }
+  ],
   profile: {
     type: String,
     default: 'https://projects.johnmarshallmedia.com/img/users/user.png'
