@@ -2,10 +2,9 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title><%= viewUser.username %> | Odd-Blog</title>
-    <link rel="stylesheet" href="/css/master.css">
-    <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <title>Tag Search | Odd-Blog</title>
+    <link rel="stylesheet" href="/css/master.css" />
+    <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, initial-scale=0.666667, maximum-scale=0.666667, user-scalable=0">
@@ -14,27 +13,11 @@
   </head>
   <body>
     <% include ../partials/nav %>
-    <main data-id="<%= viewUser._id %>">
-      <div class="profile_background" style="background-image: url(http://cdn.studiodaily.com/wp-content/uploads/2016/08/star-trek-beyond.jpg);">
-
-      </div>
-      <div class="profile_details">
-        <figure class="profile_details__image">
-          <img src="<%= viewUser.profile %>" alt="<%= viewUser.username %>'s Profile Image'">
-        </figure>
-        <div class="profile_details__content">
-          <div class="title">
-            <h1 class=""><%= viewUser.primary_name %><%= viewUser.other_names.length > 0 ? ` ${viewUser.other_names.join(' ')} ` : ' ' %><%= viewUser.secondary_name %></h1>
-          </div>
-          <h2>@ <%= viewUser.username %></h2>
-          <div class="bio">
-            <p class="profile_details__bio"><%= viewUser.bio.length > 0 ? viewUser.bio : 'No Biography Supplied' %></p>
-          </div>
-        </div>
-      </div>
+    <div class="main">
+      <h1>Tag Search for: <%= tags.join(' ') %></h1>
       <div class="posts">
-        <% viewUser.posts.forEach(each => { %>
-          <div class="post">
+        <% posts.forEach(each => { %>
+          <div class="post experimental">
             <% if (each.header_image.src && /\w/gi.test(each.header_image.src)) { %>
               <!-- <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image"> -->
               <a href="/posts/<%= each._id %>" class="image">
@@ -51,6 +34,11 @@
                   <p><%= each.subtitle %></p>
                 <% } %>
                 <p class="read_button"><a href="/posts/<%= each._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+                <div class="tags">
+                  <% each.tags.forEach(each => { %>
+                    <a href="/tags/?tag=<%= each %>" class="tag"><%= each %></a>
+                  <% }) %>
+                </div>
               </div>
               <div class="details_meta">
                 <h4 class="details_author">By <a href="/user/<%= each.author.username %>"><%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></a></h4>
@@ -77,7 +65,6 @@
           </div>
         <% }) %>
       </div>
-    </main>
+    </div>
   </body>
-  <script type="text/javascript" src="/js/profile.js"></script>
 </html>

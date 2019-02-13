@@ -99,50 +99,145 @@
 
     </article>
     <footer>
-      <div class="tags">
-        <!-- <div class="tag"> -->
-          <a href="/tags/design" class="tag">design</a>
-        <!-- </div> -->
-        <!-- <div class="tag"> -->
-          <a href="/tags/london" class="tag">london</a>
-        <!-- </div> -->
-        <!-- <div class="tag"> -->
-          <a href="/tags/digital" class="tag">digital</a>
-        <!-- </div> -->
-      </div>
-      <div class="author_bio">
-      <!-- <a href="/user/<%= data.author.user.username %>"> -->
-      <!-- </a> -->
-        <figure class="author_bio__profile">
-            <img src="<%= data.author.user.profile %>" alt="Profile image for <%= data.author.user.username %>" />
-        </figure>
-        <div class="author_bio_main">
-          <div class="author_bio__names">
-            <% if (/\w/gi.test(data.author.user.primary_name) && data.author.user.primary_name !== undefined) { %>
-              <h3><a href="/user/<%= data.author.user.username %>"><%= data.author.user.primary_name ? data.author.user.primary_name : '' %> <%= data.author.user.other_names.length > 0 ? data.author.user.other_names.join(' ') + ' ' : '' %><%= data.author.user.secondary_name %></a></h3>
-            <% } %>
-            <h4><em><a href="/user/<%= data.author.user.username %>">@ <%= data.author.user.username %></a></em></h4>
-          </div>
-          <div class="author_bio__outward">
-            <p><%= data.author.user.bio_forward_facing %></p>
-          </div>
-        </div>
-        <div class="author_bio__social">
-          <% data.author.user.links.forEach(each => { %>
-            <% if (each.link_type == "twitter") { %>
-              <a href="<%= each.src %>" class="social twitter"><i class="fab fa-2x fa-twitter"></i></a>
-            <% } %>
-            <% if (each.link_type == "facebook") { %>
-              <a href="<%= each.src %>" class="social facebook"><i class="fab fa-2x fa-facebook"></i></a>
-            <% } %>
-            <% if (each.link_type == "linkedin") { %>
-              <a href="<%= each.src %>" class="social linkedin"><i class="fab fa-2x fa-linkedin"></i></a>
-            <% } %>
-            <% if (each.link_type == "web") { %>
-              <a href="<%= each.src %>" class="social link"><i class="fab fa-2x fa-link"></i></a>
-            <% } %>
+      <div class="author_bio__container">
+        <div class="tags">
+          <% data.tags.forEach(each => { %>
+            <a href="/tags/?tag=<%= each %>" class="tag"><%= each %></a>
           <% }) %>
         </div>
+        <div class="author_bio">
+        <!-- <a href="/user/<%= data.author.user.username %>"> -->
+        <!-- </a> -->
+          <figure class="author_bio__profile">
+              <img src="<%= data.author.user.profile %>" alt="Profile image for <%= data.author.user.username %>" />
+          </figure>
+          <div class="author_bio_main">
+            <div class="author_bio__names">
+              <% if (/\w/gi.test(data.author.user.primary_name) && data.author.user.primary_name !== undefined) { %>
+                <h3><a href="/user/<%= data.author.user.username %>"><%= data.author.user.primary_name ? data.author.user.primary_name : '' %> <%= data.author.user.other_names.length > 0 ? data.author.user.other_names.join(' ') + ' ' : '' %><%= data.author.user.secondary_name %></a></h3>
+              <% } %>
+              <h4><em><a href="/user/<%= data.author.user.username %>">@ <%= data.author.user.username %></a></em></h4>
+            </div>
+            <div class="author_bio__outward">
+              <p><%= data.author.user.bio_forward_facing %></p>
+            </div>
+          </div>
+          <div class="author_bio__social">
+            <% data.author.user.links.forEach(each => { %>
+              <% if (each.link_type == "twitter") { %>
+                <a href="<%= each.src %>" class="social twitter"><i class="fab fa-2x fa-twitter"></i></a>
+              <% } %>
+              <% if (each.link_type == "facebook") { %>
+                <a href="<%= each.src %>" class="social facebook"><i class="fab fa-2x fa-facebook"></i></a>
+              <% } %>
+              <% if (each.link_type == "linkedin") { %>
+                <a href="<%= each.src %>" class="social linkedin"><i class="fab fa-2x fa-linkedin"></i></a>
+              <% } %>
+              <% if (each.link_type == "web") { %>
+                <a href="<%= each.src %>" class="social link"><i class="fab fa-2x fa-link"></i></a>
+              <% } %>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="read_more">Read More:</h3>
+      <div class="read_more__lables">
+        <% if (previousPost) { %>
+          <p>Previous</p>
+        <% } %>
+        <% if (nextPost) { %>
+          <p>Next</p>
+        <% } %>
+      </div>
+      <div class="other_posts">
+        <% if (previousPost) { %>
+          <div class="previous">
+          <div class="post">
+            <% if (previousPost.header_image.src && /\w/gi.test(previousPost.header_image.src)) { %>
+              <a href="/posts/<%= previousPost._id %>" class="image">
+                <img src="<%= previousPost.header_image.src %>" alt="<%= previousPost.header_image.alt %>" class="other_posts__header_image" title="<%= previousPost.header_image.caption %>" />
+              </a>
+            <% } %>
+            <div class="details">
+              <div class="details_primary">
+                <h3><a href="/posts/<%= previousPost._id %>"><%= previousPost.title %></a></h3>
+                <% if (previousPost.subtitle.length > 150) { %>
+                  <p><%= previousPost.subtitle.substring(0,150) %>...</p>
+                <% } else { %>
+                  <p><%= previousPost.subtitle %></p>
+                <% } %>
+                <p class="read_button"><a href="/posts/<%= previousPost._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+              </div>
+              <div class="details_meta">
+                <h4 class="details_author">By <a href="/user/<%= previousPost.author.username %>"><%= /\w/gi.test(previousPost.author.displayName) ? previousPost.author.displayName : previousPost.author.username %></a></h4>
+                <strong><%= new Date(previousPost.created).toLocaleDateString() %></strong>
+                <p class="details_read_time"><em>Read Time: <%= previousPost.word_count < 265 ? '1 min' : Math.ceil(previousPost.word_count/265) > 1 ? Math.ceil(previousPost.word_count/265)+' mins' : Math.ceil(previousPost.word_count/265)+' min' %></em></p>
+              </div>
+              <% if (user && previousPost.author.id.equals(user._id)) { %>
+                <div class="modify">
+                  <a href="/posts/<%= previousPost._id %>/edit">Edit</a>
+                  <div class="delete_control">
+                    <button class="delete_prompt">Delete</button>
+                    <form action="/posts/<%= previousPost._id %>?_method=DELETE" method="POST" class="delete_form hide">
+                      <p>Are you sure you want to delete?</p>
+                      <button class="cancel">Cancel</button>
+                      <button class="delete">Delete</button>
+                    </form>
+                  </div>
+                  <% if (previousPost.deleted) { %>
+                    <a href="/dev/<%= previousPost._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
+                    <% } %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <% if (nextPost) { %>
+          <div class="next">
+          <div class="post">
+            <% if (nextPost.header_image.src && /\w/gi.test(nextPost.header_image.src)) { %>
+              <!-- <a href="/posts/<%= nextPost.year %>/<%= nextPost.month %>/<%= nextPost.day %>/<%= nextPost.title %>" class="image"> -->
+              <a href="/posts/<%= nextPost._id %>" class="image">
+                <img src="<%= nextPost.header_image.src %>" alt="<%= nextPost.header_image.alt %>" class="other_posts__header_image" title="<%= nextPost.header_image.caption %>" />
+              </a>
+            <% } %>
+            <div class="details">
+              <div class="details_primary">
+                <h3><a href="/posts/<%= nextPost._id %>"><%= nextPost.title %></a></h3>
+                <% if (nextPost.subtitle.length > 150) { %>
+                  <p><%= nextPost.subtitle.substring(0,150) %>...</p>
+                <% } else { %>
+                  <p><%= nextPost.subtitle %></p>
+                <% } %>
+                <p class="read_button"><a href="/posts/<%= nextPost._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+              </div>
+              <div class="details_meta">
+                <h4 class="details_author">By <a href="/user/<%= nextPost.author.username %>"><%= /\w/gi.test(nextPost.author.displayName) ? nextPost.author.displayName : nextPost.author.username %></a></h4>
+                <strong><%= new Date(nextPost.created).toLocaleDateString() %></strong>
+                <p class="details_read_time"><em>Read Time: <%= nextPost.word_count < 265 ? '1 min' : Math.ceil(nextPost.word_count/265) > 1 ? Math.ceil(nextPost.word_count/265)+' mins' : Math.ceil(nextPost.word_count/265)+' min' %></em></p>
+              </div>
+              <% if (user && nextPost.author.id.equals(user._id)) { %>
+                <div class="modify">
+                  <a href="/posts/<%= nextPost._id %>/edit">Edit</a>
+                  <div class="delete_control">
+                    <button class="delete_prompt">Delete</button>
+                    <form action="/posts/<%= nextPost._id %>?_method=DELETE" method="POST" class="delete_form hide">
+                      <p>Are you sure you want to delete?</p>
+                      <button class="cancel">Cancel</button>
+                      <button class="delete">Delete</button>
+                    </form>
+                  </div>
+                  <% if (nextPost.deleted) { %>
+                    <a href="/dev/<%= nextPost._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
+                    <% } %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <% } %>
       </div>
 
     </footer>

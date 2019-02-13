@@ -90,10 +90,18 @@ $readButtonColour--hover: $light_readButtonColour--hover;
           padding: 10px 20px;
           transition: .2s linear;
           background: rgba(0,0,0,0);
+          & i {
+            transition: .1s linear;
+            transition: .2s linear;
+            background: rgba(0,0,0,0);
+          }
           &:hover {
             background: $nav_background--hover;
             color: $readButtonColour--hover;
             box-shadow: $light_readButtonShadow--hover;
+            i {
+              color: $readButtonColour--hover;
+            }
           }
         }
       }
@@ -131,6 +139,34 @@ $readButtonColour--hover: $light_readButtonColour--hover;
         width: 94%;
         transform: translateY(-10px);
       }
+    }
+  }
+}
+
+.tags {
+  $tag_background: #9a59b5;
+  $tag_shadow: #8d44ad;
+  // border: 1px  dashed tomato;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  // width: 80vw;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  .tag {
+    padding: 4px 8px;
+    margin: 5px;
+    border-radius: 6px;
+    background: $tag_background;
+    border-bottom: 4px solid $tag_shadow;
+    display: flex;
+    justify-content: center;
+    color: #ecf0f1;
+    &:hover {
+      margin-bottom: 1px;
+      border-bottom: 4px solid $tag_shadow;
     }
   }
 }

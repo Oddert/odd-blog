@@ -28,6 +28,9 @@
         <div class="subtitle">
           <textarea name="subtitle" placeholder="A subtitle for the post, leave blank to ommit."><%= data.subtitle %></textarea>
         </div>
+        <div class="tags">
+          <input type="text" name="tags" placeholder="Tags, comma seperated (e.g 'design, london, something else')" value="<%= data.tags.join(', ') %>">
+        </div>
 
         <% data.inputs.forEach((each, idx) => { %>
           <% if (each.data_type == "paragraph") { %>

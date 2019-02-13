@@ -1,14 +1,21 @@
 
 
 $dark_background_text: #ecf0f1;
+$dark_background_fill: #ecf0f1;
+
+$light_background_text: #2d3e50;
+$light_background_fill: #e2e8e9;
+
 $input_padding: 5px;
 $input_text_padding: 5px;
-
 $input_border_radius: 10px;
+
+$background_text: $light_background_text;
+$background_fill: $light_background_fill;
 
 
 textarea {
-  color: $dark_background_text;
+  color: $background_text;
   min-height: 100px;
   flex: 1;
 }
@@ -61,7 +68,7 @@ form {
   }
 }
 
-.input, .title, .subtitle {
+.input, .title, .subtitle, .tags {
   grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
@@ -71,7 +78,7 @@ form {
   // border: 1px dashed skyblue;
   border: 1px solid #bec3c7;
   border-radius: $input_border_radius;
-  background: #ecf0f1;
+  background: $background_fill;
   padding: 0 $input_padding $input_padding $input_padding;
   box-shadow: 0px 14px 26px rgba(0,0,0,.04);
   & .alignment {
@@ -84,7 +91,7 @@ form {
   & input {
     font-size: 24px;
     text-align: center;
-    background: #ecf0f1;
+    background: $background_fill;
     border-radius: $input_border_radius;
     padding: $input_text_padding;
   }
@@ -98,6 +105,19 @@ form {
     text-align: center;
     border-radius: $input_border_radius;
     padding: $input_text_padding;
+  }
+}
+
+.tags {
+  padding: 5px;
+  input {
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: #95a5a5;
+    &:focus {
+      color: black;
+    }
   }
 }
 

@@ -103,6 +103,7 @@ app.route('/dev/:id/undelete')
 
 
 app.use('/posts/', require('./routes/posts'))
+app.use('/tags/', require('./routes/tags'))
 app.use('/user/', require('./routes/users'))
 app.use('/auth/', require('./routes/auth'))
 

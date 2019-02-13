@@ -4,7 +4,7 @@ const mw                  = require('../utils/middleware')
     , parseForDisplay     = require('../utils/parseForDisplay')
     , calculateRead       = require('../utils/calculateRead')
     , handleErrorPage     = require('../utils/handleErrorPage')
-    , handleErrorJSON     = require('../utils/handleErrorJSON')
+    // , handleErrorJSON     = require('../utils/handleErrorJSON')
     , createReadableName  = require('../utils/createReadableName')
 
 const Post = require('../models/Post')
@@ -12,9 +12,23 @@ const Post = require('../models/Post')
 
 router.route('/')
   .get((req, res, next) => {
-    Post.find({})
+    Post.find({ deleted: false })
       .then(posts => res.json(posts))
       .catch(err => console.log(err))
+  })
+
+router.route('/tester/:id')
+  .get((req, res, next) => {
+    console.log(`TESTER for id: ${req.params.id}`)
+    Post.findById(req.params.id)
+      .then(present => ({ present }))
+      .then(posts => Post.findOne({ _id: { $gt: req.params.id } }).sort({ _id: 1 }).then(past => ({ ...posts, past })))
+      .then(posts => Post.findOne({ _id: { $lt: req.params.id } }).sort({ _id: -1 }).then(future => ({ ...posts, future })))
+      .then(posts => {
+        console.log({ posts })
+        res.json({ posts })
+      })
+      // .catch(err => res.json({ err, explination: 'I have none -mongoose wee shit' }))
   })
 
 // NEW
@@ -25,6 +39,7 @@ router.route('/new')
     Post.create(Object.assign({},
       req.body,
       {
+        tags: req.body.tags.split(', '),
         year: date.getFullYear(),
         month: date.getMonth(),
         day: date.getDay(),
@@ -55,14 +70,20 @@ router.route('/:id')
     Post.findById(req.params.id)
       .populate('author.user')
       .then(post => parseForDisplay(post))
-      .then(data => { console.log(data); return data })
-      .then(data => res.render('posts/show', { data }))
+      .then(data => ({ data }))
+      .then(responce => Post.findOne({ _id: { $gt: req.params.id } }).sort({ _id: 1 })
+        .then(previousPost => ({ ...responce, previousPost })))
+      .then(responce => Post.findOne({ _id: { $lt: req.params.id } }).sort({ _id: -1 })
+        .then(nextPost => ({ ...responce, nextPost })))
+      .then(responce => { console.log(responce); return responce })
+      .then(responce => res.render('posts/show', { ...responce }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
   .put(mw.checkPostOwnership, (req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
       req.body,
       {
+        tags: req.body.tags.split(', '),
         word_count: calculateRead(req.body),
         $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
       }
@@ -92,12 +113,14 @@ router.route('/:id/edit')
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
       req.body,
       {
+        tags: req.body.tags.split(', '),
         word_count: calculateRead(req.body),
         $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
       }
     ))
-    .then(post => parseForDisplay(post))
-    .then(data => res.render('posts/show', { data }))
+    // .then(post => parseForDisplay(post))
+    // .then(data => res.render('posts/show', { data }))
+    .then(post => res.redirect(`/posts/${post._id}`))
     .catch(err => handleErrorPage(req, res, next, err))
   })
 
@@ -107,6 +130,7 @@ router.route('/new/dev')
   .post((req, res) => {
     const date = new Date()
     const placeholderData = {
+      tags: req.body.tags.split(', '),
       year: date.getFullYear(),
       month: date.getMonth(),
       day: date.getDay(),
@@ -137,6 +161,7 @@ router.route('/new/dev')
 
      if (req.body.page) res.render('posts/show', { data: displayData })
      else res.json({
+       displayData,
        body: req.body,
        params: req.params,
        query: req.query

@@ -6,6 +6,7 @@ const PostSchema = new mongoose.Schema ({
     default: 'Blog Post',
     required: true
   },
+  tags: [ String ],
   title: {
     type: String,
     default: 'Blog Post'
