@@ -65,6 +65,12 @@ app.route('/')
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
+// app.route('/tester')
+//   .get((req, res, next) => {
+//     Dummy.create({ number: Math.floor(Math.random()*300) })
+//       .then(data => res.json({ data }))
+//       .catch(err => handleErrorJSON((req, res, next, err)))
+//   })
 
 app.route('/api/posts/:id')
  .put(mw.checkPostOwnershipJSON, (req, res, nex) => {

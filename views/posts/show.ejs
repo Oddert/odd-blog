@@ -24,7 +24,7 @@
     <article class="main post_show">
 
       <h1 class="title"><%= data.title %></h1>
-      <h2 class="subtitle"><%= data.subtitle %></h2>
+      <h2 class="subtitle"><%- data.subtitle %></h2>
       <div class="details">
         <div class="details_wrapper">
           <div class="details_image">
@@ -80,7 +80,7 @@
       <% data.inputs.forEach(item => { %>
 
         <% if (/\w/gi.test(item.subhead)) { %>
-          <h3 class="subhead"># <%= item.subhead %></h3>
+          <h3 class="subhead"># <%- item.subhead %></h3>
         <% } %>
 
         <% if (item.data_type == "paragraph" && /\w/gi.test(item.text[0])) { %>
@@ -102,9 +102,14 @@
 
         <% if (item.data_type == "quote" && /\w/gi.test(item.text)) { %>
           <blockquote cite="<%= item.cite %>" class="quote <%= item.align %>">
-            <p><%= item.text %></p>
+            <% if (/\w/gi.test(item.cite)) { %>
+              <p><a href="<%= item.cite %>"><%- item.text %></a></p>
+            <% } else { %>
+              <p><%- item.text %></p>
+            <% } %>
             <footer>- <%= item.author %></footer>
           </blockquote>
+          <hr />
         <% } %>
 
       <% }) %>
@@ -184,21 +189,21 @@
                 <img src="<%= previousPost.header_image.src %>" alt="<%= previousPost.header_image.alt %>" class="other_posts__header_image" title="<%= previousPost.header_image.caption %>" />
               </a>
             <% } %>
-            <div class="details">
-              <div class="details_primary">
+            <div class="post_details">
+              <div class="post_details_primary">
                 <h3><a href="/posts/<%= previousPost._id %>"><%= previousPost.title %></a></h3>
                 <% if (previousPost.subtitle.length > 150) { %>
-                  <p><%= previousPost.subtitle.substring(0,150) %>...</p>
+                  <p><%- previousPost.subtitle.substring(0,150) %>...</p>
                 <% } else { %>
-                  <p><%= previousPost.subtitle %></p>
+                  <p><%- previousPost.subtitle %></p>
                 <% } %>
                 <p class="read_button"><a href="/posts/<%= previousPost._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
               </div>
-              <div class="details_meta">
+              <div class="post_details_meta">
                 <div>
-                  <h4 class="details_author">By <a href="/user/<%= previousPost.author.username %>"><%= /\w/gi.test(previousPost.author.displayName) ? previousPost.author.displayName : previousPost.author.username %></a></h4>
+                  <h4 class="post_details_author">By <a href="/user/<%= previousPost.author.username %>"><%= /\w/gi.test(previousPost.author.displayName) ? previousPost.author.displayName : previousPost.author.username %></a></h4>
                   <strong><%= new Date(previousPost.created).toLocaleDateString() %></strong>
-                  <p class="details_read_time"><em>Read Time: <%= previousPost.word_count < 265 ? '1 min' : Math.ceil(previousPost.word_count/265) > 1 ? Math.ceil(previousPost.word_count/265)+' mins' : Math.ceil(previousPost.word_count/265)+' min' %></em></p>
+                  <p class="post_details_read_time"><em>Read Time: <%= previousPost.word_count < 265 ? '1 min' : Math.ceil(previousPost.word_count/265) > 1 ? Math.ceil(previousPost.word_count/265)+' mins' : Math.ceil(previousPost.word_count/265)+' min' %></em></p>
                 </div>
                 <% if (user && previousPost.author.id.equals(user._id)) { %>
                   <div class="modify">
@@ -250,21 +255,21 @@
                 <img src="<%= nextPost.header_image.src %>" alt="<%= nextPost.header_image.alt %>" class="other_posts__header_image" title="<%= nextPost.header_image.caption %>" />
               </a>
             <% } %>
-            <div class="details">
-              <div class="details_primary">
+            <div class="post_details">
+              <div class="post_details_primary">
                 <h3><a href="/posts/<%= nextPost._id %>"><%= nextPost.title %></a></h3>
                 <% if (nextPost.subtitle.length > 150) { %>
-                  <p><%= nextPost.subtitle.substring(0,150) %>...</p>
+                  <p><%- nextPost.subtitle.substring(0,150) %>...</p>
                 <% } else { %>
-                  <p><%= nextPost.subtitle %></p>
+                  <p><%- nextPost.subtitle %></p>
                 <% } %>
                 <p class="read_button"><a href="/posts/<%= nextPost._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
               </div>
-              <div class="details_meta">
+              <div class="post_details_meta">
                 <div>
-                  <h4 class="details_author">By <a href="/user/<%= nextPost.author.username %>"><%= /\w/gi.test(nextPost.author.displayName) ? nextPost.author.displayName : nextPost.author.username %></a></h4>
+                  <h4 class="post_details_author">By <a href="/user/<%= nextPost.author.username %>"><%= /\w/gi.test(nextPost.author.displayName) ? nextPost.author.displayName : nextPost.author.username %></a></h4>
                   <strong><%= new Date(nextPost.created).toLocaleDateString() %></strong>
-                  <p class="details_read_time"><em>Read Time: <%= nextPost.word_count < 265 ? '1 min' : Math.ceil(nextPost.word_count/265) > 1 ? Math.ceil(nextPost.word_count/265)+' mins' : Math.ceil(nextPost.word_count/265)+' min' %></em></p>
+                  <p class="post_details_read_time"><em>Read Time: <%= nextPost.word_count < 265 ? '1 min' : Math.ceil(nextPost.word_count/265) > 1 ? Math.ceil(nextPost.word_count/265)+' mins' : Math.ceil(nextPost.word_count/265)+' min' %></em></p>
                 </div>
                 <% if (user && nextPost.author.id.equals(user._id)) { %>
                   <div class="modify">

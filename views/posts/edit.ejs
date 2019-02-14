@@ -37,6 +37,8 @@
             <div class="input text_input input_<%= idx %>" data-type="paragraph">
           <% } else if (each.data_type == "image") { %>
             <div class="input image_input input_<%= idx %>" data-type="image">
+          <% } else if (each.data_type == "quote") { %>
+            <div class="input quote_input input_<%= idx %>" data-type="image">
           <% } else { %>
             <div class="input input_<%= idx %>">
           <% } %>
@@ -237,6 +239,12 @@
                 <div class="image_input__preview">
                   <img src="<%= each.src %>" alt="<%= each.alt %>" title="Image Preview" class="image_input__preview--img image_input__preview_<%= idx %>--img" />
                 </div>
+              </div>
+            <% } else if (each.data_type == "quote") { %>
+              <div class="quote_input__container">
+                <input type="text" name="inputs[<%= idx %>][cite]" placeholder="Citation Link" />
+                <textarea name="inputs[<%= idx %>][text]" placeholder="Quote Text"></textarea>
+                <input type="text" name="inputs[<%= idx %>][author]" placeholder="Author" />
               </div>
             <% } %>
           </div>

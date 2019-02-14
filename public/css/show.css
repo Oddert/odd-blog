@@ -52,12 +52,12 @@ hr {
 
 blockquote {
   border-left: 5px solid #bec3c7;
-  padding-left: 20px;
+  padding: 20px 0 20px 20px;
   word-break: break-all;
   margin: 18px 60px;
 }
 blockquote footer {
-  padding-left: 30px;
+  padding: 10px 0 10px 30px;
 }
 blockquote > * {
   word-break: break-all;
@@ -74,6 +74,7 @@ blockquote > * {
   display: flex;
   flex-direction: row;
   grid-column: 1/-1;
+  margin-bottom: 40px;
 }
 .details .details_wrapper {
   border: 1px solid #bec3c7;
@@ -375,7 +376,7 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
   object-fit: cover;
   box-shadow: 6px 0 14px rgba(0, 0, 0, 0.4);
 }
-.post .details {
+.post .post_details {
   transition: 0.2s linear;
   padding: 20px;
   flex: 1;
@@ -383,18 +384,18 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
   flex-direction: column;
   grid-column: 1/-1;
 }
-.post .details .details_primary {
+.post .post_details .post_details_primary {
   flex: 2;
 }
-.post .details .details_primary h3 {
+.post .post_details .post_details_primary h3 {
   margin-top: 0;
 }
-.post .details .details_primary .read_button {
+.post .post_details .post_details_primary .read_button {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
 }
-.post .details .details_primary .read_button a {
+.post .post_details .post_details_primary .read_button a {
   transition: 0.1s linear;
   border: 1px solid #bec3c7;
   border-radius: 10px;
@@ -402,36 +403,36 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
   transition: 0.2s linear;
   background: rgba(0, 0, 0, 0);
 }
-.post .details .details_primary .read_button a i {
+.post .post_details .post_details_primary .read_button a i {
   transition: 0.1s linear;
   transition: 0.2s linear;
   background: rgba(0, 0, 0, 0);
 }
-.post .details .details_primary .read_button a:hover {
+.post .post_details .post_details_primary .read_button a:hover {
   background: linear-gradient(45deg, #1bbc9b, #9a59b5);
   color: #ecf0f1;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-.post .details .details_primary .read_button a:hover i {
+.post .post_details .post_details_primary .read_button a:hover i {
   color: #ecf0f1;
 }
-.post .details .details_meta {
+.post .post_details .post_details_meta {
   padding-left: 20px;
   flex: 1;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.post .details .details_meta .details_author {
+.post .post_details .post_details_meta .post_details_author {
   margin-top: 0;
 }
-.post .details .details_meta .details_read_time {
+.post .post_details .post_details_meta .post_details_read_time {
   margin-top: 8px;
 }
-.post .details > * {
+.post .post_details > * {
   padding: 0;
 }
-.post .details p {
+.post .post_details p {
   margin: 0;
   padding: 0;
 }

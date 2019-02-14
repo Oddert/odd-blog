@@ -1,4 +1,5 @@
 const router = require('express').Router()
+    , mongoose = require('mongoose')
 
 const mw                  = require('../utils/middleware')
     , parseForDisplay     = require('../utils/parseForDisplay')
@@ -60,32 +61,60 @@ router.route('/new')
       return Post.findById(post._id)
     })
     .then(post => User.findByIdAndUpdate(req.user._id, { $push: { posts: post._id } }).then(user => post))
-    .then(post => parseForDisplay(post))
-    .then(data => res.render('posts/show', { data }))
+    .then(post => res.redirect(`/posts/${post._id}`))
+    .catch(err => res.status(500).json({ err }))
   })
 
-// SHOW
-// UPDATE
-// DESTROY
-router.route('/:id')
+router.route('/:yearTitleId/')
   .get((req, res, next) => {
-    Post.findById(req.params.id)
-      .populate('author.user')
-      .then(post => parseForDisplay(post))
-      .then(data => ({ data }))
-      .then(responce => Post.findOne({ _id: { $gt: req.params.id } }).sort({ _id: 1 })
+    // console.log(mongoose.Types.ObjectId.isValid(req.params.yearTitleId))
+    if (mongoose.Types.ObjectId.isValid(req.params.yearTitleId)) {
+      Post.findById(req.params.yearTitleId)
+        .populate('author.user')
+        .then(post => parseForDisplay(post))
+        .then(data => ({ data }))
+        .then(responce => Post.findOne({ _id: { $gt: req.params.yearTitleId } }).sort({ _id: 1 })
         .then(previousPost => ({ ...responce, previousPost })))
-      .then(responce => Post.findOne({ _id: { $lt: req.params.id } }).sort({ _id: -1 })
+        .then(responce => Post.findOne({ _id: { $lt: req.params.yearTitleId } }).sort({ _id: -1 })
         .then(nextPost => ({ ...responce, nextPost })))
-      .then(responce => { console.log(responce); return responce })
-      .then(responce => res.render('posts/show', { ...responce }))
-      .catch(err => handleErrorPage(req, res, next, err))
-      // -Add area hidden 'tags' label
-      // -Hide 'copied to clopboard'
-      // -Add labels to 'Previous' 'Next'
+        .then(responce => res.render('posts/show', { ...responce }))
+        .catch(err => handleErrorPage(req, res, next, err))
+    } else {
+      Post.count({ year: req.params.yearTitleId })
+      .then(count => {
+        if (count > 0) {
+          Post.find({ year: req.params.yearTitleId })
+            .then(posts => res.render('search', { posts }))
+            .catch(err => handleErrorPage(req, res, next, err))
+        } else {
+          Post.count({ title: req.params.yearTitleId })
+          .then(count => {
+            if (count > 1) {
+              Post.find({ title: req.params.yearTitleId })
+                .then(posts => res.render('search', { posts }))
+                .catch(err => handleErrorPage(req, res, next, err))
+            } else if (count > 0) {
+              Post.findOne({ title: req.params.yearTitleId })
+                .populate('author.user')
+                .then(post => parseForDisplay(post))
+                .then(data => ({ data }))
+                .then(responce => Post.findOne({ _id: { $gt: responce.data._id } }).sort({ _id: 1 })
+                .then(previousPost => ({ ...responce, previousPost })))
+                .then(responce => Post.findOne({ _id: { $lt: responce.data._id } }).sort({ _id: -1 })
+                .then(nextPost => ({ ...responce, nextPost })))
+                .then(responce => res.render('posts/show', { ...responce }))
+                .catch(err => handleErrorPage(req, res, next, err))
+            } else {
+              res.json({ err: 'Thats not an acceptable file type' })
+            }
+          })
+        }
+      })
+      .catch(err => console.log({ err }))
+    }
   })
   .put(mw.checkPostOwnership, (req, res, next) => {
-    Post.findByIdAndUpdate(req.params.id, Object.assign({},
+    Post.findByIdAndUpdate(req.params.yearTitleId, Object.assign({},
       req.body,
       {
         tags: req.body.tags.split(', '),
@@ -98,7 +127,7 @@ router.route('/:id')
     .catch(err => handleErrorPage(req, res, next, err))
   })
   .delete((req, res, next) => {
-    Post.findByIdAndUpdate(req.params.id, { deleted: true, deleted_on: Date.now() })
+    Post.findByIdAndUpdate(req.params.yearTitleId, { deleted: true, deleted_on: Date.now() })
       .then(post => res.redirect('/'))
       .catch(err => handleErrorPage(req, res, next, err))
   })
@@ -173,43 +202,6 @@ router.route('/new/dev')
      })
  })
 
-
-router.route('/:yearTitle/')
-  .get((req, res, next) => {
-    Post.count({ year: req.params.yearTitle })
-      .then(count => {
-        if (count > 0) {
-          Post.find({ year: req.params.yearTitle })
-            .then(posts => res.json(posts))
-            .catch(err => res.json({ err }))
-        } else {
-          Post.count({ title: req.params.yearTitle })
-            .then(count => {
-              if (count > 0) {
-                Post.find({ title: req.params.yearTitle })
-                  .then(posts => res.json(posts))
-                  .catch(err => res.json({ err }))
-              } else {
-                Post.count({ _id: req.params.yearTitle })
-                  .then(count => {
-                    // console.log({ count })
-                    if (count > 0) {
-                      Post.findOne({ _id: req.params.yearTitle })
-                        .populate('author.user')
-                        .then(post => parseForDisplay(post))
-                        .then(data => res.render('posts/show', { data }))
-                        .catch(err => res.json({ err }))
-                    } else {
-                      res.json({ err: 'Thats not an acceptable file type' })
-                    }
-                  })
-                  .catch(err => res.json({ err }))
-              }
-            })
-        }
-      })
-      .catch(err => console.log({ err }))
-  })
 router.route('/id/:id')
   .get((req, res, next) => {
     Post.findById(req.params.id)
@@ -224,11 +216,11 @@ function handlePostArr (req, res, next) {
     .then(count => {
       console.log({ count })
       Post.find({ ...req.params })
-      .populate('author.user')
-      .then(posts => res.json(posts))
-      .catch(err => res.json({ err }))
+        .populate('author.user')
+        .then(posts => res.json(posts))
+        .catch(err => res.json({ err }))
     })
-    .catch({ err })
+    .catch(err => handleErrorJSON(req, res, next, err))
 }
 // router.route('/:year/:month/')
 //   .get(handlePostArr)
@@ -236,16 +228,13 @@ function handlePostArr (req, res, next) {
 //   .get(handlePostArr)
 router.route('/:year/:month/:day/:title')
   .get((req, res, next) => {
-    Post.findOne({ ...req.params })
+    Post.find({ ...req.params })
       .populate('author.user')
-      .then(post => {
-        console.log(post)
-        res.render('posts/show', { data: parseForDisplay(post) })
+      .then(posts => {
+        console.log({ posts })
+        res.render('search', { posts })
       })
-      .catch(err => {
-        console.log(err)
-        res.json({ err })
-      })
+      .catch(err => handleErrorPage(req, res, next, err))
   })
 
 module.exports = router

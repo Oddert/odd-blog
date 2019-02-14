@@ -20,9 +20,9 @@ const PostSchema = new mongoose.Schema ({
     type: Date,
     default: Date.now
   },
-  year: String,
-  month: String,
-  day: String,
+  year: Number,
+  month: Number,
+  day: Number,
   active: {
     type: Boolean,
     default: false
