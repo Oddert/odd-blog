@@ -22,15 +22,15 @@
         <% posts.forEach(each => { %>
           <div class="post experimental">
             <% if (each.header_image.src && /\w/gi.test(each.header_image.src)) { %>
-              <!-- <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image"> -->
-              <a href="/posts/<%= each._id %>" class="image">
+              <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image">
+              <!-- <a href="/posts/<%= each._id %>" class="image"> -->
                 <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>" />
               </a>
             <% } %>
             <div class="details">
               <div class="details_primary">
-                <!-- <h3><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>"><%= each.title %></a></h3> -->
-                <h3><a href="/posts/<%= each._id %>"><%= each.title %></a></h3>
+                <h3><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>"><%= each.title %></a></h3>
+                <!-- <h3><a href="/posts/<%= each._id %>"><%= each.title %></a></h3> -->
                 <% if (each.subtitle.length > 150) { %>
                   <p><%- each.subtitle.substring(0,150) %>...</p>
                 <% } else { %>

@@ -120,9 +120,9 @@
           <a href="https://twitter.com/intent/tweet?text=<%= location %>posts/<%= data._id %>/ <%= data.title %> -By <%= data.author.displayName %>" class="social twitter" title="Share on Twitter" target="_blank"><i class="fab fa-3x fa-twitter"></i></a>
           <a href="https://www.facebook.com/sharer.php?u=<%= location %>posts/<%= data._id %>" class="social facebook" title="Share on Facebook" target="_blank"><i class="fab fa-3x fa-facebook"></i></a>
           <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= location %>posts/<%= data._id %>&title=<%= data.title %>&summary=<%= data.subtitle %>&source=<%= blog_name %>" class="social linkedin" title="Share on Linkedin" target="_blank"><i class="fab fa-3x fa-linkedin"></i></a>
-          <button class="social link" title="Copy Link" target="_blank" data-link="<%= location %>posts/<%= data._id %>"><i class="fas fa-3x fa-link"></i></button>
+          <button class="social link" title="Copy Link" target="_blank" data-link="<%= location %>posts/<%= data.year %>/<%= data.month %>/<%= data.day %>/<%= data.title %>"><i class="fas fa-3x fa-link"></i></button>
         </div>
-        <div class="notifier">
+        <div class="notifier" hidden>
           <p>Copied: "<span><%= location %>posts/<%= data._id %></span>" to clipboard.</p>
         </div>
       </div>
@@ -185,19 +185,19 @@
           <div class="previous">
           <div class="post">
             <% if (previousPost.header_image.src && /\w/gi.test(previousPost.header_image.src)) { %>
-              <a href="/posts/<%= previousPost._id %>" class="image">
+              <a href="/posts/<%= previousPost.year %>/<%= previousPost.month %>/<%= previousPost.day %>/<%= previousPost.title %>" class="image">
                 <img src="<%= previousPost.header_image.src %>" alt="<%= previousPost.header_image.alt %>" class="other_posts__header_image" title="<%= previousPost.header_image.caption %>" />
               </a>
             <% } %>
             <div class="post_details">
               <div class="post_details_primary">
-                <h3><a href="/posts/<%= previousPost._id %>"><%= previousPost.title %></a></h3>
+                <h3><a href="/posts/<%= previousPost.year %>/<%= previousPost.month %>/<%= previousPost.day %>/<%= previousPost.title %>"><%= previousPost.title %></a></h3>
                 <% if (previousPost.subtitle.length > 150) { %>
                   <p><%- previousPost.subtitle.substring(0,150) %>...</p>
                 <% } else { %>
                   <p><%- previousPost.subtitle %></p>
                 <% } %>
-                <p class="read_button"><a href="/posts/<%= previousPost._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+                <p class="read_button"><a href="/posts/<%= previousPost.year %>/<%= previousPost.month %>/<%= previousPost.day %>/<%= previousPost.title %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
               </div>
               <div class="post_details_meta">
                 <div>
@@ -250,20 +250,20 @@
           <div class="next">
           <div class="post">
             <% if (nextPost.header_image.src && /\w/gi.test(nextPost.header_image.src)) { %>
-              <!-- <a href="/posts/<%= nextPost.year %>/<%= nextPost.month %>/<%= nextPost.day %>/<%= nextPost.title %>" class="image"> -->
-              <a href="/posts/<%= nextPost._id %>" class="image">
+              <a href="/posts/<%= nextPost.year %>/<%= nextPost.month %>/<%= nextPost.day %>/<%= nextPost.title %>" class="image">
+              <!-- <a href="/posts/<%= nextPost._id %>" class="image"> -->
                 <img src="<%= nextPost.header_image.src %>" alt="<%= nextPost.header_image.alt %>" class="other_posts__header_image" title="<%= nextPost.header_image.caption %>" />
               </a>
             <% } %>
             <div class="post_details">
               <div class="post_details_primary">
-                <h3><a href="/posts/<%= nextPost._id %>"><%= nextPost.title %></a></h3>
+                <h3><a href="/posts/<%= nextPost.year %>/<%= nextPost.month %>/<%= nextPost.day %>/<%= nextPost.title %>"><%= nextPost.title %></a></h3>
                 <% if (nextPost.subtitle.length > 150) { %>
                   <p><%- nextPost.subtitle.substring(0,150) %>...</p>
                 <% } else { %>
                   <p><%- nextPost.subtitle %></p>
                 <% } %>
-                <p class="read_button"><a href="/posts/<%= nextPost._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+                <p class="read_button"><a href="/posts/<%= nextPost.year %>/<%= nextPost.month %>/<%= nextPost.day %>/<%= nextPost.title %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
               </div>
               <div class="post_details_meta">
                 <div>

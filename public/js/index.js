@@ -32,12 +32,14 @@ const copy = str => {
 
 const flashNotif = str => {
   const notif = document.querySelector('.notifier')
+  notif.hidden = false
   notif.querySelector('span').textContent = str
   notif.classList.add('show')
   setTimeout(() => {
     notif.classList.add('fade')
     setTimeout(() => {
       notif.classList.remove('show', 'fade')
+      setTimeout(() => notif.hidden = true, 300)
     }, 1000)
   }, 2000)
 }

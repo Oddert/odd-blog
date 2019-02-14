@@ -42,8 +42,8 @@ router.route('/new')
       {
         tags: req.body.tags.split(', '),
         year: date.getFullYear(),
-        month: date.getMonth(),
-        day: date.getDay(),
+        month: date.getMonth()+1,
+        day: date.getDate(),
         word_count: calculateRead(req.body),
         active: true,
         author: {
@@ -166,8 +166,8 @@ router.route('/new/dev')
     const placeholderData = {
       tags: req.body.tags.split(', '),
       year: date.getFullYear(),
-      month: date.getMonth(),
-      day: date.getDay(),
+      month: date.getMonth()+1,
+      day: date.getDate(),
       word_count: calculateRead(req.body),
       active: true,
       author: {
@@ -211,29 +211,33 @@ router.route('/id/:id')
       .catch(err => res.json({ err }))
   })
 
-function handlePostArr (req, res, next) {
-  Post.count({ _id: req.params.year })
-    .then(count => {
-      console.log({ count })
-      Post.find({ ...req.params })
-        .populate('author.user')
-        .then(posts => res.json(posts))
-        .catch(err => res.json({ err }))
-    })
+function handleSearch (req, res, next) {
+  Post.find({ ...req.params })
+    .then(posts => res.render('search', { posts }))
     .catch(err => handleErrorJSON(req, res, next, err))
 }
-// router.route('/:year/:month/')
-//   .get(handlePostArr)
-// router.route('/:year/:month/:day/')
-//   .get(handlePostArr)
+router.route('/:year/:month/')
+  .get(handleSearch)
+router.route('/:year/:month/:day/')
+  .get(handleSearch)
 router.route('/:year/:month/:day/:title')
   .get((req, res, next) => {
-    Post.find({ ...req.params })
+    Post.findOne({ ...req.params })
       .populate('author.user')
-      .then(posts => {
-        console.log({ posts })
-        res.render('search', { posts })
-      })
+      .then(post => parseForDisplay(post))
+      .then(data => ({ data }))
+      .then(responce => Post.findOne({ _id: { $gt: responce.data._id } }).sort({ _id: 1 })
+      .then(previousPost => ({ ...responce, previousPost })))
+      .then(responce => Post.findOne({ _id: { $lt: responce.data._id } }).sort({ _id: -1 })
+      .then(nextPost => ({ ...responce, nextPost })))
+      .then(responce => res.render('posts/show', { ...responce }))
+      .catch(err => handleErrorPage(req, res, next, err))
+    // Post.find({ ...req.params })
+    //   .populate('author.user')
+    //   .then(posts => {
+    //     console.log({ posts })
+    //     res.render('search', { posts })
+    //   })
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
