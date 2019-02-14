@@ -53,6 +53,8 @@ router.route('/new')
         }
       }
     ))
+    // -Header External Internal
+    // -Image External Internal
     .then(post => {
       console.log({ post })
       return Post.findById(post._id)
@@ -78,6 +80,9 @@ router.route('/:id')
       .then(responce => { console.log(responce); return responce })
       .then(responce => res.render('posts/show', { ...responce }))
       .catch(err => handleErrorPage(req, res, next, err))
+      // -Add area hidden 'tags' label
+      // -Hide 'copied to clopboard'
+      // -Add labels to 'Previous' 'Next'
   })
   .put(mw.checkPostOwnership, (req, res, next) => {
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
