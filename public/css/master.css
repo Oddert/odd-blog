@@ -92,4 +92,74 @@ p {
   text-decoration: underline;
 }
 
+.modify {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.modify .icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.icon {
+  padding: 0;
+  height: 30px;
+  width: 30px;
+  border: none;
+  margin-right: 4px;
+  background-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+.icon svg {
+  height: 90%;
+  width: 90%;
+  -webkit-transition: 0.2s linear;
+  -o-transition: 0.2s linear;
+  transition: 0.2s linear;
+}
+.icon svg .editIcon-1, .icon svg .editIcon-2 {
+  fill: none;
+  stroke: #34495e;
+  stroke-miterlimit: 10;
+  -webkit-transition: 0.2s linear;
+  -o-transition: 0.2s linear;
+  transition: 0.2s linear;
+  fill: #fff;
+  -webkit-transition: fill 0.2s ease;
+  -o-transition: fill 0.2s ease;
+  transition: fill 0.2s ease;
+}
+.icon svg .editIcon-1 {
+  stroke-width: 1.11px;
+}
+.icon svg .editIcon-2 {
+  fill: #fff;
+  stroke-width: 10px;
+}
+.icon svg .deleteIcon-1, .icon svg .deleteIcon-2, .icon svg .deleteIcon-3 {
+  stroke: #34495e;
+  stroke-miterlimit: 10;
+  fill: #fff;
+  -webkit-transition: fill 0.2s ease;
+  -o-transition: fill 0.2s ease;
+  transition: fill 0.2s ease;
+}
+.icon svg .deleteIcon-1 {
+  stroke-width: 1.11px;
+}
+.icon svg .deleteIcon-2, .icon svg .deleteIcon-3 {
+  stroke-width: 10px;
+}
+.icon svg .deleteIcon-3 {
+  stroke-linecap: round;
+}
+.icon svg:hover .editIcon-2 {
+  fill: #e67f22;
+}
+.icon svg:hover .deleteIcon-2, .icon svg:hover .deleteIcon-3 {
+  fill: #e84c3d;
+  stroke: #c1392b;
+}
+
 /*# sourceMappingURL=css/master.css.map */

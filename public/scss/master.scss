@@ -104,3 +104,77 @@ p {
     }
   }
 }
+
+.modify {
+  $icon_diameter: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  .icon svg {
+    width: $icon_diameter;
+    height: $icon_diameter;
+  }
+}
+
+.icon {
+  padding: 0;
+  height: 30px;
+  width: 30px;
+  border: none;
+  margin-right: 4px;
+  background-color: rgba(0,0,0,0);
+  cursor: pointer;
+  svg {
+    height: 90%;
+    width: 90%;
+    -webkit-transition: .2s linear;
+    -o-transition: .2s linear;
+    transition: .2s linear;
+    .editIcon-1, .editIcon-2 {
+      fill: none;
+      stroke: #34495e;
+      stroke-miterlimit: 10;
+      -webkit-transition: .2s linear;
+      -o-transition: .2s linear;
+      transition: .2s linear;
+      fill: #fff;
+      -webkit-transition: fill .2s ease;
+      -o-transition: fill .2s ease;
+      transition: fill .2s ease;
+    }
+    .editIcon-1 {
+      stroke-width: 1.11px;
+    }
+    .editIcon-2 {
+      fill: #fff;
+      stroke-width: 10px;
+    }
+    .deleteIcon-1, .deleteIcon-2, .deleteIcon-3 {
+      stroke: #34495e;
+      stroke-miterlimit: 10;
+      fill: #fff;
+      -webkit-transition: fill .2s ease;
+      -o-transition: fill .2s ease;
+      transition: fill .2s ease;
+    }
+    .deleteIcon-1 {
+      stroke-width: 1.11px;
+    }
+    .deleteIcon-2, .deleteIcon-3 {
+      stroke-width: 10px;
+    }
+    .deleteIcon-3 {
+      stroke-linecap: round;
+    }
+    &:hover {
+      .editIcon-2 {
+        // fill: #9a59b5;
+        fill: #e67f22;
+      }
+      .deleteIcon-2, .deleteIcon-3 {
+        fill: #e84c3d;
+        stroke: #c1392b;
+      }
+    }
+  }
+}
