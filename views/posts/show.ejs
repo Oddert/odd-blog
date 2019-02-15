@@ -174,16 +174,16 @@
       <h3 class="read_more">Read More:</h3>
       <div class="read_more__lables">
         <% if (previousPost) { %>
-          <p>Previous</p>
+          <label for="previous_post">Previous</label>
         <% } %>
         <% if (nextPost) { %>
-          <p>Next</p>
+          <label for="next_post">Next</label>
         <% } %>
       </div>
       <div class="other_posts">
         <% if (previousPost) { %>
           <div class="previous">
-          <div class="post">
+          <div class="post" id="previous_post">
             <% if (previousPost.header_image.src && /\w/gi.test(previousPost.header_image.src)) { %>
               <a href="/posts/<%= previousPost.year %>/<%= previousPost.month %>/<%= previousPost.day %>/<%= previousPost.title %>" class="image">
                 <img src="<%= previousPost.header_image.src %>" alt="<%= previousPost.header_image.alt %>" class="other_posts__header_image" title="<%= previousPost.header_image.caption %>" />
@@ -248,7 +248,7 @@
         <% } %>
         <% if (nextPost) { %>
           <div class="next">
-          <div class="post">
+          <div class="post" id="next_post">
             <% if (nextPost.header_image.src && /\w/gi.test(nextPost.header_image.src)) { %>
               <a href="/posts/<%= nextPost.year %>/<%= nextPost.month %>/<%= nextPost.day %>/<%= nextPost.title %>" class="image">
               <!-- <a href="/posts/<%= nextPost._id %>" class="image"> -->

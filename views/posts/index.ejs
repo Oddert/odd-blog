@@ -36,7 +36,7 @@
                 <% } else { %>
                   <p><%- each.subtitle %></p>
                 <% } %>
-                <p class="read_button"><a href="/posts/<%= each._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+                <p class="read_button"><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
               </div>
               <div class="details_meta">
                 <h4 class="details_author">By <a href="/user/<%= each.author.username %>"><%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></a></h4>

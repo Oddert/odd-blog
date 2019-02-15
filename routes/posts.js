@@ -80,18 +80,25 @@ router.route('/:yearTitleId/')
         .then(responce => res.render('posts/show', { ...responce }))
         .catch(err => handleErrorPage(req, res, next, err))
     } else {
-      Post.count({ year: req.params.yearTitleId })
+      Post.count({ title: req.params.yearTitleId })
       .then(count => {
         if (count > 0) {
-          Post.find({ year: req.params.yearTitleId })
+          Post.find({ title: req.params.yearTitleId })
             .then(posts => res.render('search', { posts }))
             .catch(err => handleErrorPage(req, res, next, err))
         } else {
-          Post.count({ title: req.params.yearTitleId })
+          Post.count({ year: req.params.yearTitleId })
           .then(count => {
             if (count > 1) {
-              Post.find({ title: req.params.yearTitleId })
-                .then(posts => res.render('search', { posts }))
+              Post.find({ year: req.params.yearTitleId })
+                .populate('author.user')
+                .then(post => parseForDisplay(post))
+                .then(data => ({ data }))
+                .then(responce => Post.findOne({ _id: { $gt: responce.data._id } }).sort({ _id: 1 })
+                .then(previousPost => ({ ...responce, previousPost })))
+                .then(responce => Post.findOne({ _id: { $lt: responce.data._id } }).sort({ _id: -1 })
+                .then(nextPost => ({ ...responce, nextPost })))
+                .then(responce => res.render('posts/show', { ...responce }))
                 .catch(err => handleErrorPage(req, res, next, err))
             } else if (count > 0) {
               Post.findOne({ title: req.params.yearTitleId })
