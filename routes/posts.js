@@ -101,23 +101,7 @@ router.route('/:yearTitleId/')
                 .then(posts => res.render('search', { posts }))
                 .catch(err => handleErrorPage(req, res, next, err))
             } else if (count > 0) {
-              console.log({ count })
-              Post.findOne({ year: req.params.yearTitleId })
-                .then(post => console.log({ post }))
-                .then(() => {
-
               renderSinglePage(req, res, next, { year: req.params.yearTitleId })
-            })
-              // Post.findOne({ title: req.params.yearTitleId })
-              //   .populate('author.user')
-              //   .then(post => parseForDisplay(post))
-              //   .then(data => ({ data }))
-              //   .then(responce => Post.findOne({ _id: { $gt: responce.data._id } }).sort({ _id: 1 })
-              //   .then(previousPost => ({ ...responce, previousPost })))
-              //   .then(responce => Post.findOne({ _id: { $lt: responce.data._id } }).sort({ _id: -1 })
-              //   .then(nextPost => ({ ...responce, nextPost })))
-              //   .then(responce => res.render('posts/show', { ...responce }))
-              //   .catch(err => handleErrorPage(req, res, next, err))
             } else {
               res.json({ err: 'Thats not an acceptable file type' })
             }
