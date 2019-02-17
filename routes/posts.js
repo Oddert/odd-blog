@@ -220,8 +220,15 @@ router.route('/:year/:month/:day/')
   .get(handleSearch)
 router.route('/:year/:month/:day/:title')
   .get((req, res, next) => {
-    Post.findOne({ ...req.params })
+    console.log(req.params.year, req.params.month, req.params.day, req.params.title)
+    Post.findOne({
+      year: req.params.year,
+      month: req.params.month,
+      day: req.params.day
+    })
+    // Post.findOne({ ...req.params })
       .populate('author.user')
+      .then(post => { console.log({ post }); return post })
       .then(post => parseForDisplay(post))
       .then(data => ({ data }))
       .then(responce => Post.findOne({ _id: { $gt: responce.data._id } }).sort({ _id: 1 })

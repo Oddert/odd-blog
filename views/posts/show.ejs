@@ -15,10 +15,10 @@
     <% include ../partials/nav %>
 
     <% if (/\w/gi.test(data.header_image.src)) { %>
-      <figure class="header_image">
+      <div class="header_image">
         <img src="<%= data.header_image.src %>" alt="<%= data.header_image.src %>" />
         <figcaption><%= data.header_image.caption %></figcaption>
-      </figure>
+      </div>
     <% } %>
 
     <article class="main post_show">
