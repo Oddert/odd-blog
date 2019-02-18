@@ -15,18 +15,18 @@
     <% include ../partials/nav %>
     <div class="intro_card">
       <div class="intro_text">
-        <h2>Hello. My Name is Robyn Veitch</h2>
+        <h1>Hello. My Name is <strong>Robyn Veitch</strong></h1>
         <p>...and I'm a problem solver.</p>
       </div>
       <div class="intro_pic">
-        <img src="/img/folio_intro_image.png" alt="" style="max-height: 200px;">
+        <img src="/img/folio_intro_image.png" alt="A picture of the author." title="Oddert dot jay peg" />
       </div>
     </div>
     <div class="main">
       <% if (user) { %>
-        <a href="/posts/new">Create a new Post</a>
+        <a href="/posts/new" class="new_post">Create a new Post</a>
       <% } %>
-      <h1 class="title">View all posts:</h1>
+      <h2 class="title">View all posts</h2>
       <div class="posts">
         <% posts.forEach(each => { %>
           <div class="post experimental">
@@ -78,9 +78,13 @@
                       </svg>
                     </button>
                     <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form hide">
-                      <p>Are you sure you want to delete?</p>
-                      <button class="cancel">Cancel</button>
-                      <button class="delete">Delete</button>
+                      <div class="wrapper">
+                        <p>Are you sure you want to delete this post?</p>
+                        <div class="opt">
+                          <button class="delete" title="Click to delete the post">Delete Post</button>
+                          <button class="cancel" title="Cancel; do not delete the post">Go Back</button>
+                        </div>
+                      </div>
                     </form>
                   </div>
                   <% if (each.deleted) { %>

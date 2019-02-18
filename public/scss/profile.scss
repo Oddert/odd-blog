@@ -1,6 +1,9 @@
 
 $dark_background_text: #ecf0f1;
+$light_background_text: #2d3e50;
 $bio_height: 100px;
+
+$text_color: $light_background_text;
 
 .profile_background {
   background: #334;
@@ -9,6 +12,10 @@ $bio_height: 100px;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+}
+
+h2 {
+  text-align: center;
 }
 
 // .hide {
@@ -36,11 +43,11 @@ $bio_height: 100px;
     border: 1px solid #bec3c7;
     border-radius: 10px;
     word-break: break-all;
+    white-space: pre-line;
     margin: 0 auto;
-    height: $bio_height;
     .bio_edit {
       .bio_edit__input {
-        color: $dark_background_text;
+        color: $text_color;
         box-sizing: border-box;
         width: 100%;
         height: $bio_height;

@@ -221,6 +221,7 @@ blockquote > * {
 }
 .notifier p, .notifier span {
   color: #ecf0f1;
+  word-break: break-all;
 }
 
 footer {
@@ -500,6 +501,15 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
     flex-direction: row;
     padding-bottom: 20px;
   }
+}
+@media only screen and (max-width: 950px) {
+  .details {
+    justify-content: center;
+  }
+
+  .main {
+    width: 75vw;
+  }
 
   .other_posts {
     flex-direction: column;
@@ -528,15 +538,6 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
   }
   .other_posts > * {
     max-width: 96vw;
-  }
-}
-@media only screen and (max-width: 950px) {
-  .details {
-    justify-content: center;
-  }
-
-  .main {
-    width: 75vw;
   }
 }
 

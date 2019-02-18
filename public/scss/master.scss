@@ -9,6 +9,8 @@ $dark_background_colour: #223;
 
 $nav_background: #666699;
 $nav_background--hover: linear-gradient(45deg, #1bbc9b, #9a59b5);
+$danger_red: rgba(232, 76, 61, 1);
+$danger_red_dark: rgba(193, 57, 43, 1);
 
 * {
   font-family: arial, helvetica, sans-serif, 'open sans';
@@ -61,6 +63,10 @@ p {
   padding: 10px;
 }
 
+.post {
+  position: relative;
+}
+
 .nav {
   $nav_general_transition: .3s;
   $nav_height: 40px;
@@ -73,6 +79,7 @@ p {
   z-index: 300;
   transition: all $nav_general_transition linear;
   height: $nav_height;
+  box-shadow: 10px 10px 30px rgba(1,1,1,.1);
   & ul {
     box-sizing: border-box;
     width: 100%;
@@ -122,6 +129,68 @@ p {
   .icon svg {
     width: $icon_diameter;
     height: $icon_diameter;
+  }
+  .delete_control {
+    .delete_form {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.3);
+      border-radius: 20px;
+      .wrapper {
+        background: white;
+        box-shadow: 5px 5px 20px rgba(0,0,0,.7);
+        padding: 20px;
+        border: 3px solid $danger_red;
+        border-radius: 20px;
+        p {
+          font-weight: 700;
+          font-size: 20px;
+          margin-bottom: 20px;
+        }
+        .opt {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          button {
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: .1s linear;
+          }
+          .delete {
+            background: rgba(0,0,0,0);
+            border: 2px solid rgba(0,0,0,0);
+            color: $danger_red;
+            &:hover {
+              background: $danger_red;
+              border: 2px solid $danger_red_dark;
+              color: white;
+              text-decoration: underline;
+            }
+          }
+          .cancel {
+            background: rgba(0,0,0,0);
+            border: 2px solid rgba(53, 152, 219, 1);
+            padding: 10px 20px;
+            &:hover {
+              background: rgba(53, 152, 219, 1);
+              border: 2px solid rgba(53, 152, 219, 1);
+              color: white;
+            }
+          }
+        }
+      }
+      &.hide {
+        display: none;
+      }
+    }
   }
 }
 

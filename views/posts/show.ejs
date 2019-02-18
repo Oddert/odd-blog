@@ -67,8 +67,8 @@
               </button>
               <form action="/posts/<%= data._id %>?_method=DELETE" method="POST" class="delete_form hide">
                 <p>Are you sure you want to delete?</p>
-                <button class="cancel">Cancel</button>
-                <button class="delete">Delete</button>
+                  <button class="delete" title="Click to delete the post">Delete Post</button>
+                  <button class="cancel" title="Cancel; do not delete the post">Go Back</button>
               </form>
             </div>
             <% if (data.deleted) { %>

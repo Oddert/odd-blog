@@ -49,6 +49,10 @@ p {
   padding: 10px;
 }
 
+.post {
+  position: relative;
+}
+
 .nav {
   width: 100%;
   box-sizing: border-box;
@@ -59,6 +63,7 @@ p {
   z-index: 300;
   transition: all 0.3s linear;
   height: 40px;
+  box-shadow: 10px 10px 30px rgba(1, 1, 1, 0.1);
 }
 .nav ul {
   box-sizing: border-box;
@@ -105,6 +110,66 @@ p {
 .modify .icon svg {
   width: 30px;
   height: 30px;
+}
+.modify .delete_control .delete_form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
+.modify .delete_control .delete_form .wrapper {
+  background: white;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border: 3px solid #e84c3d;
+  border-radius: 20px;
+}
+.modify .delete_control .delete_form .wrapper p {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.modify .delete_control .delete_form .wrapper .opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modify .delete_control .delete_form .wrapper .opt button {
+  padding: 6px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.1s linear;
+}
+.modify .delete_control .delete_form .wrapper .opt .delete {
+  background: rgba(0, 0, 0, 0);
+  border: 2px solid rgba(0, 0, 0, 0);
+  color: #e84c3d;
+}
+.modify .delete_control .delete_form .wrapper .opt .delete:hover {
+  background: #e84c3d;
+  border: 2px solid #c1392b;
+  color: white;
+  text-decoration: underline;
+}
+.modify .delete_control .delete_form .wrapper .opt .cancel {
+  background: rgba(0, 0, 0, 0);
+  border: 2px solid #3598db;
+  padding: 10px 20px;
+}
+.modify .delete_control .delete_form .wrapper .opt .cancel:hover {
+  background: #3598db;
+  border: 2px solid #3598db;
+  color: white;
+}
+.modify .delete_control .delete_form.hide {
+  display: none;
 }
 
 .icon {

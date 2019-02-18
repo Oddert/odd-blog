@@ -30,13 +30,23 @@ $readButtonColour--hover: $light_readButtonColour--hover;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(45deg, #1bbc9b, #9a59b5);
+  background: linear-gradient(45deg, #13c9ac, #7C6CBE, #a04dc5);
   height: 50vh;
+  // min-height: 50vh;
+  box-shadow: inset 0px -6px 20px rgba(0,0,0,.3);
+  transition: .2s linear;
   .intro_text {
+    transition: .2s linear;
     flex: 2;
     text-align: center;
+    & h1 {
+      text-shadow: 0 0 10px #fefdeb;
+      font-size: 40px;
+      cursor: default;
+    }
   }
   .intro_pic {
+    transition: .2s linear;
     flex: 1;
     height: 100%;
     // outline: 1px solid green;
@@ -44,14 +54,29 @@ $readButtonColour--hover: $light_readButtonColour--hover;
     align-items: flex-end;
     justify-content: flex-start;
     img {
-      filter: grayscale(1);
-      // height: 100px;
+      transition: .2s linear;
+      filter: grayscale(1) drop-shadow(3px 3px 5px rgba(0,0,0,.3));
+      height: 90%;
+      // max-height: 60vh;
+      width: auto;
+      object-fit: contain;
+      &:hover {
+        filter: grayscale(0) drop-shadow(3px 3px 5px rgba(0,0,0,.3));
+      }
     }
   }
 }
 
 .main {
   margin-top: 0;
+}
+
+.new_post {
+
+}
+
+.title {
+  text-align: center;
 }
 
 

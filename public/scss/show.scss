@@ -253,6 +253,7 @@ blockquote {
   }
   p, span {
     color: #ecf0f1;
+    word-break: break-all;
   }
 }
 
@@ -565,6 +566,14 @@ footer {
       padding-bottom: 20px;
     }
   }
+}
+@media only screen and (max-width: 950px) {
+  .details {
+    justify-content: center;
+  }
+  .main {
+    width: 75vw;
+  }
   .other_posts {
     flex-direction: column;
     .post {
@@ -596,13 +605,5 @@ footer {
     & > * {
       max-width: 96vw;
     }
-  }
-}
-@media only screen and (max-width: 950px) {
-  .details {
-    justify-content: center;
-  }
-  .main {
-    width: 75vw;
   }
 }

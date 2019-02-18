@@ -5,14 +5,23 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(45deg, #1bbc9b, #9a59b5);
+  background: linear-gradient(45deg, #13c9ac, #7C6CBE, #a04dc5);
   height: 50vh;
+  box-shadow: inset 0px -6px 20px rgba(0, 0, 0, 0.3);
+  transition: 0.2s linear;
 }
 .intro_card .intro_text {
+  transition: 0.2s linear;
   flex: 2;
   text-align: center;
 }
+.intro_card .intro_text h1 {
+  text-shadow: 0 0 10px #fefdeb;
+  font-size: 40px;
+  cursor: default;
+}
 .intro_card .intro_pic {
+  transition: 0.2s linear;
   flex: 1;
   height: 100%;
   display: flex;
@@ -20,11 +29,22 @@
   justify-content: flex-start;
 }
 .intro_card .intro_pic img {
-  filter: grayscale(1);
+  transition: 0.2s linear;
+  filter: grayscale(1) drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.3));
+  height: 90%;
+  width: auto;
+  object-fit: contain;
+}
+.intro_card .intro_pic img:hover {
+  filter: grayscale(0) drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.3));
 }
 
 .main {
   margin-top: 0;
+}
+
+.title {
+  text-align: center;
 }
 
 .posts {

@@ -113,13 +113,14 @@ function submitBioChanges (e) {
   })
 }
 
-function createBioEditor (bio_text) {
+function createBioEditor (bio_text, height=300) {
   const bio_edit = document.createElement('form')
   const bio_edit_input = document.createElement('textarea')
   const bio_edit_submit = document.createElement('button')
 
   bio_edit_input.className = 'bio_edit__input'
   bio_edit_input.value = bio_text.textContent
+  bio_edit_input.style.height = `${height}px`
   setTimeout(() => document.addEventListener('click', handleBioOUB), 1000)
 
   bio_edit_submit.textContent = 'Save'
@@ -139,8 +140,9 @@ function editBio (e) {
   // if (!bioEditing) {
     bioEditing = true
     const bio_text = biography.querySelector('p')
+    const height = bio_text.scrollHeight
     bio_text.classList.add('hide')
-    biography.appendChild(createBioEditor(bio_text))
+    biography.appendChild(createBioEditor(bio_text, height))
   }
 }
 
@@ -156,3 +158,28 @@ function fullSizeHeader () {
 }
 
 document.addEventListener('DOMContentLoaded', fullSizeHeader)
+
+
+if (document.querySelector('.modify')) {
+  const deleteControls = document.querySelectorAll('.delete_control')
+
+  deleteControls.forEach(deleteControl => {
+    const deletePrompt = deleteControl.querySelector('.delete_prompt')
+    const deleteForm = deleteControl.querySelector('.delete_form')
+    const deleteCancel = deleteForm.querySelector('.cancel')
+    const deleteConfirm = deleteForm.querySelector('.delete')
+
+    let deleteOpen = false
+    function toggleDeleteOpen () {
+      if (deleteOpen) deleteForm.classList.add('hide')
+      else deleteForm.classList.remove('hide')
+      deleteOpen = !deleteOpen
+    }
+    deletePrompt.onclick = toggleDeleteOpen
+    deleteCancel.onclick = e => {
+      console.log('delet')
+      e.preventDefault()
+      toggleDeleteOpen()
+    }
+  })
+}
