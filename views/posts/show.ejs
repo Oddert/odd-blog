@@ -230,10 +230,14 @@
                           <line class="deleteIcon-3" x1="5.3" y1="23.44" x2="102.97" y2="39.61"></line>
                         </svg>
                       </button>
-                      <form action="/posts/<%= previousPost._id %>?_method=DELETE" method="POST" class="delete_form hide">
-                        <p>Are you sure you want to delete?</p>
-                        <button class="cancel">Cancel</button>
-                        <button class="delete">Delete</button>
+                      <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form hide">
+                        <div class="wrapper">
+                          <p>Are you sure you want to delete this post?</p>
+                          <div class="opt">
+                            <button class="delete" title="Click to delete the post">Delete Post</button>
+                            <button class="cancel" title="Cancel; do not delete the post">Go Back</button>
+                          </div>
+                        </div>
                       </form>
                     </div>
                     <% if (previousPost.deleted) { %>
@@ -296,10 +300,14 @@
                           <line class="deleteIcon-3" x1="5.3" y1="23.44" x2="102.97" y2="39.61"></line>
                         </svg>
                       </button>
-                      <form action="/posts/<%= nextPost._id %>?_method=DELETE" method="POST" class="delete_form hide">
-                        <p>Are you sure you want to delete?</p>
-                        <button class="cancel">Cancel</button>
-                        <button class="delete">Delete</button>
+                      <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form hide">
+                        <div class="wrapper">
+                          <p>Are you sure you want to delete this post?</p>
+                          <div class="opt">
+                            <button class="delete" title="Click to delete the post">Delete Post</button>
+                            <button class="cancel" title="Cancel; do not delete the post">Go Back</button>
+                          </div>
+                        </div>
                       </form>
                     </div>
                     <% if (nextPost.deleted) { %>
