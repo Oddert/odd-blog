@@ -224,7 +224,8 @@ router.route('/:year/:month/:day/:title')
     Post.findOne({
       year: req.params.year,
       month: req.params.month,
-      day: req.params.day
+      day: req.params.day,
+      
     })
     // Post.findOne({ ...req.params })
       .populate('author.user')

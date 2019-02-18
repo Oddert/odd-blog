@@ -513,6 +513,8 @@ document.querySelector('.header_image--src').onchange = headerPreviewUpdate
 
 // ####################### TO DO LIST #####################################
 // -Change styling
+//    -Main page, Profile Page small
+// -Pagination
 // -Add update notes
 // -Profile page
 // -Support for no header image

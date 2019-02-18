@@ -1,3 +1,32 @@
+.intro_card {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #1bbc9b, #9a59b5);
+  height: 50vh;
+}
+.intro_card .intro_text {
+  flex: 2;
+  text-align: center;
+}
+.intro_card .intro_pic {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.intro_card .intro_pic img {
+  filter: grayscale(1);
+}
+
+.main {
+  margin-top: 0;
+}
+
 .posts {
   width: 60vw;
   margin: 0 auto;

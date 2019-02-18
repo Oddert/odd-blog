@@ -21,6 +21,40 @@ $nav_background--hover: linear-gradient(45deg, #1bbc9b, #9a59b5);
 
 $readButtonColour--hover: $light_readButtonColour--hover;
 
+
+.intro_card {
+  // border: 1px solid red;
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #1bbc9b, #9a59b5);
+  height: 50vh;
+  .intro_text {
+    flex: 2;
+    text-align: center;
+  }
+  .intro_pic {
+    flex: 1;
+    height: 100%;
+    // outline: 1px solid green;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    img {
+      filter: grayscale(1);
+      // height: 100px;
+    }
+  }
+}
+
+.main {
+  margin-top: 0;
+}
+
+
 .posts {
   width: 60vw;
   margin: 0 auto;
