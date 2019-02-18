@@ -384,18 +384,26 @@ footer {
   font-weight: bold;
 }
 
-.read_more__lables {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-}
+// .read_more__lables {
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-around;
+// }
 
 .other_posts {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  .label {
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    p, a, label {
+      text-align: center;
+    }
+  }
   & > * {
     flex: 1;
     margin: 0 20px;

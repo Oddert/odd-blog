@@ -83,149 +83,148 @@ $readButtonColour--hover: $light_readButtonColour--hover;
 .posts {
   width: 60vw;
   margin: 0 auto;
-}
-
-.post {
-  &.dark_mode {
-    $readButtonColour--hover: red;
-  }
-  $border_rad: 20px;
-  $padd: 20px;
-  $image_height: 350px;
-
-  & a {
-    border-radius: $border_rad $border_rad 0 0;
-  }
-  transition: .2s linear;
-  border: $light_postBorder;
-  border-radius: $border_rad;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  background: $light_cardColour;
-  margin: 20px 0;
-  // padding: $padd;
-
-  & .image {
-    transition: .2s linear;
-    flex: 1;
-    // align-self: center;
-    background: white;
-    text-align: center;
-    max-height: $image_height;
-    position: relative;
-    margin: 0;
-    img {
-      height: $image_height;
-      width: 100%;
-      border-radius: $border_rad $border_rad 0 0;
-      // max-width: 100%;
-      object-fit: cover;
-      box-shadow: $light_cardShadow;
+  .post {
+    &.dark_mode {
+      $readButtonColour--hover: red;
     }
-  }
-  & .details {
+    $border_rad: 20px;
+    $padd: 20px;
+    $image_height: 350px;
+
+    & a {
+      border-radius: $border_rad $border_rad 0 0;
+    }
     transition: .2s linear;
-    padding: $padd $padd*2;
-    flex: 1;
+    border: $light_postBorder;
+    border-radius: $border_rad;
     display: flex;
-    flex-direction: row;
-    grid-column: 1 / -1;
-    .details_primary {
-      flex: 3;
-      padding-right: 20px;
-      border-right: 1px solid #bec3c7;
-      h3 {
-        margin-top: 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background: $light_cardColour;
+    margin: 20px 0;
+    // padding: $padd;
+
+    & .image {
+      transition: .2s linear;
+      flex: 1;
+      // align-self: center;
+      background: white;
+      text-align: center;
+      max-height: $image_height;
+      position: relative;
+      margin: 0;
+      img {
+        height: $image_height;
+        width: 100%;
+        border-radius: $border_rad $border_rad 0 0;
+        // max-width: 100%;
+        object-fit: cover;
+        box-shadow: $light_cardShadow;
       }
-      .read_button {
-        margin-top: 10px;
-        display: flex;
-        justify-content: flex-end;
-        a {
-          transition: .1s linear;
-          border: $readButtonBorder;
-          border-radius: 10px;
-          padding: 10px 20px;
-          transition: .2s linear;
-          background: rgba(0,0,0,0);
-          & i {
+    }
+    & .details {
+      transition: .2s linear;
+      padding: $padd $padd*2;
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      grid-column: 1 / -1;
+      .details_primary {
+        flex: 3;
+        padding-right: 20px;
+        border-right: 1px solid #bec3c7;
+        h3 {
+          margin-top: 0;
+        }
+        .read_button {
+          margin-top: 10px;
+          display: flex;
+          justify-content: flex-end;
+          a {
             transition: .1s linear;
+            border: $readButtonBorder;
+            border-radius: 10px;
+            padding: 10px 20px;
             transition: .2s linear;
             background: rgba(0,0,0,0);
-          }
-          &:hover {
-            background: $nav_background--hover;
-            color: $readButtonColour--hover;
-            box-shadow: $light_readButtonShadow--hover;
-            i {
+            & i {
+              transition: .1s linear;
+              transition: .2s linear;
+              background: rgba(0,0,0,0);
+            }
+            &:hover {
+              background: $nav_background--hover;
               color: $readButtonColour--hover;
+              box-shadow: $light_readButtonShadow--hover;
+              i {
+                color: $readButtonColour--hover;
+              }
+            }
+          }
+        }
+        .tags {
+          $tag_background: #9a59b5;
+          $tag_shadow: #8d44ad;
+          // border: 1px  dashed tomato;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          // width: 80vw;
+          margin: 0 auto;
+          margin-bottom: 20px;
+          .tag {
+            padding: 4px 8px;
+            margin: 5px;
+            border-radius: 6px;
+            background: $tag_background;
+            border-bottom: 4px solid $tag_shadow;
+            display: flex;
+            justify-content: center;
+            color: #ecf0f1;
+            &:hover {
+              margin-bottom: 1px;
+              border-bottom: 4px solid $tag_shadow;
             }
           }
         }
       }
-    }
-    .details_meta {
-      padding-left: 20px;
-      flex: 1;
-      .details_author {
-        margin-top: 0;
+      .details_meta {
+        padding-left: 20px;
+        flex: 1;
+        .details_author {
+          margin-top: 0;
+        }
+        .details_read_time {
+          margin-top: 8px;
+        }
       }
-      .details_read_time {
-        margin-top: 8px;
+      & > * {
+        padding: 0;
       }
-    }
-    & > * {
-      padding: 0;
-    }
-    & p {
-      margin: 0;
-      padding: 0;
-    }
-  }
-  box-shadow: 0 0 0 rgba(0,0,0,0);
-  &:hover {
-    border: $light_postBorder--hover;
-    box-shadow: $light_cardShadow, 5px 0 20px rgba(0,0,0,0), -5px 0 20px rgba(0,0,0,0);
-  }
-
-  &.experimental {
-    margin: 30px 0;
-    .image {
-      background: none;
-      img {
-        border-radius: 4px;
-        width: 94%;
-        transform: translateY(-10px);
+      & p {
+        margin: 0;
+        padding: 0;
       }
     }
-  }
-}
-
-.tags {
-  $tag_background: #9a59b5;
-  $tag_shadow: #8d44ad;
-  // border: 1px  dashed tomato;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  // width: 80vw;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  .tag {
-    padding: 4px 8px;
-    margin: 5px;
-    border-radius: 6px;
-    background: $tag_background;
-    border-bottom: 4px solid $tag_shadow;
-    display: flex;
-    justify-content: center;
-    color: #ecf0f1;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
     &:hover {
-      margin-bottom: 1px;
-      border-bottom: 4px solid $tag_shadow;
+      border: $light_postBorder--hover;
+      box-shadow: $light_cardShadow, 5px 0 20px rgba(0,0,0,0), -5px 0 20px rgba(0,0,0,0);
+    }
+  }
+  &.experimental {
+    .post {
+      margin: 30px 0;
+      .image {
+        background: none;
+        img {
+          border-radius: 4px;
+          width: 94%;
+          transform: translateY(-10px);
+        }
+      }
     }
   }
 }

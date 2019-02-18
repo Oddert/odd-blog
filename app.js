@@ -65,9 +65,9 @@ app.route('/')
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
-// app.route('/tester')
+// app.route('/tester/posts/2019/1/6/This%20is%20a%20Very%20Good%20Article')
 //   .get((req, res, next) => {
-//     Dummy.create({ number: Math.floor(Math.random()*300) })
+//     Post.find({ title: { $regex: req.params.title, $options: 'i' } })
 //       .then(data => res.json({ data }))
 //       .catch(err => handleErrorJSON((req, res, next, err)))
 //   })

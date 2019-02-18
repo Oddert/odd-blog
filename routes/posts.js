@@ -225,7 +225,7 @@ router.route('/:year/:month/:day/:title')
       year: req.params.year,
       month: req.params.month,
       day: req.params.day,
-      
+      title: { $regex: req.params.title, $options: 'i' }
     })
     // Post.findOne({ ...req.params })
       .populate('author.user')

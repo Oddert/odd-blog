@@ -332,18 +332,19 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
   font-weight: bold;
 }
 
-.read_more__lables {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-}
-
 .other_posts {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+}
+.other_posts .label {
+  width: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+.other_posts .label p, .other_posts .label a, .other_posts .label label {
+  text-align: center;
 }
 .other_posts > * {
   flex: 1;

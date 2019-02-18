@@ -17,56 +17,7 @@
       <h1>Tag Search for: <%= tags.join(' ') %></h1>
       <div class="posts">
         <% posts.forEach(each => { %>
-          <div class="post experimental">
-            <% if (each.header_image.src && /\w/gi.test(each.header_image.src)) { %>
-              <!-- <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image"> -->
-              <a href="/posts/<%= each._id %>" class="image">
-                <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>" />
-              </a>
-            <% } %>
-            <div class="details">
-              <div class="details_primary">
-                <!-- <h3><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>"><%= each.title %></a></h3> -->
-                <h3><a href="/posts/<%= each._id %>"><%= each.title %></a></h3>
-                <% if (each.subtitle.length > 150) { %>
-                  <p><%= each.subtitle.substring(0,150) %>...</p>
-                <% } else { %>
-                  <p><%= each.subtitle %></p>
-                <% } %>
-                <p class="read_button"><a href="/posts/<%= each._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
-                <div class="tags">
-                  <% each.tags.forEach(each => { %>
-                    <a href="/tags/?tag=<%= each %>" class="tag"><%= each %></a>
-                  <% }) %>
-                </div>
-              </div>
-              <div class="details_meta">
-                <h4 class="details_author">By <a href="/user/<%= each.author.username %>"><%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></a></h4>
-                <strong><%= new Date(each.created).toLocaleDateString() %></strong>
-                <p class="details_read_time"><em>Read Time: <%= each.word_count < 265 ? '1 min' : Math.ceil(each.word_count/265) > 1 ? Math.ceil(each.word_count/265)+' mins' : Math.ceil(each.word_count/265)+' min' %></em></p>
-              </div>
-              <% if (user && each.author.id.equals(user._id)) { %>
-                <div class="modify">
-                  <a href="/posts/<%= each._id %>/edit">Edit</a>
-                  <div class="delete_control">
-                    <button class="delete_prompt">Delete</button>
-                    <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form hide">
-                      <div class="wrapper">
-                        <p>Are you sure you want to delete this post?</p>
-                        <div class="opt">
-                          <button class="delete" title="Click to delete the post">Delete Post</button>
-                          <button class="cancel" title="Cancel; do not delete the post">Go Back</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <% if (each.deleted) { %>
-                    <a href="/dev/<%= each._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
-                    <% } %>
-                </div>
-              <% } %>
-            </div>
-          </div>
+          <% include ../partials/post_tags %>
         <% }) %>
       </div>
     </div>

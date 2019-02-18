@@ -51,8 +51,7 @@
   width: 60vw;
   margin: 0 auto;
 }
-
-.post {
+.posts .post {
   transition: 0.2s linear;
   border: 1px solid #bec3c7;
   border-radius: 20px;
@@ -63,10 +62,10 @@
   margin: 20px 0;
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
-.post a {
+.posts .post a {
   border-radius: 20px 20px 0 0;
 }
-.post .image {
+.posts .post .image {
   transition: 0.2s linear;
   flex: 1;
   background: white;
@@ -75,14 +74,14 @@
   position: relative;
   margin: 0;
 }
-.post .image img {
+.posts .post .image img {
   height: 350px;
   width: 100%;
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
-.post .details {
+.posts .post .details {
   transition: 0.2s linear;
   padding: 20px 40px;
   flex: 1;
@@ -90,20 +89,20 @@
   flex-direction: row;
   grid-column: 1/-1;
 }
-.post .details .details_primary {
+.posts .post .details .details_primary {
   flex: 3;
   padding-right: 20px;
   border-right: 1px solid #bec3c7;
 }
-.post .details .details_primary h3 {
+.posts .post .details .details_primary h3 {
   margin-top: 0;
 }
-.post .details .details_primary .read_button {
+.posts .post .details .details_primary .read_button {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
 }
-.post .details .details_primary .read_button a {
+.posts .post .details .details_primary .read_button a {
   transition: 0.1s linear;
   border: 1px solid #bec3c7;
   border-radius: 10px;
@@ -111,53 +110,20 @@
   transition: 0.2s linear;
   background: rgba(0, 0, 0, 0);
 }
-.post .details .details_primary .read_button a i {
+.posts .post .details .details_primary .read_button a i {
   transition: 0.1s linear;
   transition: 0.2s linear;
   background: rgba(0, 0, 0, 0);
 }
-.post .details .details_primary .read_button a:hover {
+.posts .post .details .details_primary .read_button a:hover {
   background: linear-gradient(45deg, #1bbc9b, #9a59b5);
   color: #ecf0f1;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-.post .details .details_primary .read_button a:hover i {
+.posts .post .details .details_primary .read_button a:hover i {
   color: #ecf0f1;
 }
-.post .details .details_meta {
-  padding-left: 20px;
-  flex: 1;
-}
-.post .details .details_meta .details_author {
-  margin-top: 0;
-}
-.post .details .details_meta .details_read_time {
-  margin-top: 8px;
-}
-.post .details > * {
-  padding: 0;
-}
-.post .details p {
-  margin: 0;
-  padding: 0;
-}
-.post:hover {
-  border: 1px solid #ecf0f1;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 5px 0 20px rgba(0, 0, 0, 0), -5px 0 20px rgba(0, 0, 0, 0);
-}
-.post.experimental {
-  margin: 30px 0;
-}
-.post.experimental .image {
-  background: none;
-}
-.post.experimental .image img {
-  border-radius: 4px;
-  width: 94%;
-  transform: translateY(-10px);
-}
-
-.tags {
+.posts .post .details .details_primary .tags {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -166,7 +132,7 @@
   margin: 0 auto;
   margin-bottom: 20px;
 }
-.tags .tag {
+.posts .post .details .details_primary .tags .tag {
   padding: 4px 8px;
   margin: 5px;
   border-radius: 6px;
@@ -176,9 +142,41 @@
   justify-content: center;
   color: #ecf0f1;
 }
-.tags .tag:hover {
+.posts .post .details .details_primary .tags .tag:hover {
   margin-bottom: 1px;
   border-bottom: 4px solid #8d44ad;
+}
+.posts .post .details .details_meta {
+  padding-left: 20px;
+  flex: 1;
+}
+.posts .post .details .details_meta .details_author {
+  margin-top: 0;
+}
+.posts .post .details .details_meta .details_read_time {
+  margin-top: 8px;
+}
+.posts .post .details > * {
+  padding: 0;
+}
+.posts .post .details p {
+  margin: 0;
+  padding: 0;
+}
+.posts .post:hover {
+  border: 1px solid #ecf0f1;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 5px 0 20px rgba(0, 0, 0, 0), -5px 0 20px rgba(0, 0, 0, 0);
+}
+.posts.experimental .post {
+  margin: 30px 0;
+}
+.posts.experimental .post .image {
+  background: none;
+}
+.posts.experimental .post .image img {
+  border-radius: 4px;
+  width: 94%;
+  transform: translateY(-10px);
 }
 
 @media only screen and (max-width: 850px) {
