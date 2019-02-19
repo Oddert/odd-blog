@@ -62,7 +62,7 @@ const visitors = {}
 
 app.route('/')
   .get((req, res, next) => {
-    let perPage = req.query.quantity ? Number(req.query.quantity) : 2
+    let perPage = req.query.quantity ? Number(req.query.quantity) : 10
     let page = req.query.page ? Number(req.query.page) : 0
     let skip = page * perPage
     let quantity = req.query.quantity ? req.query.quantity : undefined
