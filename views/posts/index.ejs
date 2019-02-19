@@ -27,10 +27,50 @@
         <a href="/posts/new" class="new_post">Create a new Post</a>
       <% } %>
       <h2 class="title">View all posts</h2>
+      <div class="scroll_controls">
+        <!-- <p>page: <%= page %>, skip: <%= skip %>, numPosts: <%= numPosts %>, estimate: <%= skip + perPage %></p> -->
+        <select name="per_page" class="per_page">
+          <% if (!quantity || quantity == "10") { %>
+            <option value="10" selected>Show 10 Per Page</option>
+          <% } else { %>
+            <option value="10">Show 10 Per Page</option>
+          <% } %>
+          <% if (quantity == "25") { %>
+            <option value="25" selected>Show 25 Per Page</option>
+          <% } else { %>
+            <option value="25">Show 25 Per Page</option>
+          <% } %>
+          <% if (quantity == "50") { %>
+            <option value="50" selected>Show 50 Per Page</option>
+          <% } else { %>
+            <option value="50">Show 50 Per Page</option>
+          <% } %>
+        </select>
+        <!-- <div class="toggle_pagination">
+          <label class="visable_label">Single Page View</label>
+          <div class="toggle_pagination__switch">
+            <label class="switch_label">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div> -->
+      </div>
       <div class="posts experimental">
         <% posts.forEach(each => { %>
           <% include ../partials/post %>
         <% }) %>
+      </div>
+      <div class="pagination_buttons__container">
+        <div class="pagination_buttons">
+          <% if (page > 0) { %>
+            <a href="/?page=<%= page - 1 %>" class="page_button_back" title="show posts <%= ((page-1) * perPage)+1 %> to <%= (page * perPage) %>"><i class="fas fa-chevron-left"></i> Previous Page</a>
+          <% } %>
+          <p class="page_position">Showing posts <%= (page * perPage) + 1 %> - <%= (page+1) * perPage > numPosts ? numPosts : (page+1) * perPage %> of <%= numPosts %></p>
+          <% if (skip + perPage < numPosts) { %>
+            <a href="/?page=<%= page + 1 %>" class="page_button_forward" title="show posts <%= ((page+1) * perPage)+1 %> to <%= (page+2) * perPage %>">Next Page <i class="fas fa-chevron-right"></i></a>
+          <% } %>
+        </div>
       </div>
     </div>
   </body>

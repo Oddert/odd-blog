@@ -1,4 +1,12 @@
 
+const togglePage = document.querySelector('.toggle_pagination__switch')
+const perPage = document.querySelector('.per_page')
+
+if (togglePage) togglePage.addEventListener('click', e => {
+  e.stopPropigation()
+  console.log(window.location)
+})
+
 function debounce (func, wait=20, imediate=true) {
   let timeout
   return function () {
@@ -32,42 +40,11 @@ if (document.querySelector('.modify')) {
     }
     deletePrompt.onclick = toggleDeleteOpen
     deleteCancel.onclick = e => {
-      console.log('delet')
+      // console.log('delet')
       e.preventDefault()
       toggleDeleteOpen()
     }
   })
-}
-
-const copy = str => {
-  const shadow_input = document.createElement('textarea')
-  shadow_input.value = str
-  document.body.appendChild(shadow_input)
-  shadow_input.select()
-  document.execCommand("copy")
-  document.body.removeChild(shadow_input)
-  flashNotif(shadow_input.value)
-  console.log('Copied text:', shadow_input.value)
-}
-
-const flashNotif = str => {
-  const notif = document.querySelector('.notifier')
-  notif.hidden = false
-  notif.querySelector('span').textContent = str
-  notif.classList.add('show')
-  setTimeout(() => {
-    notif.classList.add('fade')
-    setTimeout(() => {
-      notif.classList.remove('show', 'fade')
-      setTimeout(() => notif.hidden = true, 300)
-    }, 1000)
-  }, 2000)
-}
-
-const copyLinkButton = document.querySelector('.social.link')
-
-if (copyLinkButton) {
-  copyLinkButton.onclick = (e) => copy(e.target.closest('.social.link').dataset.link)
 }
 
 if (document.querySelector('.intro_card')) {
@@ -90,4 +67,29 @@ if (document.querySelector('.intro_card')) {
     title.style.textShadow = `${walkX}px ${walkY}px 10px #fefdeb`
   }
   introText.addEventListener('mousemove', e => debounce(shadow(e)))
+}
+
+perPage.onchange = e => {
+  function parseSearch (search) {
+    let arr = search.substring(1).split('&')
+    let out = arr.map(each => {
+      let components = each.split('=')
+      return { name: components[0], value: components[1] }
+    })
+    return out
+  }
+  const removeQuantity = searchParsed => searchParsed.filter(each => each.name !== "quantity").map(each => `${each.name}=${each.value}`)
+  const reconstructSearch = params => params.length > 1 ? `?${params[0]}&${params.slice(1).join('&')}` : `?${params[0]}`
+
+  function createSearch (searchStr) {
+    const searchParsed        = parseSearch(searchStr)
+    if (searchParsed.length === 1) return `/?quantity=${e.target.value}`
+    const parsedSearchFilter  = removeQuantity(searchParsed)
+    const search              = reconstructSearch(parsedSearchFilter)
+    return `${search}&quantity=${e.target.value}`
+  }
+
+  const sendSearch = createSearch(window.location.search)
+  console.log(sendSearch)
+  window.location.href = sendSearch
 }
