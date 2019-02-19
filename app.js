@@ -62,15 +62,13 @@ const visitors = {}
 
 app.route('/')
   .get((req, res, next) => {
-    // const params = req.query.from ? { created: { $lte: req.query.from } } : {}
-    const params = {}
     let perPage = req.query.quantity ? Number(req.query.quantity) : 2
     let page = req.query.page ? Number(req.query.page) : 0
     let skip = page * perPage
     let quantity = req.query.quantity ? req.query.quantity : undefined
     // NOTE apparently 'skip' is resource intensive and does not scale well
     // check if there is a better way later
-    Post.find(params)
+    Post.find({})
       .skip(skip)
       .limit(perPage)
       .populate('author.user')
@@ -81,12 +79,6 @@ app.route('/')
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
-// app.route('/tester/posts/2019/1/6/This%20is%20a%20Very%20Good%20Article')
-//   .get((req, res, next) => {
-//     Post.find({ title: { $regex: req.params.title, $options: 'i' } })
-//       .then(data => res.json({ data }))
-//       .catch(err => handleErrorJSON((req, res, next, err)))
-//   })
 
 app.route('/api/posts/:id')
  .put(mw.checkPostOwnershipJSON, (req, res, nex) => {

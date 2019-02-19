@@ -71,8 +71,34 @@ $readButtonColour--hover: $light_readButtonColour--hover;
   margin-top: 0;
 }
 
-.new_post {
-
+.create_post {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  a {
+    $light: rgba(45,204,112,1);
+    $lighter: rgba(39, 174, 97,.5);
+    $dark: rgba(39, 174, 97,1);
+    border: 3px solid rgba(0,0,0,0);
+    min-width: 75px;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 6px 10px;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .2s linear;
+    background: rgba(0,0,0,0);
+    color: $dark;
+    border: 3px solid $light;
+    &:hover {
+      border: 3px solid $dark;
+      background: $light;
+      text-decoration: underline;
+      color: #ecf0f1;
+      box-shadow: 0 0 10px $light;
+    }
+  }
 }
 
 .title {

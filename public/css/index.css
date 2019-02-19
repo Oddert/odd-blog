@@ -43,6 +43,33 @@
   margin-top: 0;
 }
 
+.create_post {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.create_post a {
+  border: 3px solid rgba(0, 0, 0, 0);
+  min-width: 75px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 10px;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s linear;
+  background: rgba(0, 0, 0, 0);
+  color: #27ae61;
+  border: 3px solid #2dcc70;
+}
+.create_post a:hover {
+  border: 3px solid #27ae61;
+  background: #2dcc70;
+  text-decoration: underline;
+  color: #ecf0f1;
+  box-shadow: 0 0 10px #2dcc70;
+}
+
 .title {
   text-align: center;
 }
