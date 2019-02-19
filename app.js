@@ -57,8 +57,16 @@ const combineNames = user => `${user.primary_name ? user.primary_name : ''} ${us
 
 
 app.route('/')
-  .get((req, res) => {
-    Post.find({})
+  .get((req, res, next) => {
+    // const params = req.query.from ? { created: { $lte: req.query.from } } : {}
+    const params = {}
+    let perPage = 10
+    let page = Math.max(0, Number(req.query.page))
+    // NOTE apparently 'skip' is resource intensive and does not scale well
+    // check if there is a better way later
+    Post.find(params)
+      .skip(page * perPage)
+      .limit(perPage)
       .populate('author.user')
       .then(posts => { console.log(posts); return posts })
       .then(posts => res.render('posts/index', { posts }))

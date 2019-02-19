@@ -17,7 +17,7 @@
 }
 .intro_card .intro_text h1 {
   text-shadow: 0 0 10px #fefdeb;
-  font-size: 40px;
+  font-size: 5vh;
   cursor: default;
 }
 .intro_card .intro_pic {
