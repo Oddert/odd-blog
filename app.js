@@ -6,7 +6,7 @@ const express         = require('express')
     , bodyParser      = require('body-parser')
     , path            = require('path')
     , methodOverride  = require('method-override')
-    // , helmet          = require('helmet')
+    , helmet          = require('helmet')
 
 const mongoose        = require('mongoose')
     , passport        = require('passport')
@@ -14,6 +14,8 @@ const mongoose        = require('mongoose')
 
 const Post            = require('./models/Post')
     , User            = require('./models/User')
+
+app.use(helmet())
 
 app.set('view engine', 'ejs')
 app.use(methodOverride('_method'))
