@@ -31,8 +31,8 @@ $readButtonColour--hover: $light_readButtonColour--hover;
   align-items: center;
   justify-content: center;
   background: linear-gradient(45deg, #13c9ac, #7C6CBE, #a04dc5);
-  // height: 50vh;
-  min-height: 50vh;
+  height: 60vh;
+  // min-height: 50vh;
   box-shadow: inset 0px -6px 20px rgba(0,0,0,.3);
   transition: .2s linear;
   .intro_text {
@@ -57,7 +57,7 @@ $readButtonColour--hover: $light_readButtonColour--hover;
       transition: .2s linear;
       filter: grayscale(1) drop-shadow(3px 3px 5px rgba(0,0,0,.3));
       height: 90%;
-      max-height: 45vh;
+      // max-height: 45vh;
       width: auto;
       object-fit: contain;
       &:hover {
