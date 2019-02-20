@@ -15,6 +15,10 @@ const mongoose        = require('mongoose')
 const Post            = require('./models/Post')
     , User            = require('./models/User')
 
+const mw = require('./utils/middleware')
+    , calculateRead   = require('./utils/calculateRead')
+    ,  handleErrorPage = require('./utils/handleErrorPage')
+
 app.use(helmet())
 
 app.set('view engine', 'ejs')
@@ -48,17 +52,8 @@ function addUserToLocals (req, res, next) {
 
 app.use(addUserToLocals)
 
-const handleErrorPage = require('./utils/handleErrorPage')
-const handleErrorJSON = require('./utils/handleErrorJSON')
-
-const mw = require('./utils/middleware')
-    , parseForDisplay = require('./utils/parseForDisplay')
-    , calculateRead   = require('./utils/calculateRead')
-
-const combineNames = user => `${user.primary_name ? user.primary_name : ''} ${user.other_names ? user.other_names.join(' ') : ''} ${user.secondary_name ? user.secondary_name : ''}`
+// const combineNames = user => `${user.primary_name ? user.primary_name : ''} ${user.other_names ? user.other_names.join(' ') : ''} ${user.secondary_name ? user.secondary_name : ''}`
 // US / Euro name formating, to be adjusted later
-
-const visitors = {}
 
 app.route('/')
   .get((req, res, next) => {
@@ -66,52 +61,17 @@ app.route('/')
     let page = req.query.page ? Number(req.query.page) : 0
     let skip = page * perPage
     let quantity = req.query.quantity ? req.query.quantity : undefined
+    let params = req.isAuthenticated() ? {} : { deleted: false }
     // NOTE apparently 'skip' is resource intensive and does not scale well
     // check if there is a better way later
-    Post.find({})
+    Post.find(params)
       .skip(skip)
       .limit(perPage)
       .populate('author.user')
       .then(posts => ({ posts, page, skip, perPage, quantity }))
       .then(payload => Post.count({}).then(numPosts => ({ ...payload, numPosts })) )
       // .then(log => { console.log({ log }); return log })
-      .then(payload => res.render('posts/index', { ...payload }))
-      .catch(err => handleErrorPage(req, res, next, err))
-  })
-
-
-app.route('/api/posts/:id')
- .put(mw.checkPostOwnershipJSON, (req, res, nex) => {
-   Post.findByIdAndUpdate(req.params.id, Object.assign({},
-     req.body,
-     {
-       word_count: calculateRead(req.body),
-       $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
-     }
-   ))
-   .then(post => parseForDisplay(post))
-   .then(data => res.json({ status: 'Success', data, message: 'Saved OK!' }))
-   .catch(err => handleErrorJSON(req, res, next, err))
- })
-
-app.route('/api/users/:id')
-  .get((req, res, next) => {
-    User.findById(req.params.id)
-      .populate('posts')
-      .then(user => res.json({ user, currentUser: req.user }))
-      .catch(err => res.status(500).json({ err }))
-  })
-  .put((req, res, next) => {
-    console.log(req.body)
-    User.findByIdAndUpdate(req.params.id, req.body)
-      .then(user => res.json({ user }))
-      .catch(err => handleErrorJSON(req, res, next, err))
-  })
-
-app.route('/dev/:id/undelete')
-  .get(mw.checkPostOwnership, (req, res, next) => {
-    Post.findByIdAndUpdate(req.params.id, { deleted: false, deleted_on: null })
-      .then(post => res.redirect('/'))
+      .then(payload => res.render('posts', { ...payload }))
       .catch(err => handleErrorPage(req, res, next, err))
   })
 
@@ -120,6 +80,8 @@ app.use('/posts/', require('./routes/posts'))
 app.use('/tags/', require('./routes/tags'))
 app.use('/user/', require('./routes/users'))
 app.use('/auth/', require('./routes/auth'))
+app.use('/api/', require('./routes/api'))
+app.use('/dev/', require('./routes/dev'))
 
 
 
