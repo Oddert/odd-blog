@@ -227,6 +227,7 @@ function handleSearch (req, res, next) {
     .then(posts => res.render('search', { posts }))
     .catch(err => handleErrorJSON(req, res, next, err))
 }
+
 router.route('/:year/:month/')
   .get(handleSearch)
 router.route('/:year/:month/:day/')
