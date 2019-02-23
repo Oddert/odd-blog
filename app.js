@@ -17,7 +17,7 @@ const Post            = require('./models/Post')
 
 const mw = require('./utils/middleware')
     , calculateRead   = require('./utils/calculateRead')
-    ,  handleErrorPage = require('./utils/handleErrorPage')
+    , handleErrorPage = require('./utils/handleErrorPage')
 
 app.use(helmet())
 
@@ -80,7 +80,10 @@ app.use('/posts/', require('./routes/posts'))
 app.use('/tags/', require('./routes/tags'))
 app.use('/user/', require('./routes/users'))
 app.use('/auth/', require('./routes/auth'))
-app.use('/api/', require('./routes/api'))
+
+app.use('/api/posts', require('./routes/api_posts'))
+app.use('/api/users', require('./routes/api_users'))
+
 app.use('/dev/', require('./routes/dev'))
 
 
