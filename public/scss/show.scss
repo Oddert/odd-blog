@@ -554,6 +554,16 @@ footer {
   }
 }
 
+code {
+  background: #bec3c7;
+  // color: #c1392b;
+  // color: #e84c3d;
+  color: #D54334;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 0 4px;
+}
+
 .large        { grid-column: 1 / -1; }
 .medium_left  { grid-column: 1 / -2; }
 .medium_right { grid-column: 2 / -1; }

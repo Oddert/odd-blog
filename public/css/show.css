@@ -465,6 +465,14 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
   transform: translateY(-10px);
 }
 
+code {
+  background: #bec3c7;
+  color: #D54334;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 0 4px;
+}
+
 .large {
   grid-column: 1/-1;
 }

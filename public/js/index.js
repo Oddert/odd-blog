@@ -69,27 +69,29 @@ if (document.querySelector('.intro_card')) {
   introText.addEventListener('mousemove', e => debounce(shadow(e)))
 }
 
-perPage.onchange = e => {
-  function parseSearch (search) {
-    let arr = search.substring(1).split('&')
-    let out = arr.map(each => {
-      let components = each.split('=')
-      return { name: components[0], value: components[1] }
-    })
-    return out
-  }
-  const removeQuantity = searchParsed => searchParsed.filter(each => each.name !== "quantity").map(each => `${each.name}=${each.value}`)
-  const reconstructSearch = params => params.length > 1 ? `?${params[0]}&${params.slice(1).join('&')}` : `?${params[0]}`
+if (perPage) {
+  perPage.onchange = e => {
+    function parseSearch (search) {
+      let arr = search.substring(1).split('&')
+      let out = arr.map(each => {
+        let components = each.split('=')
+        return { name: components[0], value: components[1] }
+      })
+      return out
+    }
+    const removeQuantity = searchParsed => searchParsed.filter(each => each.name !== "quantity").map(each => `${each.name}=${each.value}`)
+    const reconstructSearch = params => params.length > 1 ? `?${params[0]}&${params.slice(1).join('&')}` : `?${params[0]}`
 
-  function createSearch (searchStr) {
-    const searchParsed        = parseSearch(searchStr)
-    if (searchParsed.length === 1) return `/?quantity=${e.target.value}`
-    const parsedSearchFilter  = removeQuantity(searchParsed)
-    const search              = reconstructSearch(parsedSearchFilter)
-    return `${search}&quantity=${e.target.value}`
-  }
+    function createSearch (searchStr) {
+      const searchParsed        = parseSearch(searchStr)
+      if (searchParsed.length === 1) return `/?quantity=${e.target.value}`
+      const parsedSearchFilter  = removeQuantity(searchParsed)
+      const search              = reconstructSearch(parsedSearchFilter)
+      return `${search}&quantity=${e.target.value}`
+    }
 
-  const sendSearch = createSearch(window.location.search)
-  console.log(sendSearch)
-  window.location.href = sendSearch
+    const sendSearch = createSearch(window.location.search)
+    console.log(sendSearch)
+    window.location.href = sendSearch
+  }
 }
