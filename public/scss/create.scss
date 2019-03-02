@@ -121,7 +121,7 @@ form {
   }
 }
 
-.text_input {
+.text_input, .code_input {
   & input {
     padding: $input_text_padding;
     border-radius: $input_border_radius $input_border_radius 0 0;

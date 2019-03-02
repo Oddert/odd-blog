@@ -227,7 +227,7 @@
             </ul>
 
             <input placeholder="Subheading, leave blank to omit." name="inputs[<%= idx %>][subhead]" class="subhead" value="<%= each.subhead %>" />
-            <% if (each.data_type == "paragraph") { %>
+            <% if (each.data_type == "paragraph" || each.data_type == "code") { %>
               <textarea name="inputs[<%= idx %>][text]" placeholder="body"><%= each.text %></textarea>
             <% } else if (each.data_type == "image") { %>
               <div class="image_input__container">
@@ -254,6 +254,8 @@
       <div class="new_buttons">
         <button class="new new_paragraph" name="new_paragraph">New Paragraph</button>
         <button class="new new_image" name="new_image">New Image</button>
+        <button class="new new_quote" name="new_quote">New Quote</button>
+        <button class="new new_code" name="new_code">New Code Snippet</button>
       </div>
       <div class="form_submit">
         <input type="checkbox" name="page" id="page_check" />

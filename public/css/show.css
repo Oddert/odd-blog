@@ -466,11 +466,37 @@ footer .author_bio .author_bio__social .social.linkedin:hover i {
 }
 
 code {
-  background: #bec3c7;
+  background: #ecf0f1;
   color: #D54334;
   display: inline-block;
   border-radius: 5px;
   padding: 0 4px;
+}
+code.code_snippet {
+  color: #2d3e50;
+  padding: 10px 20px 10px 6px;
+  white-space: pre-wrap;
+  word-spacing: 0.3em;
+  line-height: 1.5em;
+  word-break: break-all;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+}
+code.code_snippet > * {
+  font-family: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo", Courier, monospace;
+}
+code.code_snippet .code_ln--number {
+  width: 30px;
+  margin: 0 0 0 10px;
+  display: inline-block;
+  border-right: 1px solid #bec3c7;
+}
+code.code_snippet .code_ln--content {
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+  transition: 0.02s ease;
+}
+code.code_snippet .code_ln--content:hover {
+  border-bottom: 1px solid #d3dcde;
 }
 
 .large {

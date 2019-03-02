@@ -80,7 +80,7 @@
       <% data.inputs.forEach(item => { %>
 
         <% if (/\w/gi.test(item.subhead)) { %>
-          <h3 class="subhead"># <%- item.subhead %></h3>
+          <h3 class="subhead" id="<%= item.subhead %>"># <%- item.subhead %></h3>
         <% } %>
 
         <% if (item.data_type == "paragraph" && /\w/gi.test(item.text[0])) { %>
@@ -109,6 +109,15 @@
             <% } %>
             <footer>- <%= item.author %></footer>
           </blockquote>
+          <hr />
+        <% } %>
+
+        <% if (item.data_type == "code" && /\w/gi.test(item.text[0])) { %>
+          <code class="code_snippet <%= item.align %>">
+<% item.text.split('\r\n').forEach((each, idx) => { %>
+<span class="code_ln--number"><%= idx + 1 %></span><span class="code_ln--content"><%- each %></span>
+<% }) %>
+          </code>
           <hr />
         <% } %>
 

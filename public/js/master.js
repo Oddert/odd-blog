@@ -1,4 +1,10 @@
 
+// Resources
+// DOM Nodes / Constants
+// Event Functions
+// Create Elems
+// New Input
+// Msc
 
 const svgConvert = {
   'large': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.93 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
@@ -374,8 +380,26 @@ function handleNewInput (e) {
       form.appendChild(newElem)
       break;
 
+    case 'new_code':
+      let newCodeInput = document.createElement('textarea')
+      newCodeInput.name = `inputs[${idx}][text]`
+      newCodeInput.placeholder = `Code Snippet`
+      // newTextInput.className = `input_textarea`
+      newCodeInput.addEventListener('keydown', textInputResize)
+
+      newElem = document.createElement('DIV')
+      newElem.className = `input code_input input_${idx}`
+
+      newElem.appendChild(createControl(idx, `code`))
+      newElem.appendChild(createLabel(idx, `code`))
+      newElem.appendChild(createAlignment(idx))
+      newElem.appendChild(createSubhead(idx))
+      newElem.appendChild(newCodeInput)
+      form.appendChild(newElem)
+      break;
+
     default:
-      console.log(`ERROR: Unknown input data_type: ${e.target.name}`)
+      console.error(`ERROR: Unknown input data_type: ${e.target.name}`)
       break;
   }
 }

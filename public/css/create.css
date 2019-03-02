@@ -102,15 +102,15 @@ form {
   color: black;
 }
 
-.text_input input {
+.text_input input, .code_input input {
   padding: 5px;
   border-radius: 10px 10px 0 0;
 }
-.text_input textarea {
+.text_input textarea, .code_input textarea {
   border-radius: 0 0 10px 10px;
   padding: 5px;
 }
-.text_input .subhead {
+.text_input .subhead, .code_input .subhead {
   padding: 10px;
   border-radius: 10px 10px 0 0;
 }

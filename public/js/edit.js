@@ -294,6 +294,24 @@ function handleNewInput (e) {
       form.appendChild(newElem)
       break;
 
+    case 'new_code':
+      let newCodeInput = document.createElement('textarea')
+      newCodeInput.name = `inputs[${idx}][text]`
+      newCodeInput.placeholder = `Code Snippet`
+      // newTextInput.className = `input_textarea`
+      newCodeInput.addEventListener('keydown', textInputResize)
+
+      newElem = document.createElement('DIV')
+      newElem.className = `input code_input input_${idx}`
+
+      newElem.appendChild(createControl(idx, `code`))
+      newElem.appendChild(createLabel(idx, `code`))
+      newElem.appendChild(createAlignment(idx))
+      newElem.appendChild(createSubhead(idx))
+      newElem.appendChild(newCodeInput)
+      form.appendChild(newElem)
+      break;
+
     default:
       console.log('ERROR: Unknown input data_type')
       break;
