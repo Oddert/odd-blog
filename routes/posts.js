@@ -167,7 +167,8 @@ router.route('/:id/edit')
               id: req.user._id,
               username: req.user.username,
               displayName: `${req.user.primary_name} ${req.user.secondary_name}`
-            }
+            },
+            note: req.body.update_note || ''
           }
         }
       }
