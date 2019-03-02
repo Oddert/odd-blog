@@ -81,6 +81,7 @@ app.use('/posts/', require('./routes/posts'))
 app.use('/tags/', require('./routes/tags'))
 app.use('/user/', require('./routes/users'))
 app.use('/auth/', require('./routes/auth'))
+app.use('/portfolio/', require('./routes/folio'))
 
 app.use('/api/posts', require('./routes/api_posts'))
 app.use('/api/users', require('./routes/api_users'))
