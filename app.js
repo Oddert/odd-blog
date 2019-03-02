@@ -57,22 +57,23 @@ app.use(addUserToLocals)
 
 app.route('/')
   .get((req, res, next) => {
-    let perPage = req.query.quantity ? Number(req.query.quantity) : 10
-    let page = req.query.page ? Number(req.query.page) : 0
-    let skip = page * perPage
-    let quantity = req.query.quantity ? req.query.quantity : undefined
-    let params = req.isAuthenticated() ? {} : { deleted: false }
-    // NOTE apparently 'skip' is resource intensive and does not scale well
-    // check if there is a better way later
-    Post.find(params)
-      .skip(skip)
-      .limit(perPage)
-      .populate('author.user')
-      .then(posts => ({ posts, page, skip, perPage, quantity }))
-      .then(payload => Post.count({}).then(numPosts => ({ ...payload, numPosts })) )
-      // .then(log => { console.log({ log }); return log })
-      .then(payload => res.render('posts', { ...payload }))
-      .catch(err => handleErrorPage(req, res, next, err))
+    // let perPage = req.query.quantity ? Number(req.query.quantity) : 10
+    // let page = req.query.page ? Number(req.query.page) : 0
+    // let skip = page * perPage
+    // let quantity = req.query.quantity ? req.query.quantity : undefined
+    // let params = req.isAuthenticated() ? {} : { deleted: false }
+    // // NOTE apparently 'skip' is resource intensive and does not scale well
+    // // check if there is a better way later
+    // Post.find(params)
+    //   .skip(skip)
+    //   .limit(perPage)
+    //   .populate('author.user')
+    //   .then(posts => ({ posts, page, skip, perPage, quantity }))
+    //   .then(payload => Post.count({}).then(numPosts => ({ ...payload, numPosts })) )
+    //   // .then(log => { console.log({ log }); return log })
+    //   .then(payload => res.render('posts', { ...payload }))
+    //   .catch(err => handleErrorPage(req, res, next, err))
+    res.redirect('/posts')
   })
 
 

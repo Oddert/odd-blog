@@ -23,6 +23,7 @@ router.route('/')
     Post.find(params)
       .skip(skip)
       .limit(perPage)
+      .sort({ created: -1 })
       .populate('author.user')
       .then(posts => ({ posts, page, skip, perPage, quantity }))
       .then(payload => Post.count({}).then(numPosts => ({ ...payload, numPosts })) )
@@ -234,6 +235,7 @@ router.route('/id/:id')
 
 function handleSearch (req, res, next) {
   Post.find({ ...req.params })
+    .sort({ created: -1 })
     .then(posts => res.render('search', { posts }))
     .catch(err => handleErrorJSON(req, res, next, err))
 }
