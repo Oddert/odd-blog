@@ -343,6 +343,12 @@ svg * {
   background: #2dcc70;
   color: #ecf0f1;
 }
+.form_submit .update_note textarea {
+  min-height: 10px;
+  max-height: 50vh;
+  height: 10vh;
+  width: calc(95vw / 5);
+}
 .form_submit.sticky {
   position: static;
   flex-direction: row;

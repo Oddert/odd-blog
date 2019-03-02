@@ -364,6 +364,14 @@ svg * {
       }
     }
   }
+  .update_note {
+    textarea {
+      min-height: 10px;
+      max-height: 50vh;
+      height: 10vh;
+      width: calc(95vw / 5);
+    }
+  }
   &.sticky {
     position: static;
     flex-direction: row;

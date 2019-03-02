@@ -37,7 +37,14 @@ const PostSchema = new mongoose.Schema ({
     {
       date: Date,
       note: String,
-      author: String
+      author: {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'odd-blog_user'
+        },
+        username: String,
+        displayName: String
+      }
     }
   ],
   author: {

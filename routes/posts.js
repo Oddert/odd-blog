@@ -160,7 +160,16 @@ router.route('/:id/edit')
       {
         tags: req.body.tags.split(', '),
         word_count: calculateRead(req.body),
-        $push: { updates: { date: Date.now(), author: 'Blog Owner' } }
+        $push: {
+          updates: {
+            date: Date.now(),
+            author: {
+              id: req.user._id,
+              username: req.user.username,
+              displayName: `${req.user.primary_name} ${req.user.secondary_name}`
+            }
+          }
+        }
       }
     ))
     // .then(post => parseForDisplay(post))
