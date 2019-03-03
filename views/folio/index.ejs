@@ -20,16 +20,67 @@
     <section id="page_one" class="portfolio">
       <div class="content">
         <h2>Portfolio</h2>
+        <div class="folio_items">
+          <% folio_items.filter(e => e.catt == "product").forEach(each => { %>
+            <a href="<%= each.offsite ? each.url : 'https://oddert.github.io' + each.url %>">
+              <div class="project" style="background-image: url(<%= each.thumbnail %>);">
+                <h3 class="project__title"><%- each.title %></h3>
+                <p class="project__description"><%= each.description %></p>
+              </div>
+            </a>
+          <% }) %>
+
+          <div class="code_expo">
+            <div class="code_expo__wrapper">
+              <p>The following projects are code based, separated out as many are here for the purpose of demonstrating a particular concept, rather than stemming from a holistic design brief.</p>
+              <p>View my front end web-development certificate on my <a href='http://www.freecodecamp.com/oddert' target='_blank'>Free Code Camp profile</a>.</p>
+            </div>
+          </div>
+
+          <% folio_items.filter(e => e.catt !== "product").forEach(each => { %>
+            <a href="<%= each.offsite ? each.url : 'https://oddert.github.io' + each.url %>">
+              <div class="project" style="background-image: url(<%= each.thumbnail %>);">
+                <h3 class="project__title"><%- each.title %></h3>
+                <p class="project__description"><%= each.description %></p>
+              </div>
+            </a>
+          <% }) %>
+        </div>
       </div>
     </section>
-    <section id="page_two">
+    <section id="page_two" class="bio">
       <div class="content">
+
+        <div class="personal_title">
+          <div class="personal_title__text">
+            <h2><span>Hello. My Name is Robyn Veitch, and I'm a problem solver.</span><span class="blink">|</span></h2>
+          </div>
+          <div class="personal_title__image">
+            <img src="/img/folio_profile.jpg" alt="" />
+          </div>
+        </div>
+
+        <div class="biography">
+          <div class="biography__text">
+            <p>I’m also a developer, artist, researcher, cyclist, activist, advocate and Glaswegian-turned-Londoner.</p>
+            <p>I'm studying BA Product Design at Central Saint Martins, UAL and am part of the <a href="http://www.designagainstcrime.com/">Design Against Crime: Social Games UK team</a>. I graduated high school having studied such subjects as Maths, English, Physics, Graphic Communication, Product Design, and Art & Design.</p>
+            <p>I specialise in the application of social and user-centred design. I believe that research and listening to real people is imperative to creating meaningful solutions and adding genuine value to improve peoples’ lives. This is, to me ‘Problem Solving’, and problem solving, is the essence of design.</p>
+            <p>I have a wide skillset and focus on iterative development and the appropriate application of technology. I’m a self-taught developer, having completed the course by the non-profit freeCodeCamp.</p>
+
+            <a href='https://oddert.github.io/Robyn Veitch CV - Website.pdf'>Click here to view my CV</a>
+
+            <span class='mailto-container'>
+              <a href='mailto:r.veitch@arts.ac.uk' class='mailto'>Get in touch!</a>
+            </span>
+            <!--You can read more about my perspective on design here.-->
+          </div>
+        </div>
 
       </div>
     </section>
     <section id="page_three">
       <div class="content">
-
+        <h2>Page Three</h2>
       </div>
     </section>
   </body>
