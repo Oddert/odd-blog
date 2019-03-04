@@ -14,17 +14,159 @@ a:hover {
   color: #23527c;
 }
 
+svg * {
+  font-family: "poiret One", "Roboto", "Kozuka Gothic Pr6N", arial, helvetica;
+}
+svg .logo-1 {
+  fill: none;
+  stroke: #2d3d50;
+  stroke-miterlimit: 10;
+  stroke-width: 3px;
+}
+svg .logo-2 {
+  font-size: 124px;
+}
+svg .logo-2, svg .logo-5 {
+  fill: #231f20;
+  font-family: "poiret One", "Roboto", "Kozuka Gothic Pr6N", arial, helvetica;
+}
+svg .logo-3 {
+  white-space: pre;
+}
+svg .logo-4 {
+  letter-spacing: -17px;
+}
+svg .logo-5 {
+  font-size: 34px;
+}
+svg .logo-6, svg .logo-7 {
+  font-size: 35px;
+  font-family: "poiret One", "Roboto", "Kozuka Gothic Pr6N", arial, helvetica;
+}
+svg .logo-6 {
+  letter-spacing: -8px;
+}
+
+header nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+  height: 100vh;
+}
+header nav .logo_cover {
+  transition: 0.2s linear;
+  box-shadow: 10px 10px 30px rgba(1, 1, 1, 0.1);
+  height: 100%;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+header nav .logo_cover svg {
+  transition: 0.2s linear;
+  width: 80%;
+  max-width: 80%;
+  max-height: 80%;
+}
+header nav.nav_bar .logo_cover {
+  justify-content: flex-start;
+}
+header nav.nav_bar .logo_cover svg {
+  width: 50px;
+  transform: rotate(45deg);
+}
+header nav.nav_bar .logo_cover svg * {
+  stroke-width: 8px;
+}
+header nav.nav_bar .logo_cover svg tspan {
+  display: none;
+}
+
 section {
   min-height: 100vh;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+section#intro_hidden .content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+section.portfolio .content .folio_title {
+  text-align: center;
+  font-family: "open sans", "roboto", "poiret one", arial, helvetica;
+  font-size: 36px;
+  line-height: 40px;
+  color: #2d3e50;
+  margin: 80px 0;
+  letter-spacing: 3px;
+}
 section.portfolio .content .folio_items {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 200px;
   text-align: center;
+}
+section.portfolio .content .folio_items * {
+  text-decoration: none;
+}
+section.portfolio .content .folio_items .project {
+  text-decoration: none;
+  border: 1px solid #ecf0f1;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+}
+section.portfolio .content .folio_items .project .project__title {
+  transition: 0.3s ease-in-out;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  background: rgba(1, 1, 1, 0.6);
+  font-family: "roboto thin", "open sans", "poiret one", helvetica, arial;
+  font-size: 30px;
+  position: relative;
+  transform: translateY(-50%);
+  margin-top: calc(200px/2);
+  text-decoration: none;
+}
+section.portfolio .content .folio_items .project .project__description {
+  transition: 0.3s ease-in-out;
+  font-size: 14px;
+  font-family: helvetica, arial, sans-serif;
+  position: relative;
+  margin-top: 100%;
+  text-decoration: none;
+}
+section.portfolio .content .folio_items .project .cover {
+  opacity: 0;
+  background: linear-gradient(0deg, rgba(1, 1, 1, 0.85), rgba(1, 1, 1, 0.45));
+  transition: 0.3s ease-in-out;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+section.portfolio .content .folio_items .project:hover .project__title {
+  transform: none;
+  background: none;
+  margin-top: 10px;
+}
+section.portfolio .content .folio_items .project:hover .project__description {
+  color: #fff;
+  margin-top: 10px;
+}
+section.portfolio .content .folio_items .project:hover .cover {
+  opacity: 1;
 }
 section.portfolio .content .folio_items .code_expo {
   grid-column: 1/-1;
@@ -40,13 +182,6 @@ section.portfolio .content .folio_items .code_expo .code_expo__wrapper {
   box-shadow: 0px 0px 30px rgba(1, 1, 1, 0.1);
   border-radius: 20px;
   padding: 10px;
-}
-section.portfolio .content .folio_items .project {
-  border: 1px solid #ecf0f1;
-  height: 200px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 }
 section.bio .content {
   margin: 100px auto 0 auto;
@@ -232,6 +367,16 @@ footer .content .copyright {
   }
   section.bio .content .links .social_media {
     width: 80vw;
+  }
+}
+@media only screen and (max-width: 850px) {
+  section.portfolio .content .folio_items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (max-width: 650px) {
+  section.portfolio .content .folio_items {
+    grid-template-columns: 1fr;
   }
 }
 

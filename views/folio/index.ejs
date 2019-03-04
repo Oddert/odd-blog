@@ -12,18 +12,38 @@
     <link rel="icon" type="image/png" href="/faveicon.png">
   </head>
   <body>
+    <header>
+      <nav>
+        <div class="logo_cover">
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1038.85 531.1">
+            <path class="logo-1" d="M630.68,445.32L336.86,151.5c-3.31-3.31-3.8-8.31-1.09-11.11s7.63-2.39,10.94.92L611.42,406" transform="translate(-70.27 -137.03)"/>
+            <path class="logo-1" d="M630.68,445.32" transform="translate(-70.27 -137.03)"/>
+            <path class="logo-1" d="M70.27,406.06L1104,406c4.68,0,4.87,1.21.44,2.69L338.84,663.87c-4.44,1.48-4.24,2.69.44,2.69l504.2,0.07c4.68,0,5.8-2.7,2.49-6l-179-179" transform="translate(-70.27 -137.03)"/>
+            <text class="logo-2" transform="translate(75.11 234.97)"><tspan class="logo-3">Robyn     </tspan><tspan class="logo-4" x="533.19" y="0">V</tspan><tspan x="613.29" y="0">eitch</tspan></text>
+            <text class="logo-5" transform="translate(190.32 337.97)"><tspan class="logo-3">Product Designer  </tspan><tspan class="logo-6" x="249.78" y="0">・</tspan><tspan class="logo-3" x="276.03" y="0">  Student  </tspan><tspan class="logo-6" x="419.33" y="0">・</tspan><tspan class="logo-7" x="445.58" y="0"> </tspan><tspan class="logo-3" x="453.73" y="0"> @Oddert</tspan></text>
+          </svg>
+        </div>
+      </nav>
+    </header>
     <section id="intro_hidden">
       <div class="content">
-
+        <svg data-identifier="section#intro_hidden div.content" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1038.85 531.1">
+          <path class="logo-1" d="M630.68,445.32L336.86,151.5c-3.31-3.31-3.8-8.31-1.09-11.11s7.63-2.39,10.94.92L611.42,406" transform="translate(-70.27 -137.03)"/>
+          <path class="logo-1" d="M630.68,445.32" transform="translate(-70.27 -137.03)"/>
+          <path class="logo-1" d="M70.27,406.06L1104,406c4.68,0,4.87,1.21.44,2.69L338.84,663.87c-4.44,1.48-4.24,2.69.44,2.69l504.2,0.07c4.68,0,5.8-2.7,2.49-6l-179-179" transform="translate(-70.27 -137.03)"/>
+          <text class="logo-2" transform="translate(75.11 234.97)"><tspan class="logo-3">Robyn     </tspan><tspan class="logo-4" x="533.19" y="0">V</tspan><tspan x="613.29" y="0">eitch</tspan></text>
+          <text class="logo-5" transform="translate(190.32 337.97)"><tspan class="logo-3">Product Designer  </tspan><tspan class="logo-6" x="249.78" y="0">・</tspan><tspan class="logo-3" x="276.03" y="0">  Student  </tspan><tspan class="logo-6" x="419.33" y="0">・</tspan><tspan class="logo-7" x="445.58" y="0"> </tspan><tspan class="logo-3" x="453.73" y="0"> @Oddert</tspan></text>
+        </svg>
       </div>
     </section>
     <section id="page_one" class="portfolio">
       <div class="content">
-        <h2>Portfolio</h2>
+        <h2 class="folio_title">Portfolio</h2>
         <div class="folio_items">
           <% folio_items.filter(e => e.catt == "product").forEach(each => { %>
             <a href="<%= each.offsite ? each.url : 'https://oddert.github.io' + each.url %>">
               <div class="project" style="background-image: url(<%= each.thumbnail %>);">
+                <div class="cover"></div>
                 <h3 class="project__title"><%- each.title %></h3>
                 <p class="project__description"><%= each.description %></p>
               </div>
@@ -32,6 +52,7 @@
 
           <div class="code_expo">
             <div class="code_expo__wrapper">
+              <div class="cover"></div>
               <p>The following projects are code based, separated out as many are here for the purpose of demonstrating a particular concept, rather than stemming from a holistic design brief.</p>
               <p>View my front end web-development certificate on my <a href='http://www.freecodecamp.com/oddert' target='_blank'>Free Code Camp profile</a>.</p>
             </div>
@@ -108,7 +129,7 @@
     <footer id="footer">
       <div class="content">
         <p class="signature">Website designed and built by <a href="https://www.linkedin.com/in/robyn-veitch-582aa3b6/">Robyn Veitch</a></p>
-        <p class="copyright">© Copyright 2019 All rights reserved.</p>
+        <p class="copyright">© Copyright <%= new Date().getFullYear() %> All rights reserved.</p>
       </div>
     </section>
   </body>
