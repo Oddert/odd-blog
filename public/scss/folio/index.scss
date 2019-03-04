@@ -61,6 +61,10 @@ header {
     left: 0;
     background: #fff;
     height: 100vh;
+    z-index: 150;
+    .menu {
+
+    }
     .logo_cover {
       transition: .2s linear;
       // outline: 1px solid red;
@@ -79,6 +83,7 @@ header {
       }
     }
     &.nav_bar {
+      width: 100%;
       .logo_cover {
         justify-content: flex-start;
         svg {
@@ -205,6 +210,7 @@ section {
       }
       .code_expo {
         grid-column: 1 / -1;
+        grid-row: span 2;
         font-family: helvetica;
         font-size: 18px;
         display: flex;

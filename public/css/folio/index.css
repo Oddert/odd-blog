@@ -53,6 +53,7 @@ header nav {
   left: 0;
   background: #fff;
   height: 100vh;
+  z-index: 150;
 }
 header nav .logo_cover {
   transition: 0.2s linear;
@@ -68,6 +69,9 @@ header nav .logo_cover svg {
   width: 80%;
   max-width: 80%;
   max-height: 80%;
+}
+header nav.nav_bar {
+  width: 100%;
 }
 header nav.nav_bar .logo_cover {
   justify-content: flex-start;
@@ -170,6 +174,7 @@ section.portfolio .content .folio_items .project:hover .cover {
 }
 section.portfolio .content .folio_items .code_expo {
   grid-column: 1/-1;
+  grid-row: span 2;
   font-family: helvetica;
   font-size: 18px;
   display: flex;
