@@ -181,6 +181,30 @@ section.bio .content .links .links_indicator {
   top: 40px;
   color: #bec3c7;
 }
+section.bio .content .contact {
+  margin: 80px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+section.bio .content .contact h3 {
+  font-size: 24px;
+}
+
+footer .content {
+  box-shadow: 0px -15px 20px rgba(1, 1, 1, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+footer .content .signature {
+  font-size: 18px;
+  margin: 10px 0;
+}
+footer .content .copyright {
+  font-size: 14px;
+  margin: 10px 0;
+}
 
 @keyframes blink {
   0% {
@@ -197,6 +221,17 @@ section.bio .content .links .links_indicator {
   }
   100% {
     opacity: 1;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  section.bio .content {
+    width: 90vw;
+  }
+  section.bio .content .biography .biography__text {
+    width: 80vw;
+  }
+  section.bio .content .links .social_media {
+    width: 80vw;
   }
 }
 
