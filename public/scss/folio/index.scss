@@ -71,12 +71,28 @@ header {
       display: flex;
       align-items: stretch;
       justify-content: center;
+      transition: .2s linear;
       .menu_item {
         height: $nav_height;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 20px;
+        text-decoration: none;
+        transition: .2s linear;
+        span {
+          font-weight: 700;
+          transition: .2s linear;
+          line-height: $nav_height;
+          font-family: 'poiret one', arial;
+          font-size: 18px;
+          color: #333435;
+        }
+        &:hover {
+          span {
+            color: #9744e8;
+          }
+        }
       }
     }
     .logo_cover {
