@@ -11,6 +11,7 @@ const socialMediaButtons = socialMediaButtonContainer.querySelectorAll('a')
 const linksIndicator = document.querySelector('.links_indicator')
 
 const nav = document.querySelector('nav')
+const menu = nav.querySelector('.menu')
 
 function debounce (func, wait = 20, immediate = true) {
   let timeout;
@@ -48,6 +49,11 @@ function updateScroll () {
     nav.style.height = `${((height - scroll) / height) * 100}%`;
     nav.classList.remove('nav_bar')
   }
+}
+
+function toggleDrop () {
+  if (menu.classList.contains('closed')) menu.classList.remove('closed')
+  else menu.classList.add('closed')
 }
 
 function initPage (e) {

@@ -64,6 +64,7 @@ header nav .menu {
   align-items: stretch;
   justify-content: center;
   transition: 0.2s linear;
+  background: #fff;
 }
 header nav .menu .menu_item {
   height: 50px;
@@ -84,6 +85,21 @@ header nav .menu .menu_item span {
 }
 header nav .menu .menu_item:hover span {
   color: #9744e8;
+}
+header nav .menu.drop {
+  flex-direction: column;
+  height: auto;
+  top: 50px;
+  width: 100%;
+}
+header nav .menu.drop .menu_item {
+  transition: 0.1s linear;
+}
+header nav .menu.drop .menu_item:hover {
+  background: #ecf0f1;
+}
+header nav .menu.drop.closed {
+  display: none;
 }
 header nav .logo_cover {
   transition: 0.2s linear;

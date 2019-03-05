@@ -72,6 +72,7 @@ header {
       align-items: stretch;
       justify-content: center;
       transition: .2s linear;
+      background: #fff;
       .menu_item {
         height: $nav_height;
         display: flex;
@@ -92,6 +93,22 @@ header {
           span {
             color: #9744e8;
           }
+        }
+      }
+      &.drop {
+        flex-direction: column;
+        height: auto;
+        top: $nav_height;
+        // overflow-y: scroll;
+        width: 100%;
+        .menu_item {
+          transition: .1s linear;
+          &:hover {
+            background: #ecf0f1;
+          }
+        }
+        &.closed {
+          display: none;
         }
       }
     }
