@@ -13,6 +13,8 @@ const linksIndicator = document.querySelector('.links_indicator')
 const nav = document.querySelector('nav')
 const menu = nav.querySelector('.menu')
 
+const toggleDropButton = document.querySelector('.drop_toggle')
+
 function debounce (func, wait = 20, immediate = true) {
   let timeout;
   return function () {
@@ -52,8 +54,14 @@ function updateScroll () {
 }
 
 function toggleDrop () {
-  if (menu.classList.contains('closed')) menu.classList.remove('closed')
-  else menu.classList.add('closed')
+  if (menu.classList.contains('closed')) {
+    menu.classList.remove('closed')
+    toggleDropButton.classList.add('open')
+  }
+  else {
+    menu.classList.add('closed')
+    toggleDropButton.classList.remove('open')
+  }
 }
 
 function initPage (e) {
@@ -68,5 +76,7 @@ socialMediaButtonContainer.addEventListener('mouseout', hideLinksIndicator)
 socialMediaButtons.forEach(each => {
   each.addEventListener('mouseover', showLinksIndicator)
 })
+
+toggleDropButton.onclick = toggleDrop
 
 document.addEventListener('DOMContentLoaded', initPage)

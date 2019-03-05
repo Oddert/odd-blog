@@ -63,6 +63,28 @@ header {
     background: #fff;
     height: 100vh;
     z-index: 150;
+    .drop_toggle {
+      display: none;
+      // display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: $nav_height;
+      width: $nav_height;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      i {
+        transition: .2s linear;
+      }
+      &.open {
+        i {
+          transform: rotate(180deg);
+        }
+      }
+    }
     .menu {
       position: fixed;
       top: 0px;
@@ -73,6 +95,9 @@ header {
       justify-content: center;
       transition: .2s linear;
       background: #fff;
+      .drop_toggle {
+        display: none;
+      }
       .menu_item {
         height: $nav_height;
         display: flex;
@@ -456,6 +481,51 @@ footer .content {
 @media only screen and (max-width: 850px) {
   section.portfolio .content .folio_items {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 765px) {
+  header {
+    $logo_height: 80%;
+    $nav_height: 50px;
+    nav {
+    .drop_toggle {
+      display: flex;
+    }
+      .menu {
+        flex-direction: column;
+        height: auto;
+        top: $nav_height;
+        // overflow-y: scroll;
+        width: 100%;
+        .menu_item {
+          transition: .1s linear;
+          &:hover {
+            background: #ecf0f1;
+          }
+        }
+        &.closed {
+          display: none;
+        }
+      }
+      &.nav_bar {
+        width: 100%;
+        .logo_cover {
+          justify-content: flex-start;
+          svg {
+            width: $nav_height;
+            transform: rotate(45deg);
+            & * {
+              // stroke-miterlimit: 50;
+              stroke-width: 8px;
+            }
+            tspan {
+              display: none;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
