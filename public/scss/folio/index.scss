@@ -55,6 +55,7 @@ svg {
 
 header {
   $logo_height: 80%;
+  $nav_height: 50px;
   nav {
     position: fixed;
     top: 0;
@@ -63,7 +64,20 @@ header {
     height: 100vh;
     z-index: 150;
     .menu {
-
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      height: $nav_height;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      .menu_item {
+        height: $nav_height;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 20px;
+      }
     }
     .logo_cover {
       transition: .2s linear;
@@ -87,7 +101,7 @@ header {
       .logo_cover {
         justify-content: flex-start;
         svg {
-          width: 50px;
+          width: $nav_height;
           transform: rotate(45deg);
           & * {
             // stroke-miterlimit: 50;
