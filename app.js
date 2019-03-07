@@ -8,6 +8,10 @@ const express         = require('express')
     , methodOverride  = require('method-override')
     , helmet          = require('helmet')
 
+    , multer              = require('multer')
+    , cloudinary          = require('cloudinary')
+    , cloudinaryStorage   = require('multer-storage-cloudinary')
+
 const mongoose        = require('mongoose')
     , passport        = require('passport')
     , LocalStrategy   = require('passport-local')
@@ -87,6 +91,10 @@ app.use('/api/posts', require('./routes/api_posts'))
 app.use('/api/users', require('./routes/api_users'))
 
 app.use('/dev/', require('./routes/dev'))
+
+
+app.route('/test')
+  .get((req, res, next) => res.render('test'))
 
 
 
