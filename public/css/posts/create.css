@@ -391,6 +391,28 @@ svg * {
   opacity: 0;
 }
 
+.image_control--container {
+  display: none;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+}
+.image_control--container .image_control {
+  width: 70vw;
+  background: #fff;
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
+.image_control--container .image_control .cloudinary_images {
+  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
 .drag_active {
   border: 1px solid skyblue;
   background: linear-gradient(45deg, #bec3c7, #ecf0f1);

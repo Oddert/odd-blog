@@ -69,6 +69,7 @@ app.use('/portfolio/', require('./routes/folio'))
 
 app.use('/api/posts', require('./routes/api_posts'))
 app.use('/api/users', require('./routes/api_users'))
+app.use('/api/images', require('./routes/api_images'))
 
 app.use('/dev/', require('./routes/dev'))
 
