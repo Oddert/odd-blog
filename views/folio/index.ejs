@@ -78,6 +78,7 @@
           <% folio_items.filter(e => e.catt !== "product").forEach(each => { %>
             <a href="<%= each.offsite ? each.url : 'https://oddert.github.io' + each.url %>">
               <div class="project" style="background-image: url(<%= each.thumbnail %>);">
+                <div class="cover"></div>
                 <h3 class="project__title"><%- each.title %></h3>
                 <p class="project__description"><%= each.description %></p>
               </div>
