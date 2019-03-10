@@ -393,6 +393,8 @@ svg * {
 
 .image_control--container {
   display: none;
+}
+.image_control--container.open {
   display: flex;
   position: fixed;
   top: 0;
@@ -403,14 +405,23 @@ svg * {
   justify-content: center;
   background: rgba(0, 0, 0, 0.1);
 }
-.image_control--container .image_control {
+.image_control--container.open .image_control {
   width: 70vw;
   background: #fff;
   box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
 }
-.image_control--container .image_control .cloudinary_images {
-  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+.image_control--container.open .image_control form {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+}
+.image_control--container.open .image_control .cloudinary_images {
+  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1), inset -5px -5px 5px rgba(0, 0, 0, 0.1);
+  min-height: 100px;
+  border-radius: 20px;
+  margin: 25px;
+  padding: 10px 15px;
 }
 
 .drag_active {
