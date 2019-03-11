@@ -121,6 +121,39 @@ p {
   }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.notifier {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: #222;
+  z-index: 990;
+  border-radius: 10px;
+  transform: translateY(100%);
+  transition: .05s linear;
+  opacity: 0;
+  &.show {
+    transition: .1s linear;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  &.fade {
+    animation: fadeOut 1s linear;
+  }
+  p, span {
+    color: #ecf0f1;
+    word-break: break-all;
+  }
+}
+
 .modify {
   $icon_diameter: 30px;
   display: flex;

@@ -102,6 +102,38 @@ p {
   text-decoration: underline;
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.notifier {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: #222;
+  z-index: 990;
+  border-radius: 10px;
+  transform: translateY(100%);
+  transition: 0.05s linear;
+  opacity: 0;
+}
+.notifier.show {
+  transition: 0.1s linear;
+  opacity: 1;
+  transform: translateY(0);
+}
+.notifier.fade {
+  animation: fadeOut 1s linear;
+}
+.notifier p, .notifier span {
+  color: #ecf0f1;
+  word-break: break-all;
+}
+
 .modify {
   display: flex;
   flex-direction: column;

@@ -5,6 +5,7 @@
     <title>New Post | Odd-Blog</title>
     <link rel="stylesheet" href="/css/master.css">
     <link rel="stylesheet" href="/css/posts/create.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, initial-scale=0.666667, maximum-scale=0.666667, user-scalable=0">
     <meta name="viewport" content="width=device-width">
@@ -52,11 +53,17 @@
           <input type="file" name="image" />
           <button>New Image +</button>
         </form>
-        <h3>Images on Cloudinary:</h3>
+        <h3 class="image_control--title">Images on the Cloud:</h3>
         <div class="cloudinary_images">
 
         </div>
       </div>
+    </div>
+    <div class="open_image_control--container">
+      <button class="open_image_control">Cloud Images <i class="fas fa-cloud-upload-alt"></i></button>
+    </div>
+    <div class="notifier" hidden>
+      <p>Copied: "<span></span>" to clipboard.</p>
     </div>
   </body>
   <script type="text/javascript" src="/js/posts/create.js"></script>
