@@ -14,11 +14,13 @@ function findImages (req, res, next) {
 
 router.route('/')
   .get(findImages)
-  .post(cloudinaryParser.single("image"), (req, res, next) => {
+  .post(cloudinaryParser.single("file"), (req, res, next) => {
     const file = req.file
     const Today = new Date()
+    console.log({ file })
+    console.log(req.headers)
     Image.create({
-      name: file.fieldname || 'Image',
+      // name: file.fieldname || 'Image',
       year: req.body.month || Today.getFullYear(),
       month: req.body.month || Today.getMonth() + 1,
       day: req.body.day || Today.getDate(),

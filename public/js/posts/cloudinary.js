@@ -1,12 +1,12 @@
 const imageControlContainer = document.querySelector('.image_control--container')
 const imageControl = document.querySelector('.image_control')
 const cloudinaryImages = document.querySelector('.cloudinary_images')
-const newImage = document.querySelector('.new_image')
+const newImage = document.querySelector('.new_cloudinary_image')
 console.log(newImage)
 
 const store = {
   all: [],
-  post: []
+  current: []
 }
 
 function toggleImageControl (close) {
@@ -40,8 +40,30 @@ function renderAll () {
 }
 
 function addImage (e) {
-  console.log('AAAAAAHHHHHHHHHH')
   e.preventDefault()
+  const file = e.target.querySelector('input[type=file]').files[0]
+  const sendData = new FormData()
+  console.log({ data_file: sendData.get('file') })
+
+  sendData.append("file", file)
+  const url = `/api/images/`
+  console.log({ file, sendData, data_file: sendData.get('file') })
+
+  const headers = new Headers()
+
+  const options = {
+    method: 'POST',
+    headers,
+    body: sendData
+  }
+  fetch(url, options)
+    .then(res => res.json())
+    .then(res => {
+      store.all.push(res.image)
+      store.current.push(res.image)
+      renderAll()
+    })
+    .catch(err => console.error(err))
 }
 
 imageControlContainer.addEventListener('click', e => {
@@ -49,3 +71,37 @@ imageControlContainer.addEventListener('click', e => {
 })
 newImage.onsubmit = addImage
 document.addEventListener('DOMContentLoaded', getImages)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
