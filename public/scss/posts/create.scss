@@ -441,10 +441,21 @@ svg * {
       border-radius: 20px;
       margin: 100px 0;
       position: relative;
-      form {
+      form.new_cloudinary_image {
         display: inline-block;
         width: auto;
         margin: 0 auto;
+        .new_cloudinary_image__input {
+          width: 0px;
+          height: 0px;
+          overflow: hidden;
+          opacity: 0;
+          position: absolute;
+          z-index: -1;
+        }
+        .new_cloudinary_image__label {
+
+        }
       }
       .image_control__Close {
         position: absolute;

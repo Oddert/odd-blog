@@ -2,6 +2,7 @@ const imageControlContainer = document.querySelector('.image_control--container'
 const imageControl          = document.querySelector('.image_control')
 const cloudinaryImages      = document.querySelector('.cloudinary_images')
 const newImage              = document.querySelector('.new_cloudinary_image')
+const newImageInput         = newImage.querySelector('.new_cloudinary_image__input')
 const openImageControl      = document.querySelector('.open_image_control')
 const closeImageControl     = document.querySelector('.image_control__Close')
 console.log(newImage)
@@ -88,7 +89,8 @@ function renderAll () {
 function addImage (e) {
   e.preventDefault()
   const url = `/api/images/`
-  const file = e.target.querySelector('input[type=file]').files[0]
+  // const file = e.target.querySelector('input[type=file]').files[0]
+  const file = newImageInput.files[0]
 
   const sendData = new FormData()
   // console.log({ data_file: sendData.get('file') })
@@ -117,6 +119,9 @@ imageControlContainer.addEventListener('click', e => {
 newImage.onsubmit = addImage
 openImageControl.onclick = () => toggleImageControl()
 closeImageControl.onclick = () => toggleImageControl(true)
+newImageInput.onchange = e => {
+  if (newImageInput.files[0]) addImage(e)
+}
 document.addEventListener('DOMContentLoaded', getImages)
 
 
