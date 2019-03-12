@@ -261,7 +261,8 @@ p {
       stroke-width: 10px;
     }
     .deleteIcon-1, .deleteIcon-2, .deleteIcon-3 {
-      stroke: #34495e;
+      // stroke: #34495e;
+      stroke: #2d3e50;
       stroke-miterlimit: 10;
       fill: #fff;
       -webkit-transition: fill .2s ease;
@@ -283,9 +284,51 @@ p {
         fill: #e67f22;
       }
       .deleteIcon-2, .deleteIcon-3 {
-        fill: #e84c3d;
-        stroke: #c1392b;
+        // fill: #e84c3d;
+        // stroke: #c1392b;
+        fill: #2d3e50;
+        stroke: #2d3e50;
       }
+    }
+    .newImageIcon-1, .newImageIcon-3, .newImageIcon-5, .newImageIcon-7 {
+      fill: none;
+    }
+
+    .newImageIcon-2 {
+      fill: #fff;
+    }
+
+    .newImageIcon-3 {
+      // stroke: #231f20;
+      stroke: #2d3e50;
+      stroke-width: 9px;
+    }
+
+    .newImageIcon-3, .newImageIcon-5, .newImageIcon-7 {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .newImageIcon-4 {
+      fill: #231f20;
+      fill: #2d3e50;
+    }
+
+    .newImageIcon-5, .newImageIcon-7 {
+      stroke: #000;
+    }
+
+    .newImageIcon-5 {
+      stroke-width: 5px;
+    }
+
+    .newImageIcon-6 {
+      clip-path: url(#clip-path);
+    }
+
+    .newImageIcon-7 {
+      stroke-width: 8px;
+      stroke: #2d3e50;
     }
   }
 }

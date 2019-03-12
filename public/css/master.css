@@ -240,7 +240,7 @@ p {
   stroke-width: 10px;
 }
 .icon svg .deleteIcon-1, .icon svg .deleteIcon-2, .icon svg .deleteIcon-3 {
-  stroke: #34495e;
+  stroke: #2d3e50;
   stroke-miterlimit: 10;
   fill: #fff;
   -webkit-transition: fill 0.2s ease;
@@ -260,8 +260,39 @@ p {
   fill: #e67f22;
 }
 .icon svg:hover .deleteIcon-2, .icon svg:hover .deleteIcon-3 {
-  fill: #e84c3d;
-  stroke: #c1392b;
+  fill: #2d3e50;
+  stroke: #2d3e50;
+}
+.icon svg .newImageIcon-1, .icon svg .newImageIcon-3, .icon svg .newImageIcon-5, .icon svg .newImageIcon-7 {
+  fill: none;
+}
+.icon svg .newImageIcon-2 {
+  fill: #fff;
+}
+.icon svg .newImageIcon-3 {
+  stroke: #2d3e50;
+  stroke-width: 9px;
+}
+.icon svg .newImageIcon-3, .icon svg .newImageIcon-5, .icon svg .newImageIcon-7 {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon svg .newImageIcon-4 {
+  fill: #231f20;
+  fill: #2d3e50;
+}
+.icon svg .newImageIcon-5, .icon svg .newImageIcon-7 {
+  stroke: #000;
+}
+.icon svg .newImageIcon-5 {
+  stroke-width: 5px;
+}
+.icon svg .newImageIcon-6 {
+  clip-path: url(#clip-path);
+}
+.icon svg .newImageIcon-7 {
+  stroke-width: 8px;
+  stroke: #2d3e50;
 }
 
 @media only screen and (max-width: 700px) {

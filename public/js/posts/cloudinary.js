@@ -66,38 +66,18 @@ function copyImageLink (e) {
   copy(value)
 }
 
-function renderAll () {
-  console.log(store)
-  let innerHtml = store.all.map(each => `
-      <button class="image_selection">
-        <div class="image_selection__thumb">
-          <img src="${each.url}" />
-        </div>
-        <div class="image_selection__details">
-          <p class="image_selection__title">${each.width} x ${each.height}</p>
-          <p class="image_selection__url">${each.url}</p>
-          <textarea type="text" value="${each.url}" hidden >${each.url}</textarea>
-        </div>
-      </button>
-    `).join('')
-  cloudinaryImages.innerHTML = innerHtml
-  cloudinaryImages
-    .querySelectorAll('.image_selection')
-    .forEach(each => each.onclick = copyImageLink)
+function deleteImageLink (e) {
+  
 }
 
 function addImage (e) {
   e.preventDefault()
   const url = `/api/images/`
-  // const file = e.target.querySelector('input[type=file]').files[0]
   const file = newImageInput.files[0]
-
   const sendData = new FormData()
-  // console.log({ data_file: sendData.get('file') })
-  sendData.append("file", file)
-  // console.log({ file, sendData, data_file: sendData.get('file') })
   const headers = new Headers()
 
+  sendData.append("file", file)
   const options = {
     method: 'POST',
     headers,
@@ -111,6 +91,30 @@ function addImage (e) {
       renderAll()
     })
     .catch(err => console.error(err))
+}
+
+function renderAll () {
+  console.log(store)
+  let innerHtml = store.all.map(each => `
+      <button class="image_selection">
+        <div class="image_selection__thumb">
+          <img src="${each.url}" />
+        </div>
+        <div class="image_selection__details">
+          <p class="image_selection__title">${each.width} x ${each.height}</p>
+          <p class="image_selection__url">${each.url}</p>
+          <textarea type="text" value="${each.url}" hidden >${each.url}</textarea>
+        </div>
+        <buton class="image_selection__delete">✖</button>
+      </button>
+    `).join('')
+  cloudinaryImages.innerHTML = innerHtml
+  cloudinaryImages
+    .querySelectorAll('.image_selection')
+    .forEach(each => each.onclick = copyImageLink)
+  cloudinaryImages
+    .querySelectorAll('.image_selection__delete')
+    .forEach(each => each.onclick = deleteImageLink)
 }
 
 imageControlContainer.addEventListener('click', e => {

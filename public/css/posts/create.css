@@ -199,10 +199,6 @@ form {
   color: black;
 }
 
-svg * {
-  transform: scale(0.95);
-}
-
 .align_icon_1 {
   fill: #fff;
 }
@@ -414,19 +410,6 @@ svg * {
   margin: 100px 0;
   position: relative;
 }
-.image_control--container.open .image_control form.new_cloudinary_image {
-  display: inline-block;
-  width: auto;
-  margin: 0 auto;
-}
-.image_control--container.open .image_control form.new_cloudinary_image .new_cloudinary_image__input {
-  width: 0px;
-  height: 0px;
-  overflow: hidden;
-  opacity: 0;
-  position: absolute;
-  z-index: -1;
-}
 .image_control--container.open .image_control .image_control__Close {
   position: absolute;
   top: 10px;
@@ -449,8 +432,64 @@ svg * {
 .image_control--container.open .image_control .image_control__Close:hover {
   border: 1px solid #bec3c7;
 }
-.image_control--container.open .image_control .image_control--title {
+.image_control--container.open .image_control .image_control__header {
+  display: flex;
+  align-items: center;
+}
+.image_control--container.open .image_control .image_control__header .image_control__header--title {
   padding: 5px 30px;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image {
+  display: inline-block;
+  margin: 0 auto;
+  flex: 1;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__input {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label {
+  transition: 0.2s linear;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label * {
+  transition: 0.15s linear;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label svg {
+  height: 35px;
+  width: 35px;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-1, .image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-3, .image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-5, .image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-7 {
+  fill: none;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-2 {
+  fill: #e7eced;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-3 {
+  stroke: #231f20;
+  stroke-width: 9px;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-3, .image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-5, .image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-7 {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-4 {
+  fill: #27ae61;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-5, .image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-7 {
+  stroke: #000;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-5 {
+  stroke-width: 5px;
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-6 {
+  clip-path: url(#clip-path);
+}
+.image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__label:hover svg .newImageIcon-7 {
+  stroke-width: 8px;
 }
 .image_control--container.open .image_control .cloudinary_images {
   box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1), inset -5px -5px 5px rgba(0, 0, 0, 0.1);
@@ -476,6 +515,22 @@ svg * {
   overflow: hidden;
   cursor: pointer;
   transition: 0.1s linear;
+}
+.image_control--container.open .image_control .cloudinary_images .image_selection .image_selection__delete {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 25px;
+  height: 25px;
+  font-size: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(236, 240, 241, 0.7);
+}
+.image_control--container.open .image_control .cloudinary_images .image_selection .image_selection__delete:hover {
+  background: #c1392b;
 }
 .image_control--container.open .image_control .cloudinary_images .image_selection .image_selection__thumb img {
   max-width: 100%;

@@ -12,6 +12,14 @@ function findImages (req, res, next) {
     .catch(err => res.json({ err }))
 }
 
+router.route('/tester')
+  .post(cloudinaryParser.array("file", 10), (req, res, next) => {
+    const file = req.file
+    const files = req.files
+    console.log({ file, files })
+    res.json({ file, files })
+  })
+
 router.route('/')
   .get(findImages)
   .post(cloudinaryParser.single("file"), (req, res, next) => {
