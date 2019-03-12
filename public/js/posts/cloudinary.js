@@ -3,6 +3,7 @@ const imageControl          = document.querySelector('.image_control')
 const cloudinaryImages      = document.querySelector('.cloudinary_images')
 const newImage              = document.querySelector('.new_cloudinary_image')
 const openImageControl      = document.querySelector('.open_image_control')
+const closeImageControl     = document.querySelector('.image_control__Close')
 console.log(newImage)
 
 const store = {
@@ -115,6 +116,7 @@ imageControlContainer.addEventListener('click', e => {
 })
 newImage.onsubmit = addImage
 openImageControl.onclick = () => toggleImageControl()
+closeImageControl.onclick = () => toggleImageControl(true)
 document.addEventListener('DOMContentLoaded', getImages)
 
 
