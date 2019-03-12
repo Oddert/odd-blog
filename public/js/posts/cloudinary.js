@@ -67,7 +67,9 @@ function copyImageLink (e) {
 }
 
 function deleteImageLink (e) {
-  
+  e.preventDefault()
+  e.stopPropagation()
+  console.log('going to remove: ', e.target.dataset.id)
 }
 
 function addImage (e) {
@@ -105,7 +107,7 @@ function renderAll () {
           <p class="image_selection__url">${each.url}</p>
           <textarea type="text" value="${each.url}" hidden >${each.url}</textarea>
         </div>
-        <buton class="image_selection__delete">✖</button>
+        <buton class="image_selection__delete" data-id=${each._id}>✖</button>
       </button>
     `).join('')
   cloudinaryImages.innerHTML = innerHtml
@@ -114,6 +116,9 @@ function renderAll () {
     .forEach(each => each.onclick = copyImageLink)
   cloudinaryImages
     .querySelectorAll('.image_selection__delete')
+    // .forEach(each => each.addEventListener('click', deleteImageLink, {
+    //   // buble: false
+    // }))
     .forEach(each => each.onclick = deleteImageLink)
 }
 
