@@ -440,13 +440,36 @@ svg * {
       box-shadow: 5px 5px 30px rgba(0,0,0,.3);
       border-radius: 20px;
       margin: 100px 0;
+      position: relative;
       form {
         display: inline-block;
         width: auto;
-        margin: 0;
+        margin: 0 auto;
+      }
+      .image_control__Close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 22px;
+        font-weight: bold;
+        background: rgba(0,0,0,0);
+        border: none;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: .2s linear;
+        color: #2d3e50;
+        &:hover {
+          border: 1px solid #bec3c7;
+        }
       }
       .image_control--title {
-        padding: 5px 20px;
+        padding: 5px 30px;
       }
       .cloudinary_images {
         box-shadow: inset 5px 5px 5px rgba(0,0,0,.1), inset -5px -5px 5px rgba(0,0,0,.1);
