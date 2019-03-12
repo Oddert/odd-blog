@@ -20,6 +20,11 @@ router.route('/tester')
     res.json({ file, files })
   })
 
+router.route('/image/:id')
+  .delete((req, res, next) => {
+    res.json({ success: `deletin happinin`, target: req.params.id })
+  })
+
 router.route('/')
   .get(findImages)
   .post(cloudinaryParser.single("file"), (req, res, next) => {

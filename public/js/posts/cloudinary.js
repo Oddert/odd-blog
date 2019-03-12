@@ -70,6 +70,14 @@ function deleteImageLink (e) {
   e.preventDefault()
   e.stopPropagation()
   console.log('going to remove: ', e.target.dataset.id)
+  const url = `/api/images/image/${e.target.dataset.id}`
+  const options = {
+    method: 'DELETE',
+    headers: { "Content-Type": "application/json" }
+  }
+  fetch(url, options)
+    .then(res => res.json())
+    .then(res => console.log(res))
 }
 
 function addImage (e) {
@@ -98,7 +106,7 @@ function addImage (e) {
 function renderAll () {
   console.log(store)
   let innerHtml = store.all.map(each => `
-      <button class="image_selection">
+      <button class="image_selection" title=${each.cloudinary_id}>
         <div class="image_selection__thumb">
           <img src="${each.url}" />
         </div>
