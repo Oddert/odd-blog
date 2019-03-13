@@ -123,7 +123,7 @@ function textInputResize (e) {
   }
 }
 
-function imagePreviewUpdate (e) {
+function imagePreviewUpdate (e, idx) {
   // console.log(e)
   let url = ''
   setTimeout(() => {
@@ -302,7 +302,7 @@ function handleNewInput (e) {
       newImageSrcInput.placeholder      = 'Image Link'
       newImageSrcInput.title            = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
 
-      newImageSrcInput.onchange         = imagePreviewUpdate
+      newImageSrcInput.onchange         = e => imagePreviewUpdate(e, idx)
 
       let newImageCaptionInput          = document.createElement('input')
       newImageCaptionInput.name         = `inputs[${idx}][caption]`
