@@ -534,7 +534,6 @@ function headerPreviewUpdate (e) {
 
 document.querySelector('.header_image--src').onchange = headerPreviewUpdate
 
-
 // ####################### TO DO LIST #####################################
 // -Change styling
 //    -Main page, Profile Page small

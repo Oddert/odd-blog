@@ -5,6 +5,7 @@ const newImage              = document.querySelector('.new_cloudinary_image')
 const newImageInput         = newImage.querySelector('.new_cloudinary_image__input')
 const openImageControl      = document.querySelector('.open_image_control')
 const closeImageControl     = document.querySelector('.image_control__Close')
+const refresh               = document.querySelector('.refresh_cloudinary_image')
 console.log(newImage)
 
 const store = {
@@ -136,6 +137,7 @@ imageControlContainer.addEventListener('click', e => {
 newImage.onsubmit = addImage
 openImageControl.onclick = () => toggleImageControl()
 closeImageControl.onclick = () => toggleImageControl(true)
+refresh. onclick = getImages
 newImageInput.onchange = e => {
   if (newImageInput.files[0]) addImage(e)
 }
