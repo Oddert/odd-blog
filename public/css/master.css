@@ -129,6 +129,9 @@ p {
 .notifier.fade {
   animation: fadeOut 1s linear;
 }
+.notifier.fade-fast {
+  animation: fadeOut 0.5s linear;
+}
 .notifier p, .notifier span {
   color: #ecf0f1;
   word-break: break-all;

@@ -473,8 +473,11 @@ form {
         form.new_cloudinary_image {
           display: inline-block;
           // width: auto;
-          margin: 0 auto;
-          flex: 1;
+          margin: 0 ;
+          // flex: 1;
+          width: initial;
+          width: auto;
+          width: 70px;
           .new_cloudinary_image__input {
             width: 0px;
             height: 0px;
@@ -580,6 +583,17 @@ form {
         }
       }
     }
+  }
+}
+
+.refresh_cloudinary_image {
+  // flex: 1;
+  .refreshButton-1 {
+    fill: #2D3E50;
+    stroke: #2D3E50;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 9px;
   }
 }
 

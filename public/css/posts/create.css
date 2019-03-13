@@ -441,8 +441,10 @@ form {
 }
 .image_control--container.open .image_control .image_control__header form.new_cloudinary_image {
   display: inline-block;
-  margin: 0 auto;
-  flex: 1;
+  margin: 0;
+  width: initial;
+  width: auto;
+  width: 70px;
 }
 .image_control--container.open .image_control .image_control__header form.new_cloudinary_image .new_cloudinary_image__input {
   width: 0px;
@@ -549,6 +551,14 @@ form {
 .image_control--container.open .image_control .cloudinary_images .image_selection:hover {
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
   border-color: #929aa0;
+}
+
+.refresh_cloudinary_image .refreshButton-1 {
+  fill: #2D3E50;
+  stroke: #2D3E50;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 9px;
 }
 
 .open_image_control--container {

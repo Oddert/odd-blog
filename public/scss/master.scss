@@ -148,6 +148,9 @@ p {
   &.fade {
     animation: fadeOut 1s linear;
   }
+  &.fade-fast {
+    animation: fadeOut .5s linear;
+  }
   p, span {
     color: #ecf0f1;
     word-break: break-all;

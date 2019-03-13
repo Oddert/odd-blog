@@ -29,12 +29,12 @@ const flashNotif = str => {
   notif.querySelector('span').textContent = str
   notif.classList.add('show')
   setTimeout(() => {
-    notif.classList.add('fade')
+    notif.classList.add('fade-fast')
     setTimeout(() => {
-      notif.classList.remove('show', 'fade')
+      notif.classList.remove('show', 'fade-fast')
       setTimeout(() => notif.hidden = true, 300)
-    }, 1000)
-  }, 1000)
+    }, 400)
+  }, 800)
 }
 
 function toggleImageControl (close) {
