@@ -545,9 +545,9 @@ form {
             position: absolute;
             top: 0px;
             right: 0px;
-            width: 25px;
-            height: 25px;
-            font-size: 18px;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -627,4 +627,17 @@ form {
   border: 1px solid skyblue;
   background: linear-gradient(45deg, #bec3c7, #ecf0f1);
   box-shadow: 0px 24px 36px rgba(0,0,0,.11), 0px 24px 46px rgba(20,33,55,.28);
+}
+
+
+
+@media only screen and (max-width: 1000px) {
+  .image_control--container.open .image_control .cloudinary_images {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media only screen and (max-width: 764px) {
+  .image_control--container.open .image_control .cloudinary_images {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

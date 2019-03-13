@@ -520,9 +520,9 @@ form {
   position: absolute;
   top: 0px;
   right: 0px;
-  width: 25px;
-  height: 25px;
-  font-size: 18px;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -581,6 +581,17 @@ form {
 }
 .drag_active > * {
   opacity: 0.35;
+}
+
+@media only screen and (max-width: 1000px) {
+  .image_control--container.open .image_control .cloudinary_images {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media only screen and (max-width: 764px) {
+  .image_control--container.open .image_control .cloudinary_images {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /*# sourceMappingURL=css/posts/create.css.map */

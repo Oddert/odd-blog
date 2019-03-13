@@ -112,7 +112,7 @@ function renderAll () {
         </div>
         <div class="image_selection__details">
           <p class="image_selection__title">${each.width} x ${each.height}</p>
-          <p class="image_selection__url">${each.url}</p>
+          <!-- <p class="image_selection__url">${each.url}</p> -->
           <textarea type="text" value="${each.url}" hidden >${each.url}</textarea>
         </div>
         <buton class="image_selection__delete" data-id=${each._id}>✖</button>
