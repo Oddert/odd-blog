@@ -70,8 +70,8 @@ function copyImageLink (e) {
 function deleteImageLink (e) {
   e.preventDefault()
   e.stopPropagation()
-  console.log('going to remove: ', e.target.dataset.id)
-  const url = `/api/images/image/${e.target.dataset.id}`
+  console.log('going to remove: ', e.target.dataset.cloud_id)
+  const url = `/api/images/image/${e.target.dataset.cloud_id}`
   const options = {
     method: 'DELETE',
     headers: { "Content-Type": "application/json" }
@@ -116,7 +116,7 @@ function renderAll () {
           <!-- <p class="image_selection__url">${each.url}</p> -->
           <textarea type="text" value="${each.url}" hidden >${each.url}</textarea>
         </div>
-        <buton class="image_selection__delete" data-id=${each._id}>✖</button>
+        <buton class="image_selection__delete" data-id=${each._id} data-cloud_id="${each.cloudinary_id}">✖</button>
       </button>
     `).join('')
   cloudinaryImages.innerHTML = innerHtml

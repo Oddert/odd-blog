@@ -23,12 +23,18 @@ router.route('/tester')
 
 router.route('/image/:id')
   .delete((req, res, next) => {
-    request(`https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image`, function (error, resp, body) {
-      console.log('error: ', error)
-      console.log('response: ', resp && resp.statusCode)
-      console.log('body: ', body)
-      res.json({ success: `deletin happinin`, target: req.params.id, body: JSON.parse(body) })
-    })
+    request(
+      {
+        // uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image`
+        uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image/upload/${req.params.id}`,
+        method: 'DELETE'
+      },
+      (err, resp, body) => {
+        console.log('error: ', err)
+        console.log('response: ', resp && resp.statusCode)
+        console.log('body: ', body)
+        res.json({ success: `deletin happinin`, target: req.params.id, body: JSON.parse(body) })
+      })
   })
 
 router.route('/')
