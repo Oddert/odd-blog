@@ -26,7 +26,7 @@ router.route('/image/:id')
     request(
       {
         // uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image`
-        uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image/upload/${req.params.id}`,
+        uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert//resources/image/upload?public_ids=${req.params.id}`,
         method: 'DELETE'
       },
       (err, resp, body) => {
