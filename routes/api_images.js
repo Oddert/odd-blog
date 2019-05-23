@@ -1,9 +1,10 @@
-const router = require('express').Router()
-    , request = require('request')
+const router      = require('express').Router()
+    , cloudinary  = require('cloudinary')
 
 const cloudinaryParser = require('../config/cloudinary')
 
 const handleErrorJSON = require('../utils/handleErrorJSON')
+    , mw              = require('../utils/middleware')
 
 const Image = require('../models/Image')
 
@@ -22,24 +23,37 @@ router.route('/tester')
   })
 
 router.route('/image/:id')
-  .delete((req, res, next) => {
-    request(
-      {
-        // uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image`
-        uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert//resources/image/upload?public_ids=${req.params.id}`,
-        method: 'DELETE'
-      },
-      (err, resp, body) => {
-        console.log('error: ', err)
-        console.log('response: ', resp && resp.statusCode)
-        console.log('body: ', body)
-        res.json({ success: `deletin happinin`, target: req.params.id, body: JSON.parse(body) })
+  .delete(mw.checkAuth, (req, res, next) => {
+    Image.findById(req.params.id)
+      .then(image => {
+        cloudinary.v2.uploader.destroy(image.cloudinary_id, {}, (err, result) => {
+          if (err) return handleErrorPage(req, res, next, err)
+          Image.findByIdAndRemove(req.params.id)
+            .then(() => res.status(200).json({
+              success: true,
+              err: null,
+              message: 'Image deleted'
+            }))
+        })
       })
+      .catch(err => handleErrorJSON(req, res, next, err))
+    // request(
+    //   {
+    //     // uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image`
+    //     uri: `https://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@api.cloudinary.com/v1_1/oddert/resources/image/upload?public_ids=${req.params.id}`,
+    //     method: 'DELETE'
+    //   },
+    //   (err, resp, body) => {
+    //     console.log('error: ', err)
+    //     console.log('response: ', resp && resp.statusCode)
+    //     console.log('body: ', body)
+    //     res.json({ success: `deletin happinin`, target: req.params.id, body: JSON.parse(body) })
+    //   })
   })
 
 router.route('/')
   .get(findImages)
-  .post(cloudinaryParser.single("file"), (req, res, next) => {
+  .post(mw.checkAuth, cloudinaryParser.single("file"), (req, res, next) => {
     const file = req.file
     const Today = new Date()
     console.log({ file })

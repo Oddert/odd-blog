@@ -70,15 +70,25 @@ function copyImageLink (e) {
 function deleteImageLink (e) {
   e.preventDefault()
   e.stopPropagation()
-  console.log('going to remove: ', e.target.dataset.cloud_id)
-  const url = `/api/images/image/${e.target.dataset.cloud_id}`
+  const id = e.target.dataset.id
+  console.log('going to remove: ', id)
+  const url = `/api/images/image/${id}`
   const options = {
     method: 'DELETE',
     headers: { "Content-Type": "application/json" }
   }
   fetch(url, options)
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+      console.log(res)
+      if (res.err) { console.error(res.err) }
+      else {
+        store.all = store.all.filter(each => each._id !== id)
+        store.current = store.current.filter(each => each._id !== id)
+        renderAll()
+      }
+    })
+    .catch(err => alert(err))
 }
 
 function addImage (e) {
@@ -137,7 +147,7 @@ imageControlContainer.addEventListener('click', e => {
 newImage.onsubmit = addImage
 openImageControl.onclick = () => toggleImageControl()
 closeImageControl.onclick = () => toggleImageControl(true)
-refresh. onclick = getImages
+refresh.onclick = getImages
 newImageInput.onchange = e => {
   if (newImageInput.files[0]) addImage(e)
 }

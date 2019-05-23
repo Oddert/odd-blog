@@ -1,29 +1,29 @@
 <div class="post">
-  <% if (each.header_image.src && /\w/gi.test(each.header_image.src)) { %>
-    <!-- <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image"> -->
-    <a href="/posts/<%= each._id %>" class="image">
-      <img src="<%= each.header_image.src %>" alt="<%= each.header_image.alt %>" class="header_image" title="<%= each.header_image.caption %>" />
+  <% if (post.header_image.src && /\w/gi.test(post.header_image.src)) { %>
+    <!-- <a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>" class="image"> -->
+    <a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>" class="image">
+      <img src="<%= post.header_image.src %>" alt="<%= post.header_image.alt %>" class="header_image" title="<%= post.header_image.caption %>" />
     </a>
   <% } %>
   <div class="details">
     <div class="details_primary">
-      <!-- <h3><a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>"><%= each.title %></a></h3> -->
-      <h3><a href="/posts/<%= each._id %>"><%= each.title %></a></h3>
-      <% if (each.subtitle.length > 150) { %>
-        <p><%- each.subtitle.substring(0,150) %>...</p>
+      <!-- <h3><a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>"><%= post.title %></a></h3> -->
+      <h3><a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>"><%= post.title %></a></h3>
+      <% if (post.subtitle.length > 150) { %>
+        <p><%- post.subtitle.substring(0,150) %>...</p>
       <% } else { %>
-        <p><%- each.subtitle %></p>
+        <p><%- post.subtitle %></p>
       <% } %>
-      <p class="read_button"><a href="/posts/<%= each._id %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+      <p class="read_button"><a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
     </div>
     <div class="details_meta">
-      <h4 class="details_author">By <a href="/user/<%= each.author.username %>"><%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></a></h4>
-      <strong><%= new Date(each.created).toLocaleDateString() %></strong>
-      <p class="details_read_time"><em>Read Time: <%= each.word_count < 265 ? '1 min' : Math.ceil(each.word_count/265) > 1 ? Math.ceil(each.word_count/265)+' mins' : Math.ceil(each.word_count/265)+' min' %></em></p>
+      <h4 class="details_author">By <a href="/user/<%= post.author.username %>"><%= /\w/gi.test(post.author.displayName) ? post.author.displayName : post.author.username %></a></h4>
+      <strong><%= new Date(post.created).toLocaleDateString() %></strong>
+      <p class="details_read_time"><em>Read Time: <%= post.word_count < 265 ? '1 min' : Math.ceil(post.word_count/265) > 1 ? Math.ceil(post.word_count/265)+' mins' : Math.ceil(post.word_count/265)+' min' %></em></p>
     </div>
-    <% if (user && each.author.id.equals(user._id)) { %>
+    <% if (user && post.author.id.equals(user._id)) { %>
       <div class="modify">
-        <a href="/posts/<%= each._id %>/edit" class="icon edit_icon" title="Admin: Edit Post.">
+        <a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>/edit" class="icon edit_icon" title="Admin: Edit Post.">
           <svg data-name="editIcon_Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145.84 145.84">
             <path class="editIcon-1" d="M595.28,751.18" transform="translate(-500.6 -512.96)"></path>
             <polyline class="editIcon-2" points="58.65 127.29 45.09 140.84 5 140.84 5 100.76 29.68 76.07"></polyline>
@@ -46,7 +46,7 @@
               <line class="deleteIcon-3" x1="5.3" y1="23.44" x2="102.97" y2="39.61"></line>
             </svg>
           </button>
-          <form action="/posts/<%= each._id %>?_method=DELETE" method="POST" class="delete_form hide">
+          <form action="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>?_method=DELETE" method="POST" class="delete_form hide">
             <div class="wrapper">
               <p>Are you sure you want to delete this post?</p>
               <div class="opt">
@@ -56,8 +56,8 @@
             </div>
           </form>
         </div>
-        <% if (each.deleted) { %>
-          <a href="/dev/<%= each._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
+        <% if (post.deleted) { %>
+          <a href="/dev/<%= post._id %>/undelete" title="Post is NOT visable to the public, only admins">POST DELETED. Click to un-delete</a>
         <% } %>
       </div>
     <% } %>
