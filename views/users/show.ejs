@@ -36,7 +36,7 @@
       <!-- <h2><%= viewUser.primary_name %>'s Recent Posts</h2> -->
       <h2>Recent Posts</h2>
       <div class="posts">
-        <% viewUser.posts.forEach(each => { %>
+        <% viewUser.posts.forEach(post => { %>
           <% include ../partials/post %>
         <% }) %>
       </div>
