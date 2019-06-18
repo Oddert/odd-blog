@@ -94,3 +94,10 @@ app.listen(
     `${new Date().toLocaleTimeString('en-GB')}: Server initialised on PORT: ${PORT}`
   )
 )
+
+
+// -Needs better local sotrage to restore unsaved changes
+// -DB can save drafts
+// -Need pending status for posts
+// -need to restore quote correctly on edit
+// -Need to restore alignment correctly on edit

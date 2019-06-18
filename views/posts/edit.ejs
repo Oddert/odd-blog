@@ -34,13 +34,13 @@
 
         <% data.inputs.forEach((each, idx) => { %>
           <% if (each.data_type == "paragraph") { %>
-            <div class="input text_input input_<%= idx %>" data-type="paragraph">
+            <div class="input text_input input_<%= idx %> <%= each.align %>" data-type="paragraph">
           <% } else if (each.data_type == "image") { %>
-            <div class="input image_input input_<%= idx %>" data-type="image">
+            <div class="input image_input input_<%= idx %> <%= each.align %>" data-type="image">
           <% } else if (each.data_type == "quote") { %>
-            <div class="input quote_input input_<%= idx %>" data-type="image">
+            <div class="input quote_input input_<%= idx %> <%= each.align %>" data-type="image">
           <% } else { %>
-            <div class="input input_<%= idx %>">
+            <div class="input input_<%= idx %> <%= each.align %>">
           <% } %>
             <div class="input_control">
               <div class="control_drag control_drag_<%= idx %>" data-drag="drag_<%= idx %>">☰</div>
