@@ -260,8 +260,8 @@
       <div class="form_submit">
         <input type="checkbox" name="page" id="page_check" />
 
-        <!-- <button class="dev_toggle">Dev Mode: OFF</button>
-        <button class="sample_data">Sample Data</button> -->
+        <button class="dev_toggle">Dev Mode: OFF</button>
+        <button class="sample_data">Sample Data</button>
 
         <button class="save">Save</button>
         <button class="submit">Submit</button>
@@ -270,8 +270,63 @@
         </div>
       </div>
     </form>
+    <div class="image_control--container">
+      <div class="image_control">
+        <button class="image_control__Close">✖</button>
+        <div class="image_control__header">
+          <h3 class="image_control__header--title">Images on the Cloud:</h3>
+          <form class="new_cloudinary_image" action="/api/images" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" class="new_cloudinary_image__input" id="new_cloudinary_image__input" value="New Image +" />
+            <label for="new_cloudinary_image__input" class="new_cloudinary_image__label icon" title="select an image file to upload">
+              <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 211.45 210.02">
+                <clipPath id="clip-path" transform="translate(-131.05 -147.69)">
+                  <rect class="newImageIcon-1" x="168.27" y="206.99" width="114.94" height="114.94" rx="14.71" ry="14.71"/>
+                </clipPath>
+                <g>
+                  <rect class="newImageIcon-2" x="23.82" y="45.9" width="141.73" height="141.73" rx="22.68" ry="22.68"/>
+                  <rect class="newImageIcon-3" x="23.82" y="45.9" width="141.73" height="141.73" rx="22.68" ry="22.68"/>
+                </g>
+                <circle class="newImageIcon-2" cx="165.55" cy="45.9" r="45.9"/>
+                <rect class="newImageIcon-4" x="159.14" y="13.48" width="12.82" height="64.85" rx="6.41" ry="6.41"/>
+                <rect class="newImageIcon-4" x="290.2" y="161.17" width="12.82" height="64.85" rx="6.41" ry="6.41" transform="translate(-28.04 342.51) rotate(-90)"/>
+                <path class="newImageIcon-5" d="M202,219.86s9.31,0,12.61,8-1.56,19.8-1.56,19.8-5.24,13.29-11,13.95c-5.8-.66-11-13.95-11-13.95s-4.86-11.71-1.56-19.8S202,219.86,202,219.86Z" transform="translate(-131.05 -147.69)"/>
+                <g class="newImageIcon-6">
+                  <g>
+                    <circle class="newImageIcon-7" cx="70.92" cy="139.1" r="16.59"/>
+                    <path class="newImageIcon-7" d="M202,219.86s9.31,0,12.61,8-1.56,19.8-1.56,19.8-5.24,13.29-11,13.95c-5.8-.66-11-13.95-11-13.95s-4.86-11.71-1.56-19.8S202,219.86,202,219.86Z" transform="translate(-131.05 -147.69)"/>
+                    <path class="newImageIcon-7" d="M202,353.71s-9.31,0-12.61-8,1.56-19.8,1.56-19.8,5.24-13.29,11-13.95c5.8,0.66,11,13.95,11,13.95s4.86,11.71,1.56,19.8S202,353.71,202,353.71Z" transform="translate(-131.05 -147.69)"/>
+                    <path class="newImageIcon-7" d="M135.05,286.78s0-9.31,8-12.61,19.8,1.56,19.8,1.56,13.29,5.24,13.95,11c-0.66,5.8-13.95,11-13.95,11s-11.71,4.86-19.8,1.56S135.05,286.78,135.05,286.78Z" transform="translate(-131.05 -147.69)"/>
+                    <path class="newImageIcon-7" d="M268.9,286.78s0,9.31-8,12.61-19.8-1.56-19.8-1.56-13.29-5.24-13.95-11c0.66-5.8,13.95-11,13.95-11s11.71-4.86,19.8-1.56S268.9,286.78,268.9,286.78Z" transform="translate(-131.05 -147.69)"/>
+                    <path class="newImageIcon-7" d="M154.66,239.46s6.56-6.61,14.61-3.22,12.89,15.11,12.89,15.11,5.69,13.1,2.06,17.67c-4.57,3.64-17.67-2.06-17.67-2.06s-11.72-4.85-15.11-12.89S154.66,239.46,154.66,239.46Z" transform="translate(-131.05 -147.69)"/>
+                    <path class="newImageIcon-7" d="M249.3,334.1s-6.56,6.61-14.61,3.22-12.89-15.11-12.89-15.11-5.69-13.1-2.06-17.67c4.57-3.64,17.67,2.06,17.67,2.06s11.72,4.85,15.11,12.89S249.3,334.1,249.3,334.1Z" transform="translate(-131.05 -147.69)"/>
+                    <path class="newImageIcon-7" d="M154.66,334.1s-6.61-6.56-3.22-14.61,15.11-12.89,15.11-12.89,13.1-5.69,17.67-2.06c3.64,4.57-2.06,17.67-2.06,17.67s-4.85,11.72-12.89,15.11S154.66,334.1,154.66,334.1Z" transform="translate(-131.05 -147.69)"/>
+                    <path class="newImageIcon-7" d="M249.3,239.46s6.61,6.56,3.22,14.61S237.41,267,237.41,267s-13.1,5.69-17.67,2.06c-3.64-4.57,2.06-17.67,2.06-17.67s4.85-11.72,12.89-15.11S249.3,239.46,249.3,239.46Z" transform="translate(-131.05 -147.69)"/>
+                  </g>
+                </g>
+              </svg>
+            </label>
+          </form>
+          <button class="refresh_cloudinary_image icon">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.02 143.35">
+              <polygon class="refreshButton-1" points="56.57 57.67 109.75 4.5 110.26 57.67 56.57 57.67"/>
+              <path class="refreshButton-1" d="M557,257.84a53.41,53.41,0,1,1-15.64-37.76l4.31-4.31a59.51,59.51,0,1,0,17.43,42.08H557Z" transform="translate(-439.62 -178.49)"/>
+            </svg>
+          </button>
+        </div>
+        <div class="cloudinary_images">
+
+        </div>
+      </div>
+    </div>
+    <div class="open_image_control--container">
+      <button class="open_image_control">Cloud Images <i class="fas fa-cloud-upload-alt"></i></button>
+    </div>
+    <div class="notifier" hidden>
+      <p>Copied: "<span></span>" to clipboard.</p>
+    </div>
   </body>
   <!-- <script type="text/javascript" src="/js/master.js"></script> -->
   <!-- <script type="text/javascript" src="/js/name.js"></script> -->
+  <script type="text/javascript" src="/js/posts/cloudinary.js"></script>
   <script type="text/javascript" src="/js/posts/edit.js"></script>
 </html>

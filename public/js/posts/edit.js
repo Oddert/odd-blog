@@ -27,6 +27,8 @@ const form            = document.querySelector('.form_body')
 const saveButton      = document.querySelector('.save')
 const submitButton    = document.querySelector('.submit')
 
+let lastClicked = document.querySelector('body *')
+
 // ==================== / DOM Nodes + Constants ====================
 
 
@@ -81,16 +83,8 @@ function createControl (idx, data_type) {
   controlDrag.className = `control_drag control_drag_${idx}`
   controlDrag.dataset.drag = `drag_${idx}`
 
-  controlDrag.addEventListener('mouseover', e => {
-    let parent = e.target.closest('.input')
-    parent.setAttribute('draggable', true)
-    parent.ondrag = handleDrag
-    parent.ondragend = handleDrop
-  })
-  controlDrag.addEventListener('mouseout', e => {
-    let parent = e.target.closest('.input')
-    parent.setAttribute('draggable', false)
-  })
+  controlDrag.addEventListener('mouseover', dragButtonMouseover)
+  controlDrag.addEventListener('mouseout', dragButtonMouseout)
 
   let controlText = document.createElement(`P`)
   controlText.textContent = `${data_type.substring(0,1).toUpperCase()}${data_type.substring(1)} ${idx} Input`
@@ -524,7 +518,115 @@ document.addEventListener('DOMContentLoaded', initialisePage)
 
 
 
+// ==================== Selection Development WIP ====================
 
+function makeSel () {
+  const sel = window.getSelection()
+  if (!sel) return
+  const txtarea = lastClicked[0]
+  const start = txtarea.selectionStart;
+  const finish = txtarea.selectionEnd;
+  const selection = txtarea.value.substring(start, finish);
+  let val = txtarea.value
+  txtarea.value = val.substring(0, start) + '<a href="https://oddert.github.io/">' + val.substring(start, finish) + '</a>' + val.substring(finish)
+}
+
+document.addEventListener('mouseup', e => lastClicked = e.path)
+
+// ==================== / Selection Development WIP ====================
+
+
+
+// ==================== Dev Mode To Be Tidied ====================
+
+function sample () {
+  const sampleParas = [
+    "This is an initial paragraph to get us warmed up.",
+    "Pnuk, this is what we like to call\r\nmulti-lined\r\n\r\nsuper\r\n\r\nduper\r\n\r\n\r\n\r\nparagraphs",
+    "Here we see that numbers are not an issue probably:\r\n\r\n09876543\r\n528491",
+    "lo it is time for this tawdry thing again ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+    "What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Where does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32."
+  ]
+  const sampleHeaders = [
+    {
+      src: "https://www.theplanner.co.uk/sites/default/files/Web_LondonUnderground_iStock_000077086545_Large.jpg",
+      caption: "Can I come up with an interesting test caption? Should captions even be shown? What evern are best practices?",
+      alt: "An image of a train on London's Northern Line"
+    },
+    {
+      src: "https://img.museumoflondon.org.uk/ev/0383d7a9-2e3c-4b0c-abe0-1b40121d8949.jpg",
+      caption: "West Ruislip rip",
+      alt: "An image of West Ruislip probably"
+    },
+    {
+      src: "https://i.ytimg.com/vi/pCIUOt2lLck/maxresdefault.jpg",
+      caption: "Trans Rights",
+      alt: "Trans Rights brought to you by dk 64"
+    },
+    {
+      src: "https://cdn2us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/2019/02/star-trek-discovery-season-2-who-is-number-one-in-canon.jpg?itok=qN635EKp",
+      caption: "Perfect angel, new lead character, needs own seriec, pike plz let us see more number one",
+      alt: "An screenshot of star trek discovery showing my wife"
+    },
+    {
+      src: "http://cdn.studiodaily.com/wp-content/uploads/2016/08/star-trek-beyond.jpg",
+      caption: "Can I come up with an interesting test caption? Should captions even be shown? What evern are best practices?",
+      alt: "An image of a train on London's Northern Line"
+    }
+  ]
+  const sampleTitles = [
+    "This is a Very Good Article",
+    "This is not a Good Article",
+    "This Article is of questionable intent",
+    "A menefesto for the abolition of the automobile",
+    "Experiences working in MHP Thameside",
+    "The design of your very own blog engine",
+    "Mind that time that guy asked us about newspapers on the DLR comming out of Cannary Wharf?"
+  ]
+  const sampleImage = {
+    src: "http://www.cat-bus.com/wp-content/uploads/2017/12/gadgetbahn.jpg",
+    caption: "A very neat image. Monorials are good. Abolish the functionless metal boxes known as automobiles",
+    alt: "A render of various monorails and monorail concepts"
+  }
+  const inputs = document.querySelectorAll('.input textarea')
+  for (let i=0; i<inputs.length; i++) {
+    inputs[i].value = sampleParas[Math.floor(Math.random()*inputs.length)]
+  }
+  let ranheader = Math.floor(Math.random()*sampleHeaders.length)
+  let ranTitle = Math.floor(Math.random()*sampleTitles.length)
+  document.querySelector('.header_image--src').value = sampleHeaders[ranheader].src
+  document.querySelector('.header_image--caption').value = sampleHeaders[ranheader].caption
+  document.querySelector('.header_image--alt').value = sampleHeaders[ranheader].alt
+  document.querySelector('.header_image--preview').src = sampleHeaders[ranheader].src
+
+  document.querySelector('.image_input--src').value = sampleImage.src
+  document.querySelector('.image_input--caption').value = sampleImage.caption
+  document.querySelector('.image_input--alt').value = sampleImage.alt
+
+  document.querySelector('.title input').value = sampleTitles[ranTitle]
+  document.querySelector('.subtitle textarea').value = "Here we will discuss many such topics as 'what is mongodb? And why does it make us sad?' and 'Why have my neighbors, in the last few days, increased their noise level by 420%?'"
+}
+
+document.querySelector('.sample_data').onclick = e => {
+  e.preventDefault()
+  return sample()
+}
+
+document.querySelector('.submit').addEventListener('click', e => {
+  let json = document.querySelector('#page_check')
+  json.checked = !json.checked
+})
+
+let devMode = false
+document.querySelector('.dev_toggle').onclick = function (e) {
+  e.preventDefault()
+  this.textContent = devMode ? 'Dev Mode: OFF' : 'Dev Mode: ON'
+  if (devMode) document.querySelector('.form').action = '/posts/new'
+  else document.querySelector('.form').action = '/posts/new/dev'
+  devMode = !devMode
+}
+
+// ==================== / Dev Mode To Be Tidied ====================
 
 
 
