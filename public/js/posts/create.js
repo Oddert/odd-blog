@@ -1,10 +1,12 @@
 
-// Resources
-// DOM Nodes / Constants
-// Event Functions
-// Create Elems
-// New Input
-// Msc
+const alignArray = [
+  { key: 'large', desc: 'Full sized' },
+  { key: 'medium_left', desc: 'Medium sized (spanning two columns), justified Left.' },
+  { key: 'medium_right', desc: 'Medium sized (spanning two columns), justified Right.' },
+  { key: 'small_left', desc: 'Small sized (just one column), justified Left.' },
+  { key: 'small_center', desc: 'Small sized (just one column), justified in the Middle.' },
+  { key: 'small_right', desc: 'Small sized (just one column), justified Right.' }
+]
 
 const svgConvert = {
   'large': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 271.04 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
@@ -20,8 +22,6 @@ const svgConvert = {
 
 // ==================== DOM Nodes + Constants ====================
 
-console.log(window.location)
-
 const newButtons    = document.querySelectorAll('.new_buttons button')
 const form          = document.querySelector('.form_body')
 
@@ -29,50 +29,7 @@ let lastClicked = document.querySelector('body *')
 
 // ==================== / DOM Nodes + Constants ====================
 
-
-// ==================== Event Functions ====================
-
-function handleDrag (e) {
-  const target = e.target
-  const parentList = e.target.parentNode
-  const x = event.clientX
-  const y = event.clientY
-
-  target.classList.add('drag_active')
-  let itemToSwap = document.elementFromPoint(x, y) === null
-    ? target
-    : (document.elementFromPoint(x, y).closest('.input'))
-      ? document.elementFromPoint(x, y).closest('.input')
-      : document.elementFromPoint(x, y)
-
-  // console.log(itemToSwap)
-  if (
-    itemToSwap.closest('.input') &&
-    itemToSwap.closest('.input').parentNode &&
-    parentList === itemToSwap.closest('.input').parentNode
-  ) {
-    // console.log('before', itemToSwap)
-    itemToSwap = itemToSwap !== target.nextSibling
-      ? itemToSwap
-      : itemToSwap.nextSibling
-    // console.log('after', itemToSwap)
-    parentList.insertBefore(target, itemToSwap)
-    // if (target !== itemToSwap) forceUpdateAlignments(target, itemToSwap)
-  }
-}
-
-function handleDrop (e) {
-  e.target.classList.remove('drag_active')
-  reassignIndeces()
-}
-
-function deleteInput (e, idx) {
-  e.preventDefault()
-  const input = document.querySelector(`.input_${idx}`)
-  console.log(input)
-  document.querySelector('.form_body').removeChild(input)
-  reassignIndeces()
-}
+// ==================== Input Create + Function ====================
 
 // When an element is removed and added there can often be conflicts in the index used to define input order
 // This loops over all and checks their classNames and names are correct
@@ -114,34 +71,6 @@ function reassignIndeces () {
   }
 }
 
-function textInputResize (e) {
-  if (e.target.clientHeight < e.target.scrollHeight) {
-    this.style.height = `${e.target.scrollHeight + 30}px`
-  }
-  if (e.target.clientHeight > e.target.scrollHeight) {
-    this.style.height = `${e.target.scrollHeight + 30}px`
-  }
-}
-
-function imagePreviewUpdate (e, idx) {
-  // console.log(e)
-  let url = ''
-  setTimeout(() => {
-    url = e.target.value
-    const image = new Image()
-    image.onload = () => document.querySelector(`.image_input__preview_${idx}--img`).src = url
-    image.onerror = () => {
-      // console.log('Fail :(')
-    }
-    image.src = url
-  }, 300)
-}
-
-// ==================== / Event Functions ====================
-
-
-// ==================== Create Elems ====================
-
 function createControl (idx, data_type) {
   let newControl = document.createElement(`DIV`)
   newControl.className = `input_control`
@@ -151,16 +80,8 @@ function createControl (idx, data_type) {
   controlDrag.className = `control_drag control_drag_${idx}`
   controlDrag.dataset.drag = `drag_${idx}`
 
-  controlDrag.addEventListener('mouseover', e => {
-    let parent = e.target.closest('.input')
-    parent.setAttribute('draggable', true)
-    parent.ondrag = handleDrag
-    parent.ondragend = handleDrop
-  })
-  controlDrag.addEventListener('mouseout', e => {
-    let parent = e.target.closest('.input')
-    parent.setAttribute('draggable', false)
-  })
+  controlDrag.addEventListener('mouseover', dragButtonMouseover)
+  controlDrag.addEventListener('mouseout', dragButtonMouseout)
 
   let controlText = document.createElement(`P`)
   controlText.textContent = `${data_type.substring(0,1).toUpperCase()}${data_type.substring(1)} ${idx} Input`
@@ -185,33 +106,7 @@ function createLabel (idx, data_type) {
   return newLabel
 }
 
-// function forceUpdateAlignments (target, itemToSwap) {
-//   console.log(target, itemToSwap)
-// }
-
-function updateAlignments (e, alignments) {
-  // console.log(e, alignments)
-  e.stopPropagation()
-  let options = e.target.closest('ul.align').querySelectorAll('li')
-  options.forEach(each => each.classList.remove('align_active'))
-  let li = e.target.closest('li')
-  li.classList.add('align_active')
-
-  let input = e.target.closest('.input')
-  let target = input.querySelector('.align_active')
-  input.classList.remove(...alignments.map(each => each.key))
-  input.classList.add(target.dataset.align)
-}
-
 function createAlignment (idx) {
-  let alignments = [
-    { key: 'large', desc: 'Full sized' },
-    { key: 'medium_left', desc: 'Medium sized (spanning two columns), justified Left.' },
-    { key: 'medium_right', desc: 'Medium sized (spanning two columns), justified Right.' },
-    { key: 'small_left', desc: 'Small sized (just one column), justified Left.' },
-    { key: 'small_center', desc: 'Small sized (just one column), justified in the Middle.' },
-    { key: 'small_right', desc: 'Small sized (just one column), justified Right.' }
-  ]
   let controlAlign = document.createElement('fieldset').appendChild(document.createElement('ul')) // NOTE feildset does not appear to do anything, remove?
   let itir = 0
   function createOption (val) {
@@ -220,15 +115,15 @@ function createAlignment (idx) {
     let optionLabel = document.createElement('label')
     let optionIcon = document.createElement('div')
 
-    option.title = alignments[itir].desc
-    option.dataset.align = alignments[itir].key
+    option.title = alignArray[itir].desc
+    option.dataset.align = alignArray[itir].key
 
     optionRadio.type = `radio`
     optionRadio.name = `inputs[${idx}][align]`
-    optionRadio.value = alignments[itir].key
+    optionRadio.value = alignArray[itir].key
     optionRadio.className = `align_radio`
 
-    optionIcon.innerHTML = svgConvert[alignments[itir].key]
+    optionIcon.innerHTML = svgConvert[alignArray[itir].key]
 
     optionLabel.appendChild(optionIcon)
     optionLabel.appendChild(optionRadio)
@@ -237,7 +132,7 @@ function createAlignment (idx) {
 
     optionIcon.addEventListener('click', e => {
       e.stopPropagation()
-      return updateAlignments(e, alignments)
+      return updateAlignments(e, alignArray)
     })
 
     if (itir === 0) {
@@ -247,7 +142,7 @@ function createAlignment (idx) {
     itir++
     return option
   }
-  for (each of alignments) controlAlign.appendChild(createOption(each))
+  for (each of alignArray) controlAlign.appendChild(createOption(each))
   controlAlign.className = `align`
   controlAlign.name = `placeholder[${idx}]`
   return controlAlign
@@ -261,10 +156,13 @@ function createSubhead (idx) {
   return newSubhead
 }
 
-// ==================== / Create Elems ====================
-
-
-// ==================== New Input ====================
+function deleteInput (e, idx) {
+  e.preventDefault()
+  const input = document.querySelector(`.input_${idx}`)
+  console.log(input)
+  document.querySelector('.form_body').removeChild(input)
+  reassignIndeces()
+}
 
 function handleNewInput (e) {
   console.log(e.target.name)
@@ -404,19 +302,176 @@ function handleNewInput (e) {
   }
 }
 
-// ==================== / New Input ====================
+
+// ==================== / Input Create + Function ====================
 
 
-newButtons.forEach(each => each.onclick = e => {
-  e.preventDefault()
-  handleNewInput(e)
-})
+// ==================== Functions ====================
+
+function handleDrag (e) {
+  const target = e.target
+  const parentList = e.target.parentNode
+  const x = event.clientX
+  const y = event.clientY
+
+  target.classList.add('drag_active')
+  let itemToSwap = document.elementFromPoint(x, y) === null
+  ? target
+  : (document.elementFromPoint(x, y).closest('.input'))
+  ? document.elementFromPoint(x, y).closest('.input')
+  : document.elementFromPoint(x, y)
+
+  // console.log(itemToSwap)
+  if (
+    itemToSwap.closest('.input') &&
+    itemToSwap.closest('.input').parentNode &&
+    parentList === itemToSwap.closest('.input').parentNode
+  ) {
+    // console.log('before', itemToSwap)
+    itemToSwap = itemToSwap !== target.nextSibling
+    ? itemToSwap
+    : itemToSwap.nextSibling
+    // console.log('after', itemToSwap)
+    parentList.insertBefore(target, itemToSwap)
+    // if (target !== itemToSwap) forceUpdateAlignments(target, itemToSwap)
+  }
+}
+
+function handleDrop (e) {
+  e.target.classList.remove('drag_active')
+  reassignIndeces()
+}
+
+function dragButtonMouseover (e) {
+  let parent = e.target.closest('.input')
+  parent.setAttribute('draggable', true)
+  parent.ondrag = handleDrag
+  parent.ondragend = handleDrop
+}
+
+function dragButtonMouseout (e) {
+  let parent = e.target.closest('.input')
+  parent.setAttribute('draggable', false)
+}
+
+function textInputResize (e) {
+  if (e.target.clientHeight < e.target.scrollHeight) {
+    this.style.height = `${e.target.scrollHeight + 30}px`
+  }
+  if (e.target.clientHeight > e.target.scrollHeight) {
+    this.style.height = `${e.target.scrollHeight + 30}px`
+  }
+}
+
+function imagePreviewUpdate (e, idx) {
+  // console.log(e)
+  let url = ''
+  setTimeout(() => {
+    url = e.target.value
+    const image = new Image()
+    image.onload = () => document.querySelector(`.image_input__preview_${idx}--img`).src = url
+    image.onerror = () => {
+      // console.log('Fail :(')
+    }
+    image.src = url
+  }, 300)
+}
+
+function updateAlignments (e, alignArray) {
+  // console.log(e, alignments)
+  e.stopPropagation()
+  let options = e.target.closest('ul.align').querySelectorAll('li')
+  options.forEach(each => each.classList.remove('align_active'))
+  let li = e.target.closest('li')
+  li.classList.add('align_active')
+
+  let input = e.target.closest('.input')
+  let target = input.querySelector('.align_active')
+  input.classList.remove(...alignArray.map(each => each.key))
+  input.classList.add(target.dataset.align)
+}
+
+// NO HANDLE SAVE
+
+// ==================== / Functions ====================
 
 
-for (let i = 0; i < 2; i++) handleNewInput({ target: { name: 'new_paragraph' } })
-handleNewInput({ target: { name: 'new_image' } })
-handleNewInput({ target: { name: 'new_paragraph' } })
+// ==================== Event Binding ====================
 
+// NO
+// SAVE
+// BUTTON
+// :(
+
+// ==================== / Event Binding ====================
+
+
+// ==================== Page Initialisation ====================
+
+function initialisePage () {
+  const inputs = document.querySelectorAll('.input')
+  inputs.forEach((each, idx) => {
+    const type = each.dataset.type
+    let controlDrag = each.querySelector('.control_drag')
+    controlDrag.addEventListener('mouseover', dragButtonMouseover)
+    controlDrag.addEventListener('mouseout', dragButtonMouseout)
+
+    let controlDelete = each.querySelector('.control_delete')
+    controlDelete.onclick = e => deleteInput(e, idx)
+
+    const alignments = each.querySelector('.align').querySelectorAll('li')
+    alignments.forEach(option => {
+      let optIcon = option.querySelector('.align_option__icon')
+      optIcon.addEventListener('click', e => {
+        e.stopPropagation()
+        return updateAlignments(e, alignArray)
+      })
+    })
+
+    if (type == "paragraph") {
+      each.querySelector('textarea')
+          .addEventListener('keydown', textInputResize)
+    }
+    if (type == "image") {
+      each.querySelector('.image_input--src')
+          .addEventListener('keydown', e => imagePreviewUpdate(e, idx))
+    }
+  })
+
+  newButtons.forEach(each => each.onclick = e => {
+    e.preventDefault()
+    handleNewInput(e)
+  })
+
+  let firstTimeWarn = true
+  function headerPreviewUpdate (e) {
+    console.log(e)
+    if (firstTimeWarn) {
+      console.log(`PLEASE NOTE: Failed GET requests may show in abundance in the console. This is simply a method of verifying broken images on auto-update.`)
+      firstTimeWarn = false
+    }
+    let url = ''
+    setTimeout(() => {
+      url = e.target.value
+      const image = new Image()
+      image.onload = () => document.querySelector(`.header_image--preview`).src = url
+      image.onerror = () => {
+        // console.log('Fail :(')
+      }
+      image.src = url
+    }, 300)
+  }
+
+  document.querySelector('.header_image--src').onchange = headerPreviewUpdate
+
+}
+
+document.addEventListener('DOMContentLoaded', initialisePage)
+
+// ==================== / Page Initialisation ====================
+
+
+// ==================== Selection Development WIP ====================
 
 function makeSel () {
   const sel = window.getSelection()
@@ -430,6 +485,11 @@ function makeSel () {
 }
 
 document.addEventListener('mouseup', e => lastClicked = e.path)
+
+// ==================== / Selection Development WIP ====================
+
+
+// ==================== Dev Mode To Be Tidied ====================
 
 function sample () {
   const sampleParas = [
@@ -518,21 +578,10 @@ document.querySelector('.dev_toggle').onclick = function (e) {
   devMode = !devMode
 }
 
-function headerPreviewUpdate (e) {
-  console.log(e)
-  let url = ''
-  setTimeout(() => {
-    url = e.target.value
-    const image = new Image()
-    image.onload = () => document.querySelector(`.header_image--preview`).src = url
-    image.onerror = () => {
-      // console.log('Fail :(')
-    }
-    image.src = url
-  }, 300)
-}
+// ==================== / Dev Mode To Be Tidied ====================
 
-document.querySelector('.header_image--src').onchange = headerPreviewUpdate
+
+
 
 // ####################### TO DO LIST #####################################
 // -Change styling

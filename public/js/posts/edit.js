@@ -20,7 +20,6 @@ const svgConvert = {
 // ==================== / Resources ====================
 
 
-
 // ==================== DOM Nodes + Constants ====================
 
 const newButtons      = document.querySelectorAll('.new_buttons button')
@@ -33,6 +32,8 @@ const submitButton    = document.querySelector('.submit')
 
 // ==================== Input Create + Function ====================
 
+// When an element is removed and added there can often be conflicts in the index used to define input order
+// This loops over all and checks their classNames and names are correct
 function reassignIndeces () {
   const input_groups = document.querySelectorAll('.input')
   for (let i = 0; i < input_groups.length; i++) {
@@ -115,14 +116,6 @@ function createLabel (idx, data_type) {
 }
 
 function createAlignment (idx) {
-  let alignments = [
-    { key: 'large', desc: 'Full sized' },
-    { key: 'medium_left', desc: 'Medium sized (spanning two columns), justified Left.' },
-    { key: 'medium_right', desc: 'Medium sized (spanning two columns), justified Right.' },
-    { key: 'small_left', desc: 'Small sized (just one column), justified Left.' },
-    { key: 'small_center', desc: 'Small sized (just one column), justified in the Middle.' },
-    { key: 'small_right', desc: 'Small sized (just one column), justified Right.' }
-  ]
   let controlAlign = document.createElement('fieldset').appendChild(document.createElement('ul')) // NOTE feildset does not appear to do anything, remove?
   let itir = 0
   function createOption (val) {
@@ -131,15 +124,15 @@ function createAlignment (idx) {
     let optionLabel = document.createElement('label')
     let optionIcon = document.createElement('div')
 
-    option.title = alignments[itir].desc
-    option.dataset.align = alignments[itir].key
+    option.title = alignArray[itir].desc
+    option.dataset.align = alignArray[itir].key
 
     optionRadio.type = `radio`
     optionRadio.name = `inputs[${idx}][align]`
-    optionRadio.value = alignments[itir].key
+    optionRadio.value = alignArray[itir].key
     optionRadio.className = `align_radio`
 
-    optionIcon.innerHTML = svgConvert[alignments[itir].key]
+    optionIcon.innerHTML = svgConvert[alignArray[itir].key]
 
     optionLabel.appendChild(optionIcon)
     optionLabel.appendChild(optionRadio)
@@ -148,7 +141,7 @@ function createAlignment (idx) {
 
     optionIcon.addEventListener('click', e => {
       e.stopPropagation()
-      return updateAlignments(e, alignments)
+      return updateAlignments(e, alignArray)
     })
 
     if (itir === 0) {
@@ -158,7 +151,7 @@ function createAlignment (idx) {
     itir++
     return option
   }
-  for (each of alignments) controlAlign.appendChild(createOption(each))
+  for (each of alignArray) controlAlign.appendChild(createOption(each))
   controlAlign.className = `align`
   controlAlign.name = `placeholder[${idx}]`
   return controlAlign
@@ -462,19 +455,12 @@ saveButton.onclick = e => {
   return handleSave(e)
 }
 
-function test () {
-  const input = document.querySelector('.input_1')
-  const radios = input.querySelector('input[type=radio]:checked')
-  return radios
-}
-
 // ==================== / Event Binding ====================
 
 
 // ==================== Page Initialisation ====================
 
 function initialisePage () {
-  console.log(test())
   const inputs = document.querySelectorAll('.input')
   inputs.forEach((each, idx) => {
     const type = each.dataset.type
@@ -503,12 +489,13 @@ function initialisePage () {
           .addEventListener('keydown', e => imagePreviewUpdate(e, idx))
     }
   })
+
   newButtons.forEach(each => each.onclick = e => {
     e.preventDefault()
     handleNewInput(e)
   })
 
-let firstTimeWarn = true
+  let firstTimeWarn = true
   function headerPreviewUpdate (e) {
     // console.log(e)
     if (firstTimeWarn) {
