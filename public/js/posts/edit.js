@@ -28,6 +28,7 @@ const saveButton      = document.querySelector('.save')
 const submitButton    = document.querySelector('.submit')
 
 let lastClicked = document.querySelector('body *')
+let loadTime = Date.now()
 
 // ==================== / DOM Nodes + Constants ====================
 
@@ -387,14 +388,11 @@ function updateAlignments (e, alignArray) {
   input.classList.add(target.dataset.align)
 }
 
-function handleSave () {
-
+function getData () {
   const id = document.querySelector('.form').dataset.id
   const inputs = document.querySelectorAll('.input')
   // const alignments = document.querySelectorAll()
-
   let body = {
-
     header_image: {
       src: document.querySelector('.header_image--src').value,
       caption: document.querySelector('.header_image--caption').value,
@@ -402,7 +400,22 @@ function handleSave () {
     },
     title: document.querySelector('.title input').value,
     subtitle: document.querySelector('.subtitle textarea').value,
+    tags: document.querySelector('.tags input').value,
     inputs: []
+  }
+
+  function compareAutoSaves (previous, current, callback) {
+    // Only deals with one item at a time currently. Will overwrite autosave on new post load
+    if (previous && (previous.id === current.id)) {
+      if (JSON.stringify(previous.body) !== JSON.stringify(current.body)) {
+        console.warn('Local storage out of sync with current load')
+        return true
+      } else {
+        return false
+      }
+    } else {
+      localStorage.setItem("editing", current)
+    }
   }
 
   function convertInput (input) {
@@ -410,15 +423,20 @@ function handleSave () {
     let parsed = {
       data_type: input.dataset.type,
       subhead: input.querySelector('.subhead').value,
-      align: 'large' //placeholder
+      align: Array.from(input.querySelectorAll('input[type=radio]')).filter(e => e.checked)[0].value
     }
-    if (input.dataset.type == "paragraph") {
+    if (input.dataset.type === "paragraph") {
       parsed.text       = input.querySelector('textarea').value
     }
-    if (input.dataset.type == "image") {
+    if (input.dataset.type === "image") {
       parsed.src        = input.querySelector('.image_input--src').value
       parsed.caption    = input.querySelector('.image_input--caption').value
       parsed.alt        = input.querySelector('.image_input--alt').value
+    }
+    if (input.dataset.type === "quote") {
+      parsed.cite       = input.querySelector(".quote_input--cite").value
+      parsed.text       = input.querySelector(".quote_input--text").value
+      parsed.author     = input.querySelector(".quote_input--author").value
     }
     return parsed
   }
@@ -426,17 +444,44 @@ function handleSave () {
   inputs.forEach((each, idx) => {
     body.inputs.push(convertInput(each))
   })
+  return {
+    id, body
+  }
+}
 
+function handleAutoSave () {
+  if (typeof(Storage) !== undefined) {
+    // console.log('local store')
+    const previous = localStorage.getItem("editing")
+    console.log(previous)
+    if ((previous && previous.timestamp && Date.now() >= previous.expires) || !previous) {
+      const { id, body } = getData()
+      localStorage.setItem("editing", JSON.stringify({
+        id,
+        body,
+        timestamp: Date.now(),
+        expires: Date.now() + 90000,
+
+      }))
+    }
+  }
+}
+
+function handleSave () {
+
+  const { body, id } = getData()
   const url = `/api/posts/${id}`
   const options = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   }
-  fetch(url, options)
-    .then(res => res.json())
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+  if (id) {
+    fetch(url, options)
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
 }
 
 // ==================== / Functions ====================
@@ -488,6 +533,35 @@ function initialisePage () {
     e.preventDefault()
     handleNewInput(e)
   })
+
+  // return true if action is needed
+  function compareAutoSaves (previous, current, callback) {
+    // Only deals with one item at a time currently. Will overwrite autosave on new post load
+    if (previous && (previous.id === current.id)) {
+      if (previous.unsavedChanges) {
+        if (JSON.stringify(previous.body) === JSON.stringify(current.body)) {
+          console.log('Unsaved changes flag found. Body comparison is the same.')
+          return { outOfSync: false, action: 'reset_unsaved_flag' }
+          // reset_unsaved_flag also should reset_last_check_flag
+        } else {
+          console.warn('Local storage out of sync with current load')
+          return { outOfSync: true, action: 'prompt_user_comparison' }
+        }
+      } else {
+        console.log('No unsaved change flag found, assuming items are in sync')
+        return { outOfSync: false, action: 'reset_last_check_flag' }
+      }
+    } else {
+      console.warn('Local store not found OR local store for previous post.')
+      return { outOfSync: true, action: 'rewrite_autosave' }
+      // localStorage.setItem("editing", current)
+    }
+  }
+
+  const previous = JSON.parse(localStorage.getItem("editing"))
+  const current = getData()
+  console.log(compareAutoSaves(previous, current, null))
+
 
   let firstTimeWarn = true
   function headerPreviewUpdate (e) {

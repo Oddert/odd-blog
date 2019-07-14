@@ -111,28 +111,35 @@ router.route('/:yearTitleId/')
       .catch(err => console.log({ err }))
     }
   })
-  .put(mw.checkPostOwnership, (req, res, next) => {
-    Post.findByIdAndUpdate(req.params.yearTitleId, Object.assign({},
-      req.body,
-      {
-        tags: req.body.tags.split(', '),
-        word_count: calculateRead(req.body),
-        $push: {
-          updates: {
-            date: Date.now(),
-            author: {
-              id: req.user._id,
-              username: req.user.username,
-              displayName: `${req.user.primary_name} ${req.user.secondary_name}`
-            },
-            note: req.body.note || ''
+  .put(mw.checkPostOwnershipAlt, (req, res, next) => {
+    if (req.query.bounce) {
+        res.json({
+        success: true,
+        post: req.body
+      })
+    } else {
+      Post.findByIdAndUpdate(req.params.yearTitleId, Object.assign({},
+        req.body,
+        {
+          tags: req.body.tags.split(', '),
+          word_count: calculateRead(req.body),
+          $push: {
+            updates: {
+              date: Date.now(),
+              author: {
+                id: req.user._id,
+                username: req.user.username,
+                displayName: `${req.user.primary_name} ${req.user.secondary_name}`
+              },
+              note: req.body.note || ''
+            }
           }
         }
-      }
-    ))
-    .then(post => parseForDisplay(post))
-    .then(data => res.json({ data }))
-    .catch(err => handleErrorJSON(req, res, next, err))
+      ))
+      .then(post => parseForDisplay(post))
+      .then(data => res.json({ data }))
+      .catch(err => handleErrorJSON(req, res, next, err))
+    }
   })
   .delete((req, res, next) => {
     Post.findByIdAndUpdate(req.params.yearTitleId, { deleted: true, deleted_on: Date.now() })

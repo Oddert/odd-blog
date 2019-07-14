@@ -99,5 +99,8 @@ app.listen(
 // -Needs better local sotrage to restore unsaved changes
 // -DB can save drafts
 // -Need pending status for posts
+// -Add login menu to edit / create
+
+// maybe done:   ..?
 // -need to restore quote correctly on edit
 // -Need to restore alignment correctly on edit

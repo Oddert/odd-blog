@@ -242,9 +242,9 @@
               </div>
             <% } else if (each.data_type == "quote") { %>
               <div class="quote_input__container">
-                <input type="text" name="inputs[<%= idx %>][cite]" placeholder="Citation Link" />
-                <textarea name="inputs[<%= idx %>][text]" placeholder="Quote Text"></textarea>
-                <input type="text" name="inputs[<%= idx %>][author]" placeholder="Author" />
+                <input type="text" name="inputs[<%= idx %>][cite]" class="quote_input--cite" placeholder="Citation Link" />
+                <textarea name="inputs[<%= idx %>][text]" class="quote_input--text" placeholder="Quote Text"></textarea>
+                <input type="text" name="inputs[<%= idx %>][author]" class="quote_input--author" placeholder="Author" />
               </div>
             <% } %>
           </div>
