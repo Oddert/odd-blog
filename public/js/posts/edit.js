@@ -110,10 +110,10 @@ function createLabel (idx, data_type) {
   return newLabel
 }
 
-function createAlignment (idx) {
+function createAlignment (idx, data) {
   let controlAlign = document.createElement('fieldset').appendChild(document.createElement('ul')) // NOTE feildset does not appear to do anything, remove?
   let itir = 0
-  function createOption (val) {
+  function createOption (val, data) {
     let option = document.createElement('li')
     let optionRadio = document.createElement('input')
     let optionLabel = document.createElement('label')
@@ -129,6 +129,11 @@ function createAlignment (idx) {
 
     optionIcon.innerHTML = svgConvert[alignArray[itir].key]
 
+    if (data && data === alignArray[itir].key) {
+      option.classList.add(`align_active`)
+      optionRadio.setAttribute('checked', true)
+    }
+
     optionLabel.appendChild(optionIcon)
     optionLabel.appendChild(optionRadio)
 
@@ -139,14 +144,14 @@ function createAlignment (idx) {
       return updateAlignments(e, alignArray)
     })
 
-    if (itir === 0) {
+    if (!data && itir === 0) {
       optionRadio.setAttribute('checked', true)
       option.classList.add('align_active')
     }
     itir++
     return option
   }
-  for (each of alignArray) controlAlign.appendChild(createOption(each))
+  for (each of alignArray) controlAlign.appendChild(createOption(each, data))
   controlAlign.className = `align`
   controlAlign.name = `placeholder[${idx}]`
   return controlAlign
@@ -160,12 +165,131 @@ function createSubhead (idx) {
   return newSubhead
 }
 
-function deleteInput (e, idx) {
-  e.preventDefault()
-  const input = document.querySelector(`.input_${idx}`)
-  console.log(input)
-  document.querySelector('.form_body').removeChild(input)
-  reassignIndeces()
+function createInputParagraph (inputs, idx) {
+  let newElem
+  let newTextInput = document.createElement('textarea')
+  newTextInput.name = `inputs[${idx}][text]`
+  newTextInput.placeholder = `Body`
+  // newTextInput.className = `input_textarea`
+  newTextInput.addEventListener('keydown', textInputResize)
+
+  newElem = document.createElement('DIV')
+  newElem.className = `input text_input input_${idx}`
+
+  if (idx === 1) newTextInput.id = "mytextarea"
+
+  newElem.appendChild(createControl(idx, `paragraph`))
+  newElem.appendChild(createLabel(idx, `paragraph`))
+  newElem.appendChild(createAlignment(idx))
+  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(newTextInput)
+  return newElem
+}
+
+function creatInputImage (inputs, idx) {
+  let newElem
+  let newImageSrcInput          = document.createElement('input')
+  newImageSrcInput.name         = `inputs[${idx}][src]`
+  newImageSrcInput.className    = `image_input--src`
+  newImageSrcInput.placeholder  = 'Image Link'
+  newImageSrcInput.title        = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
+
+  newImageSrcInput.onchange = imagePreviewUpdate
+
+  let newImageCaptionInput          = document.createElement('input')
+  newImageCaptionInput.name         = `inputs[${idx}][caption]`
+  newImageCaptionInput.className    = 'image_input--caption'
+  newImageCaptionInput.placeholder  = 'Caption'
+  newImageCaptionInput.title  = 'An optional caption to go with the image.'
+
+  let newImageAltInput          = document.createElement('input')
+  newImageAltInput.name         = `inputs[${idx}][alt]`
+  newImageAltInput.className    = 'image_input--alt'
+  newImageAltInput.placeholder  = 'Alt-text (for Screen Readers)'
+  newImageAltInput.title  = 'Add a description of the image. This will be shown if the image breaks and is also what screen-readers will \'see\'.'
+
+  let newImageInputContainer = document.createElement('DIV')
+  newImageInputContainer.className = `image_input__container`
+
+  let newImageInputGroup = document.createElement('DIV')
+  newImageInputGroup.className = `image_input__group`
+  newImageInputGroup.appendChild(newImageSrcInput)
+  newImageInputGroup.appendChild(newImageCaptionInput)
+  newImageInputGroup.appendChild(newImageAltInput)
+
+  let newImageInputPreview = document.createElement('DIV')
+  newImageInputPreview.className = `image_input__preview`
+  let newImageInputPreviewImg = document.createElement('img')
+  newImageInputPreviewImg.title = 'Image preview.'
+  newImageInputPreviewImg.className = `image_input__preview--img image_input__preview_${idx}--img`
+  newImageInputPreviewImg.src = `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
+  newImageInputPreview.appendChild(newImageInputPreviewImg)
+
+  newImageInputContainer.appendChild(newImageInputGroup)
+  newImageInputContainer.appendChild(newImageInputPreview)
+
+  newElem = document.createElement('DIV')
+  newElem.className = `input image_input input_${idx}`
+
+  newElem.appendChild(createControl(idx, `image`))
+  newElem.appendChild(createAlignment(idx))
+  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(createLabel(idx, `image`))
+  newElem.appendChild(newImageInputContainer)
+  return newElem
+}
+
+function createInputQuote (inputs, idx) {
+  let newElem
+  let newQuoteContainer = document.createElement('DIV')
+  newQuoteContainer.className = `quote_input__container`
+
+  let newQuoteBody = document.createElement('textarea')
+  newQuoteBody.name = `inputs[${idx}][text]`
+  newQuoteBody.placeholder = `Quote Text`
+  newQuoteBody.addEventListener('keydown', textInputResize)
+
+  let newQuoteAuthor = document.createElement('input')
+  newQuoteAuthor.type = `text`
+  newQuoteAuthor.name = `inputs[${idx}][author]`
+  newQuoteAuthor.placeholder = `Author`
+
+  let newQuoteCite = document.createElement('input')
+  newQuoteCite.type = `text`
+  newQuoteCite.name = `inputs[${idx}][cite]`
+  newQuoteCite.placeholder = `Citation Link`
+
+  newQuoteContainer.appendChild(newQuoteCite)
+  newQuoteContainer.appendChild(newQuoteBody)
+  newQuoteContainer.appendChild(newQuoteAuthor)
+
+  newElem = document.createElement('DIV')
+  newElem.className = `input quote_input input_${idx}`
+  newElem.appendChild(createControl(idx, `quote`))
+  newElem.appendChild(createAlignment(idx))
+  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(createLabel(idx, `quote`))
+  newElem.appendChild(newQuoteContainer)
+  return newElem
+}
+
+function createInputCode (inputs, idx) {
+  let newElem
+  let newCodeInput = document.createElement('textarea')
+  newCodeInput.name = `inputs[${idx}][text]`
+  newCodeInput.placeholder = `Code Snippet`
+  // newTextInput.className = `input_textarea`
+  newCodeInput.addEventListener('keydown', textInputResize)
+
+  newElem = document.createElement('DIV')
+  newElem.className = `input code_input input_${idx}`
+
+  newElem.appendChild(createControl(idx, `code`))
+  newElem.appendChild(createLabel(idx, `code`))
+  newElem.appendChild(createAlignment(idx))
+  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(newCodeInput)
+  return newElem
 }
 
 function handleNewInput (e) {
@@ -178,132 +302,37 @@ function handleNewInput (e) {
   switch(e.target.name) {
 
     case 'new_paragraph':
-      let newTextInput = document.createElement('textarea')
-      newTextInput.name = `inputs[${idx}][text]`
-      newTextInput.placeholder = `Body`
-      // newTextInput.className = `input_textarea`
-      newTextInput.addEventListener('keydown', textInputResize)
-
-      newElem = document.createElement('DIV')
-      newElem.className = `input text_input input_${idx}`
-
-      if (idx === 1) newTextInput.id = "mytextarea"
-
-      newElem.appendChild(createControl(idx, `paragraph`))
-      newElem.appendChild(createLabel(idx, `paragraph`))
-      newElem.appendChild(createAlignment(idx))
-      newElem.appendChild(createSubhead(idx))
-      newElem.appendChild(newTextInput)
+      newElem = createInputParagraph (inputs, idx)
       form.appendChild(newElem)
       break;
 
     case 'new_image':
-      let newImageSrcInput          = document.createElement('input')
-      newImageSrcInput.name         = `inputs[${idx}][src]`
-      newImageSrcInput.className    = `image_input--src`
-      newImageSrcInput.placeholder  = 'Image Link'
-      newImageSrcInput.title        = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
-
-      newImageSrcInput.onchange = imagePreviewUpdate
-
-      let newImageCaptionInput          = document.createElement('input')
-      newImageCaptionInput.name         = `inputs[${idx}][caption]`
-      newImageCaptionInput.className    = 'image_input--caption'
-      newImageCaptionInput.placeholder  = 'Caption'
-      newImageCaptionInput.title  = 'An optional caption to go with the image.'
-
-      let newImageAltInput          = document.createElement('input')
-      newImageAltInput.name         = `inputs[${idx}][alt]`
-      newImageAltInput.className    = 'image_input--alt'
-      newImageAltInput.placeholder  = 'Alt-text (for Screen Readers)'
-      newImageAltInput.title  = 'Add a description of the image. This will be shown if the image breaks and is also what screen-readers will \'see\'.'
-
-      let newImageInputContainer = document.createElement('DIV')
-      newImageInputContainer.className = `image_input__container`
-
-      let newImageInputGroup = document.createElement('DIV')
-      newImageInputGroup.className = `image_input__group`
-      newImageInputGroup.appendChild(newImageSrcInput)
-      newImageInputGroup.appendChild(newImageCaptionInput)
-      newImageInputGroup.appendChild(newImageAltInput)
-
-      let newImageInputPreview = document.createElement('DIV')
-      newImageInputPreview.className = `image_input__preview`
-      let newImageInputPreviewImg = document.createElement('img')
-      newImageInputPreviewImg.title = 'Image preview.'
-      newImageInputPreviewImg.className = `image_input__preview--img image_input__preview_${idx}--img`
-      newImageInputPreviewImg.src = `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
-      newImageInputPreview.appendChild(newImageInputPreviewImg)
-
-      newImageInputContainer.appendChild(newImageInputGroup)
-      newImageInputContainer.appendChild(newImageInputPreview)
-
-      newElem = document.createElement('DIV')
-      newElem.className = `input image_input input_${idx}`
-
-      newElem.appendChild(createControl(idx, `image`))
-      newElem.appendChild(createAlignment(idx))
-      newElem.appendChild(createSubhead(idx))
-      newElem.appendChild(createLabel(idx, `image`))
-      newElem.appendChild(newImageInputContainer)
+      newElem = createInputImage (inputs, idx)
       form.appendChild(newElem)
       break;
 
     case 'new_quote':
-      let newQuoteContainer = document.createElement('DIV')
-      newQuoteContainer.className = `quote_input__container`
-
-      let newQuoteBody = document.createElement('textarea')
-      newQuoteBody.name = `inputs[${idx}][text]`
-      newQuoteBody.placeholder = `Quote Text`
-      newQuoteBody.addEventListener('keydown', textInputResize)
-
-      let newQuoteAuthor = document.createElement('input')
-      newQuoteAuthor.type = `text`
-      newQuoteAuthor.name = `inputs[${idx}][author]`
-      newQuoteAuthor.placeholder = `Author`
-
-      let newQuoteCite = document.createElement('input')
-      newQuoteCite.type = `text`
-      newQuoteCite.name = `inputs[${idx}][cite]`
-      newQuoteCite.placeholder = `Citation Link`
-
-      newQuoteContainer.appendChild(newQuoteCite)
-      newQuoteContainer.appendChild(newQuoteBody)
-      newQuoteContainer.appendChild(newQuoteAuthor)
-
-      newElem = document.createElement('DIV')
-      newElem.className = `input quote_input input_${idx}`
-      newElem.appendChild(createControl(idx, `quote`))
-      newElem.appendChild(createAlignment(idx))
-      newElem.appendChild(createSubhead(idx))
-      newElem.appendChild(createLabel(idx, `quote`))
-      newElem.appendChild(newQuoteContainer)
+      newElem = createInputQuote (inputs, idx)
       form.appendChild(newElem)
       break;
 
     case 'new_code':
-      let newCodeInput = document.createElement('textarea')
-      newCodeInput.name = `inputs[${idx}][text]`
-      newCodeInput.placeholder = `Code Snippet`
-      // newTextInput.className = `input_textarea`
-      newCodeInput.addEventListener('keydown', textInputResize)
-
-      newElem = document.createElement('DIV')
-      newElem.className = `input code_input input_${idx}`
-
-      newElem.appendChild(createControl(idx, `code`))
-      newElem.appendChild(createLabel(idx, `code`))
-      newElem.appendChild(createAlignment(idx))
-      newElem.appendChild(createSubhead(idx))
-      newElem.appendChild(newCodeInput)
+      newElem = createInputCode (inputs, idx)
       form.appendChild(newElem)
       break;
 
     default:
-      console.log('ERROR: Unknown input data_type')
+      console.error('ERROR: Unknown input data_type')
       break;
   }
+}
+
+function deleteInput (e, idx) {
+  e.preventDefault()
+  const input = document.querySelector(`.input_${idx}`)
+  console.log(input)
+  document.querySelector('.form_body').removeChild(input)
+  reassignIndeces()
 }
 
 // ==================== / Input Create + Function ====================
@@ -604,7 +633,32 @@ function initialisePage () {
 
 document.addEventListener('DOMContentLoaded', initialisePage)
 
-// ==================== Page Initialisation ====================
+// ==================== / Page Initialisation ====================
+
+
+
+// ==================== Page Write Functionality ====================
+
+// -tags                '.tags input'
+
+// loop over inputs
+function reWritePage ({ id, body, timestamp, expires, unsavedChanges }) {
+  document.querySelector('.header_image--src').value = body.header_image.src
+  document.querySelector('.header_image--preview').src = body.header_image.src
+  document.querySelector('.header_image--caption').value = body.header_image.caption
+  document.querySelector('.header_image--alt').value = body.header_image.alt
+
+  document.querySelector('.title input').value = body.title
+  document.querySelector('.subtitle textarea').value = body.subtitle
+  document.querySelector('.tags input').value = body.tags
+
+  body.inputs.forEach((each, idx) => {
+    console.log(each)
+  })
+
+}
+
+// ==================== / Page Write Functionality ====================
 
 
 
