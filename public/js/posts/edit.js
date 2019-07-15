@@ -404,20 +404,6 @@ function getData () {
     inputs: []
   }
 
-  function compareAutoSaves (previous, current, callback) {
-    // Only deals with one item at a time currently. Will overwrite autosave on new post load
-    if (previous && (previous.id === current.id)) {
-      if (JSON.stringify(previous.body) !== JSON.stringify(current.body)) {
-        console.warn('Local storage out of sync with current load')
-        return true
-      } else {
-        return false
-      }
-    } else {
-      localStorage.setItem("editing", current)
-    }
-  }
-
   function convertInput (input) {
     console.log(input)
     let parsed = {
@@ -445,7 +431,7 @@ function getData () {
     body.inputs.push(convertInput(each))
   })
   return {
-    id, body
+    id, body, timestamp: Date.now(), expires: Date.now() + 90000, unsavedChanges: false
   }
 }
 
@@ -482,6 +468,39 @@ function handleSave () {
       .then(res => console.log(res))
       .catch(err => console.log(err))
   }
+}
+
+// return true if action is needed
+function compareAutoSaves (previous, current, callback) {
+  // Only deals with one item at a time currently. Will overwrite autosave on new post load
+  if (previous && previous.id) {
+    if (previous.id === current.id) {
+      if (previous.unsavedChanges) {
+        if (JSON.stringify(previous.body) === JSON.stringify(current.body)) {
+          console.log('Unsaved changes flag found. Body comparison is the same.')
+          return { outOfSync: false, action: 'reset_unsaved_flag' }
+          // reset_unsaved_flag also should reset_last_check_flag
+        } else {
+          console.warn('Local storage out of sync with current load')
+          return { outOfSync: true, action: 'prompt_user_comparison' }
+        }
+      } else {
+        console.log('No unsaved change flag found, assuming items are in sync')
+        return { outOfSync: false, action: 'reset_last_check_flag' }
+      }
+    } else {
+      console.warn("Local store found for previous post.")
+      return { outOfSync: true, action: 'restore_previous_save', data: { title: previous.title } }
+    }
+  } else {
+    console.log('Local store not found.')
+    return { outOfSync: true, action: 'rewrite_autosave' }
+  }
+  // reset_unsaved_flag
+  // prompt_user_comparison
+  // reset_last_check_flag
+  // restore_previous_save
+  // rewrite_autosave
 }
 
 // ==================== / Functions ====================
@@ -534,33 +553,30 @@ function initialisePage () {
     handleNewInput(e)
   })
 
-  // return true if action is needed
-  function compareAutoSaves (previous, current, callback) {
-    // Only deals with one item at a time currently. Will overwrite autosave on new post load
-    if (previous && (previous.id === current.id)) {
-      if (previous.unsavedChanges) {
-        if (JSON.stringify(previous.body) === JSON.stringify(current.body)) {
-          console.log('Unsaved changes flag found. Body comparison is the same.')
-          return { outOfSync: false, action: 'reset_unsaved_flag' }
-          // reset_unsaved_flag also should reset_last_check_flag
-        } else {
-          console.warn('Local storage out of sync with current load')
-          return { outOfSync: true, action: 'prompt_user_comparison' }
-        }
-      } else {
-        console.log('No unsaved change flag found, assuming items are in sync')
-        return { outOfSync: false, action: 'reset_last_check_flag' }
-      }
-    } else {
-      console.warn('Local store not found OR local store for previous post.')
-      return { outOfSync: true, action: 'rewrite_autosave' }
-      // localStorage.setItem("editing", current)
-    }
-  }
-
   const previous = JSON.parse(localStorage.getItem("editing"))
   const current = getData()
-  console.log(compareAutoSaves(previous, current, null))
+  console.log({ previous }, { current })
+  const pageLoadAutosaveStatus = compareAutoSaves(previous, current, null)
+  console.log(pageLoadAutosaveStatus)
+  switch (pageLoadAutosaveStatus.action) {
+    case 'reset_unsaved_flag':
+    case 'reset_last_check_flag':
+    case 'rewrite_autosave':
+      localStorage.setItem("editing", JSON.stringify(Object.assign({}, current, { unsavedChanges: false })))
+      break;
+    case 'prompt_user_comparison':
+      break;
+    case 'restore_previous_save':
+      if (window.confirm(`Warning: There is unsaved autosave data from the last post. \nTitle: ${pageLoadAutosaveStatus.data.title}.\nWould you like to restore this post?`)) {
+
+        console.error('Restore previous post. NEED: rewrite functionality.')
+      }
+      break;
+    default: break;
+  }
+
+  // Need ability to paint entire page again.
+  // Need window and functions to prompt user comparison
 
 
   let firstTimeWarn = true
@@ -692,10 +708,12 @@ document.querySelector('.submit').addEventListener('click', e => {
 })
 
 let devMode = false
+let defautlLocation = document.querySelector('.form').action
+console.log(defautlLocation)
 document.querySelector('.dev_toggle').onclick = function (e) {
   e.preventDefault()
   this.textContent = devMode ? 'Dev Mode: OFF' : 'Dev Mode: ON'
-  if (devMode) document.querySelector('.form').action = '/posts/new'
+  if (devMode) document.querySelector('.form').action = defautlLocation
   else document.querySelector('.form').action = '/posts/new/dev'
   devMode = !devMode
 }
