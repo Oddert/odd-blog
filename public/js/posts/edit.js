@@ -129,7 +129,7 @@ function createAlignment (idx, data) {
 
     optionIcon.innerHTML = svgConvert[alignArray[itir].key]
 
-    if (data && data === alignArray[itir].key) {
+    if (data && data.align === alignArray[itir].key) {
       option.classList.add(`align_active`)
       optionRadio.setAttribute('checked', true)
     }
@@ -157,21 +157,23 @@ function createAlignment (idx, data) {
   return controlAlign
 }
 
-function createSubhead (idx) {
+function createSubhead (idx, data) {
   let newSubhead = document.createElement('input')
   newSubhead.placeholder = `Subheading, leave blank to ommit.`
   newSubhead.name = `inputs[${idx}][subhead]`
   newSubhead.className = `subhead`
+  if (data) newSubhead.value = data.subhead
   return newSubhead
 }
 
-function createInputParagraph (inputs, idx) {
+function createInputParagraph (inputs, idx, data) {
   let newElem
   let newTextInput = document.createElement('textarea')
   newTextInput.name = `inputs[${idx}][text]`
   newTextInput.placeholder = `Body`
   // newTextInput.className = `input_textarea`
   newTextInput.addEventListener('keydown', textInputResize)
+  if (data) newTextInput.value = data.text
 
   newElem = document.createElement('DIV')
   newElem.className = `input text_input input_${idx}`
@@ -180,13 +182,13 @@ function createInputParagraph (inputs, idx) {
 
   newElem.appendChild(createControl(idx, `paragraph`))
   newElem.appendChild(createLabel(idx, `paragraph`))
-  newElem.appendChild(createAlignment(idx))
-  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(createAlignment(idx, data))
+  newElem.appendChild(createSubhead(idx, data))
   newElem.appendChild(newTextInput)
   return newElem
 }
 
-function creatInputImage (inputs, idx) {
+function createInputImage (inputs, idx, data) {
   let newElem
   let newImageSrcInput          = document.createElement('input')
   newImageSrcInput.name         = `inputs[${idx}][src]`
@@ -213,6 +215,11 @@ function creatInputImage (inputs, idx) {
 
   let newImageInputGroup = document.createElement('DIV')
   newImageInputGroup.className = `image_input__group`
+  if (data) {
+    newImageSrcInput.value = data.src
+    newImageCaptionInput.value = data.newImageCaptionInput
+    newImageAltInput.value = data.newImageAltInput
+  }
   newImageInputGroup.appendChild(newImageSrcInput)
   newImageInputGroup.appendChild(newImageCaptionInput)
   newImageInputGroup.appendChild(newImageAltInput)
@@ -222,7 +229,7 @@ function creatInputImage (inputs, idx) {
   let newImageInputPreviewImg = document.createElement('img')
   newImageInputPreviewImg.title = 'Image preview.'
   newImageInputPreviewImg.className = `image_input__preview--img image_input__preview_${idx}--img`
-  newImageInputPreviewImg.src = `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
+  newImageInputPreviewImg.src = data ? data.src : `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
   newImageInputPreview.appendChild(newImageInputPreviewImg)
 
   newImageInputContainer.appendChild(newImageInputGroup)
@@ -232,14 +239,14 @@ function creatInputImage (inputs, idx) {
   newElem.className = `input image_input input_${idx}`
 
   newElem.appendChild(createControl(idx, `image`))
-  newElem.appendChild(createAlignment(idx))
-  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(createAlignment(idx, data))
+  newElem.appendChild(createSubhead(idx, data))
   newElem.appendChild(createLabel(idx, `image`))
   newElem.appendChild(newImageInputContainer)
   return newElem
 }
 
-function createInputQuote (inputs, idx) {
+function createInputQuote (inputs, idx, data) {
   let newElem
   let newQuoteContainer = document.createElement('DIV')
   newQuoteContainer.className = `quote_input__container`
@@ -259,6 +266,12 @@ function createInputQuote (inputs, idx) {
   newQuoteCite.name = `inputs[${idx}][cite]`
   newQuoteCite.placeholder = `Citation Link`
 
+  if (data) {
+    newQuoteBody.value = data.text
+    newQuoteAuthor.value = data.author
+    newQuoteCite.value = data.cite
+  }
+
   newQuoteContainer.appendChild(newQuoteCite)
   newQuoteContainer.appendChild(newQuoteBody)
   newQuoteContainer.appendChild(newQuoteAuthor)
@@ -266,28 +279,29 @@ function createInputQuote (inputs, idx) {
   newElem = document.createElement('DIV')
   newElem.className = `input quote_input input_${idx}`
   newElem.appendChild(createControl(idx, `quote`))
-  newElem.appendChild(createAlignment(idx))
-  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(createAlignment(idx, data))
+  newElem.appendChild(createSubhead(idx, data))
   newElem.appendChild(createLabel(idx, `quote`))
   newElem.appendChild(newQuoteContainer)
   return newElem
 }
 
-function createInputCode (inputs, idx) {
+function createInputCode (inputs, idx, data) {
   let newElem
   let newCodeInput = document.createElement('textarea')
   newCodeInput.name = `inputs[${idx}][text]`
   newCodeInput.placeholder = `Code Snippet`
   // newTextInput.className = `input_textarea`
   newCodeInput.addEventListener('keydown', textInputResize)
+  if (data) newCodeInput.value = data.text
 
   newElem = document.createElement('DIV')
   newElem.className = `input code_input input_${idx}`
 
   newElem.appendChild(createControl(idx, `code`))
   newElem.appendChild(createLabel(idx, `code`))
-  newElem.appendChild(createAlignment(idx))
-  newElem.appendChild(createSubhead(idx))
+  newElem.appendChild(createAlignment(idx, data))
+  newElem.appendChild(createSubhead(idx, data))
   newElem.appendChild(newCodeInput)
   return newElem
 }
