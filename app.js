@@ -58,7 +58,11 @@ app.use(addUserToLocals)
 // US / Euro name formating, to be adjusted later
 
 app.route('/')
-  .get((req, res, next) => res.redirect('/posts'))
+  .get((req, res, next) => {
+    console.log(req.originalUrl)
+    res.redirect('/posts')
+  })
+  // .get((req, res, next) => res.redirect('/posts'))
 
 
 app.use('/posts/', require('./routes/posts'))

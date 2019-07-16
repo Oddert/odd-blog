@@ -7,6 +7,7 @@ const alignArray = [
   { key: 'small_center', desc: 'Small sized (just one column), justified in the Middle.' },
   { key: 'small_right', desc: 'Small sized (just one column), justified Right.' }
 ]
+//
 
 const svgConvert = {
   'large': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 271.04 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="100.09" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.68" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="25.35" y="17.67" width="220.35" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
@@ -16,6 +17,8 @@ const svgConvert = {
   'small_center': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270.44 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="112.78" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="112.78" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
   'small_right': `<svg class="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270.44 77.87"><g><rect class="align_icon_1" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="3.5" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="99.49" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_1" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/><rect class="align_icon_2" x="196.08" y="3.5" width="70.87" height="70.87" rx="5.67" ry="5.67"/></g><g><rect class="align_icon_3" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/><rect class="align_icon_4" x="209.36" y="17.67" width="44.29" height="42.52" rx="5.67" ry="5.67"/></g></svg>`,
 }
+
+const placeholderImage = '/img/placeholder_image.png'//`https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
 
 // ==================== / Resources ====================
 
@@ -173,10 +176,14 @@ function createInputParagraph (inputs, idx, data) {
   newTextInput.placeholder = `Body`
   // newTextInput.className = `input_textarea`
   newTextInput.addEventListener('keydown', textInputResize)
-  if (data) newTextInput.value = data.text
 
   newElem = document.createElement('DIV')
   newElem.className = `input text_input input_${idx}`
+
+  if (data) {
+    newTextInput.value = data.text
+    newElem.classList.add(data.align)
+  }
 
   if (idx === 1) newTextInput.id = "mytextarea"
 
@@ -216,9 +223,10 @@ function createInputImage (inputs, idx, data) {
   let newImageInputGroup = document.createElement('DIV')
   newImageInputGroup.className = `image_input__group`
   if (data) {
+    console.log({ data })
     newImageSrcInput.value = data.src
-    newImageCaptionInput.value = data.newImageCaptionInput
-    newImageAltInput.value = data.newImageAltInput
+    newImageCaptionInput.value = data.caption
+    newImageAltInput.value = data.alt
   }
   newImageInputGroup.appendChild(newImageSrcInput)
   newImageInputGroup.appendChild(newImageCaptionInput)
@@ -229,7 +237,7 @@ function createInputImage (inputs, idx, data) {
   let newImageInputPreviewImg = document.createElement('img')
   newImageInputPreviewImg.title = 'Image preview.'
   newImageInputPreviewImg.className = `image_input__preview--img image_input__preview_${idx}--img`
-  newImageInputPreviewImg.src = data ? data.src : `https://static.umotive.com/img/product_image_thumbnail_placeholder.png`
+  newImageInputPreviewImg.src = data ? data.src : placeholderImage
   newImageInputPreview.appendChild(newImageInputPreviewImg)
 
   newImageInputContainer.appendChild(newImageInputGroup)
@@ -237,6 +245,7 @@ function createInputImage (inputs, idx, data) {
 
   newElem = document.createElement('DIV')
   newElem.className = `input image_input input_${idx}`
+  if (data) newElem.classList.add(data.align)
 
   newElem.appendChild(createControl(idx, `image`))
   newElem.appendChild(createAlignment(idx, data))
@@ -278,6 +287,9 @@ function createInputQuote (inputs, idx, data) {
 
   newElem = document.createElement('DIV')
   newElem.className = `input quote_input input_${idx}`
+
+  if (data) newElem.classList.add(data.align)
+
   newElem.appendChild(createControl(idx, `quote`))
   newElem.appendChild(createAlignment(idx, data))
   newElem.appendChild(createSubhead(idx, data))
@@ -297,6 +309,7 @@ function createInputCode (inputs, idx, data) {
 
   newElem = document.createElement('DIV')
   newElem.className = `input code_input input_${idx}`
+  if (data) newElem.classList.add(data.align)
 
   newElem.appendChild(createControl(idx, `code`))
   newElem.appendChild(createLabel(idx, `code`))
@@ -478,6 +491,7 @@ function getData () {
   }
 }
 
+// Depreciated -WIP
 function handleAutoSave () {
   if (typeof(Storage) !== undefined) {
     // console.log('local store')
@@ -666,10 +680,34 @@ function reWritePage ({ id, body, timestamp, expires, unsavedChanges }) {
   document.querySelector('.subtitle textarea').value = body.subtitle
   document.querySelector('.tags input').value = body.tags
 
-  body.inputs.forEach((each, idx) => {
-    console.log(each)
-  })
+  const inputs = []
 
+  body.inputs.forEach((data, idx) => {
+    console.log(data)
+    switch (data.data_type) {
+      case 'paragraph':
+        inputs.push(createInputParagraph(inputs, idx, data))
+        break;
+      case 'image':
+        inputs.push(createInputImage(inputs, idx, data))
+        break;
+      case 'quote':
+        inputs.push(createInputQuote(inputs, idx, data))
+        break;
+      case 'code':
+        inputs.push(createInputCode(inputs, idx, data))
+        break;
+      default:
+        console.error('reWritePage(): invalid input parsed: ', data)
+        break;
+    }
+  })
+  console.log(inputs)
+  document.querySelectorAll('.input').forEach(each => each.remove())
+  inputs.forEach(each => {
+    console.log('adding: ', each)
+    form.appendChild(each)
+  })
 }
 
 // ==================== / Page Write Functionality ====================

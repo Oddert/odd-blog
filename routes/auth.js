@@ -29,9 +29,11 @@ router.route('/register')
 router.route('/login')
   .get((req, res, next) => res.render('auth_local/login'))
   .post(passport.authenticate("local", {
-    successRedirect: '/',
+    // successRedirect: '/',
     failureRedirect: '/register'
-  }), function (req, res, next){})
+  }), function (req, res, next) {
+    res.redirect(req.query.redirect ? req.query.redirect : '/')
+  })
 
 router.route('/logout')
   .get((req, res, next) => {

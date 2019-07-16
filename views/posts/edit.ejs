@@ -20,7 +20,7 @@
             <input type="text" name="header_image[caption]" placeholder="Image Caption" class="header_image--caption" value="<%= data.header_image.caption %>" />
             <input type="text" name="header_image[alt]" placeholder="Alt text for Screen Readers" class="header_image--alt" value="<%= data.header_image.alt %>" />
           </div>
-          <img src="<%= data.header_image.src %>" alt="Default image" class="header_image--preview" />
+          <img src="<%= data.header_image.src || '/img/placeholder_image.png' %>" alt="Default image" class="header_image--preview" />
         </div>
         <div class="title">
           <input type="text" name="title" placeholder="The title of the post, will default to 'Blog Post' if left blank." value="<%= data.title %>" />

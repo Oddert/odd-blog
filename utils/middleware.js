@@ -4,8 +4,10 @@ const Post = require('../models/Post')
 const handleErrorPage = require('./handleErrorPage')
 
 function checkAuth (req, res, next) {
+  // console.log(`check auth: `, `/auth/login?redirect=${req.originalUrl}`)
   if (req.isAuthenticated()) return next()
-  else res.redirect('/auth/login')
+  // else res.redirect(`/auth/login?redirect=${req.originalUrl}`)
+  else res.redirect(`/auth/login`)
 }
 function checkAuthJSON (req, res, next) {
   if (req.isAuthenticated()) return next()
@@ -13,7 +15,7 @@ function checkAuthJSON (req, res, next) {
 }
 
 function checkPostOwnership (req, res, next) {
-  if (!req.isAuthenticated()) return res.redirect('/auth/login')
+  if (!req.isAuthenticated()) return res.redirect(`/auth/login?redirect=${req.originalUrl}`)
   Post.findById(req.params.id)
     .then(post => {
       if (post.author.id.equals(req.user._id)) return next()
