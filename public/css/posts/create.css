@@ -584,7 +584,7 @@ form {
 .open_image_control--container {
   position: fixed;
   bottom: 10px;
-  left: 10px;
+  right: 10px;
 }
 .open_image_control--container .open_image_control {
   transition: 0.2s linear;
@@ -602,6 +602,112 @@ form {
 }
 .open_image_control--container .open_image_control:active {
   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.autosave {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+.autosave .autosave_notification {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+}
+.autosave .autosave_notification p {
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  padding: 0;
+  flex-wrap: nowrap;
+}
+.autosave .autosave_alert {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+}
+.autosave .autosave_alert button {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  padding: 0;
+  flex-wrap: nowrap;
+  color: #fff;
+  border: 3px solid #c14b2b;
+  background: #e84c3d;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+.autosave .autosave_alert button:hover {
+  border-color: #e84c3d;
+  background: #e84c3d;
+  text-decoration: underline;
+}
+.autosave .autosave_alert button:active {
+  background: #c14b2b;
+}
+.autosave .autosave_window {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 40px;
+  margin: 50px;
+}
+.autosave .autosave_window .descriptor {
+  grid-column: 1/-1;
+  padding: 20px;
+  background: #fff;
+}
+.autosave .autosave_window .previous, .autosave .autosave_window .current {
+  background: #fff;
+  border-radius: 10px;
+  min-width: 100px;
+  min-height: 100px;
+}
+.autosave.none .autosave_notification {
+  display: none;
+}
+.autosave.none .autosave_alert {
+  display: none;
+}
+.autosave.none .autosave_window {
+  display: none;
+}
+.autosave.notif .autosave_notification {
+  display: inline-block;
+}
+.autosave.notif .autosave_alert {
+  display: none;
+}
+.autosave.notif .autosave_window {
+  display: none;
+}
+.autosave.alert .autosave_notification {
+  display: none;
+}
+.autosave.alert .autosave_alert {
+  display: flex;
+}
+.autosave.alert .autosave_window {
+  display: none;
+}
+.autosave.open {
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 3;
+}
+.autosave.open .autosave_notification {
+  display: none;
+}
+.autosave.open .autosave_alert {
+  display: flex;
+}
+.autosave.open .autosave_window {
+  display: grid;
 }
 
 .drag_active {

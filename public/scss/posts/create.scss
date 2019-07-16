@@ -622,7 +622,7 @@ form {
 .open_image_control--container {
   position: fixed;
   bottom: 10px;
-  left: 10px;
+  right: 10px;
 
   .open_image_control {
     // width: 50px;
@@ -643,6 +643,103 @@ form {
     &:active {
       box-shadow: 1px 1px 8px rgba(0,0,0,.3);
     }
+  }
+}
+
+.autosave {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  .autosave_notification {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    p {
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+      padding: 0;
+      flex-wrap: nowrap;
+    }
+  }
+  .autosave_alert {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    button {
+      font-size: 14px;
+      font-weight: bold;
+      display: flex;
+      padding: 0;
+      flex-wrap: nowrap;
+      color: #fff;
+      border: 3px solid rgba(193, 75, 43, 1);
+      background: rgba(232, 76, 61, 1);
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 10px;
+      &:hover {
+        border-color: rgba(232, 76, 61, 1);
+        background: rgba(232, 76, 61, 1);
+        text-decoration: underline;
+      }
+      &:active {
+        background: rgba(193, 75, 43, 1);
+      }
+    }
+  }
+  .autosave_window {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 40px;
+    margin: 50px;
+    .descriptor {
+      grid-column: 1 / -1;
+      padding: 20px;
+      background: #fff;
+    }
+    .previous, .current {
+      background: #fff;
+      // margin: 50px 30px 30px 30px;
+      border-radius: 10px;
+      // position: absolute;
+      // top: 20px;
+      min-width: 100px;
+      min-height: 100px;
+    }
+    .previous {
+      // left: 20px;
+    }
+    .current {
+      // right: 20px;
+    }
+  }
+  &.none {
+    .autosave_notification { display: none; }
+    .autosave_alert { display: none; }
+    .autosave_window { display: none; }
+  }
+  &.notif {
+    .autosave_notification { display: inline-block; }
+    .autosave_alert { display: none; }
+    .autosave_window { display: none; }
+  }
+  &.alert {
+    .autosave_notification { display: none; }
+    .autosave_alert { display: flex; }
+    .autosave_window { display: none; }
+  }
+  &.open {
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background: rgba(0,0,0,.3);
+    z-index: 3;
+    .autosave_notification { display: none; }
+    .autosave_alert { display: flex; }
+    .autosave_window { display: grid; }
   }
 }
 

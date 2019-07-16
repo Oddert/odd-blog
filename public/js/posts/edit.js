@@ -32,6 +32,9 @@ const submitButton    = document.querySelector('.submit')
 
 let lastClicked = document.querySelector('body *')
 let loadTime = Date.now()
+let canAutoSave = true
+let autoSaveReset
+let saveTimeoutDuration = 1000 * 60 * 1
 
 // ==================== / DOM Nodes + Constants ====================
 
@@ -76,6 +79,7 @@ function reassignIndeces () {
     const deleteButton = input_group.querySelector(`.control_delete`)
     deleteButton.onclick = e => deleteInput(e, i)
   }
+  handleAutoSave ()
 }
 
 function createControl (idx, data_type) {
@@ -176,6 +180,7 @@ function createInputParagraph (inputs, idx, data) {
   newTextInput.placeholder = `Body`
   // newTextInput.className = `input_textarea`
   newTextInput.addEventListener('keydown', textInputResize)
+  newTextInput.addEventListener('input', handleAutoSave)
 
   newElem = document.createElement('DIV')
   newElem.className = `input text_input input_${idx}`
@@ -204,6 +209,7 @@ function createInputImage (inputs, idx, data) {
   newImageSrcInput.title        = 'Copy in the link of the image, you should see a preview appear if the link is ok.'
 
   newImageSrcInput.onchange = imagePreviewUpdate
+  newImageSrcInput.addEventListener('input', handleAutoSave)
 
   let newImageCaptionInput          = document.createElement('input')
   newImageCaptionInput.name         = `inputs[${idx}][caption]`
@@ -264,6 +270,7 @@ function createInputQuote (inputs, idx, data) {
   newQuoteBody.name = `inputs[${idx}][text]`
   newQuoteBody.placeholder = `Quote Text (quotation marks displayed automaticaly)`
   newQuoteBody.addEventListener('keydown', textInputResize)
+  newQuoteBody.addEventListener('input', handleAutoSave)
 
   let newQuoteAuthor = document.createElement('input')
   newQuoteAuthor.type = `text`
@@ -305,6 +312,7 @@ function createInputCode (inputs, idx, data) {
   newCodeInput.placeholder = `Code Snippet`
   // newTextInput.className = `input_textarea`
   newCodeInput.addEventListener('keydown', textInputResize)
+  newCodeInput.addEventListener('input', handleAutoSave)
   if (data) newCodeInput.value = data.text
 
   newElem = document.createElement('DIV')
@@ -492,22 +500,39 @@ function getData () {
 }
 
 // Depreciated -WIP
-function handleAutoSave () {
-  if (typeof(Storage) !== undefined) {
-    // console.log('local store')
-    const previous = localStorage.getItem("editing")
-    console.log(previous)
-    if ((previous && previous.timestamp && Date.now() >= previous.expires) || !previous) {
-      const { id, body } = getData()
-      localStorage.setItem("editing", JSON.stringify({
-        id,
-        body,
-        timestamp: Date.now(),
-        expires: Date.now() + 90000,
+// function handleAutoSave () {
+//   if (typeof(Storage) !== undefined) {
+//     // console.log('local store')
+//     const previous = localStorage.getItem("editing")
+//     console.log(previous)
+//     if ((previous && previous.timestamp && Date.now() >= previous.expires) || !previous) {
+//       const { id, body } = getData()
+//       localStorage.setItem("editing", JSON.stringify({
+//         id,
+//         body,
+//         timestamp: Date.now(),
+//         expires: Date.now() + 90000,
+//
+//       }))
+//     }
+//   }
+// }
+function handleAutosaveDisplay () {
 
-      }))
-    }
-  }
+}
+
+function handleAutoSave () {
+  if (!canAutoSave) return
+  clearTimeout(autoSaveReset)
+  canAutoSave = false
+  const data = getData()
+  localStorage.setItem("editing", JSON.stringify(data))
+  console.log('AUTOSAVE: ', new Date().toLocaleTimeString('en-GB'))
+  autoSaveReset = setTimeout(() => {
+    // let newData = getData()
+    // localStorage.setItem("editing", JSON.stringify(newData))
+    canAutoSave = true
+  }, saveTimeoutDuration)
 }
 
 function handleSave () {
@@ -595,14 +620,20 @@ function initialisePage () {
       })
     })
 
-    if (type == "paragraph") {
-      each.querySelector('textarea')
-          .addEventListener('keydown', textInputResize)
-    }
+    console.log('-=-=-=-=-=-=-=-=-=-')
+    // if (type == "paragraph") {
+    let allTextarea = each.querySelectorAll('textarea')
+    allTextarea.forEach(each => {
+      each.addEventListener('keydown', textInputResize)
+      each.addEventListener('input', handleAutoSave)
+    })
+    // }
     if (type == "image") {
-      each.querySelector('.image_input--src')
-          .addEventListener('keydown', e => imagePreviewUpdate(e, idx))
+      let srcInput = each.querySelector('.image_input--src')
+      srcInput.addEventListener('keydown', e => imagePreviewUpdate(e, idx))
+      srcInput.addEventListener('input', () => {console.log('ln 628'); handleAutoSave()})
     }
+
   })
 
   newButtons.forEach(each => each.onclick = e => {
@@ -622,9 +653,11 @@ function initialisePage () {
       localStorage.setItem("editing", JSON.stringify(Object.assign({}, current, { unsavedChanges: false })))
       break;
     case 'prompt_user_comparison':
+      canAutoSave = false
       console.error('NEED: ability for user to select which to restore')
       break;
     case 'restore_previous_save':
+      canAutoSave = false
       if (window.confirm(`Warning: There is unsaved autosave data from the last post. \nTitle: ${pageLoadAutosaveStatus.data.title}.\nWould you like to restore this post?`)) {
         console.warn('Re-writing page state to previous autosave.')
         localStorage.setItem("editing", JSON.stringify(Object.assign({}, previous, { unsavedChanges: false, timestamp: Date.now(), expires: Date.now() + 90000, unsavedChanges: false })))
@@ -816,7 +849,7 @@ document.querySelector('.submit').addEventListener('click', e => {
 
 let devMode = false
 let defautlLocation = document.querySelector('.form').action
-console.log(defautlLocation)
+// console.log(defautlLocation)
 document.querySelector('.dev_toggle').onclick = function (e) {
   e.preventDefault()
   this.textContent = devMode ? 'Dev Mode: OFF' : 'Dev Mode: ON'
