@@ -115,6 +115,26 @@ form {
   border-radius: 10px 10px 0 0;
 }
 
+.quote_input input {
+  padding: 5px;
+  border-radius: 10px 10px 0 0;
+}
+.quote_input input.quote_input--author {
+  border-radius: 0 0 10px 10px;
+}
+.quote_input textarea {
+  padding: 5px;
+  flex: 1;
+}
+.quote_input .subhead {
+  padding: 10px;
+  border-radius: 10px 10px;
+}
+.quote_input .quote_input__container {
+  display: flex;
+  flex-direction: column;
+}
+
 .image_input input {
   padding: 10px;
 }
@@ -128,7 +148,7 @@ form {
 }
 .image_input .subhead {
   padding: 10px;
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px;
 }
 .image_input .image_input__container {
   display: flex;
@@ -596,6 +616,11 @@ form {
 @media only screen and (max-width: 1000px) {
   .image_control--container.open .image_control .cloudinary_images {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media only screen and (max-width: 800px) {
+  form {
+    grid-template-columns: 30px 1fr 30px;
   }
 }
 @media only screen and (max-width: 764px) {

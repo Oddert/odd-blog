@@ -262,7 +262,7 @@ function createInputQuote (inputs, idx, data) {
 
   let newQuoteBody = document.createElement('textarea')
   newQuoteBody.name = `inputs[${idx}][text]`
-  newQuoteBody.placeholder = `Quote Text`
+  newQuoteBody.placeholder = `Quote Text (quotation marks displayed automaticaly)`
   newQuoteBody.addEventListener('keydown', textInputResize)
 
   let newQuoteAuthor = document.createElement('input')
@@ -622,11 +622,12 @@ function initialisePage () {
       localStorage.setItem("editing", JSON.stringify(Object.assign({}, current, { unsavedChanges: false })))
       break;
     case 'prompt_user_comparison':
+      console.error('NEED: ability for user to select which to restore')
       break;
     case 'restore_previous_save':
       if (window.confirm(`Warning: There is unsaved autosave data from the last post. \nTitle: ${pageLoadAutosaveStatus.data.title}.\nWould you like to restore this post?`)) {
-
-        console.error('Restore previous post. NEED: rewrite functionality.')
+        console.warn('Re-writing page state to previous autosave.')
+        localStorage.setItem("editing", JSON.stringify(Object.assign({}, previous, { unsavedChanges: false, timestamp: Date.now(), expires: Date.now() + 90000, unsavedChanges: false })))
       }
       break;
     default: break;
@@ -702,10 +703,10 @@ function reWritePage ({ id, body, timestamp, expires, unsavedChanges }) {
         break;
     }
   })
-  console.log(inputs)
+  // console.log(inputs)
   document.querySelectorAll('.input').forEach(each => each.remove())
   inputs.forEach(each => {
-    console.log('adding: ', each)
+    // console.log('adding: ', each)
     form.appendChild(each)
   })
 }
