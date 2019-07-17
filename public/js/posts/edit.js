@@ -32,6 +32,9 @@ const submitButton    = document.querySelector('.submit')
 
 let lastClicked = document.querySelector('body *')
 let loadTime = Date.now()
+let autosaveDisplay = document.querySelector('.autosave')
+let autosaveWindow = autosaveDisplay.querySelector('.autosave_window')
+let autosaveDisplayState = 'none'
 let canAutoSave = true
 let autoSaveReset
 let saveTimeoutDuration = 1000 * 60 * 1
@@ -517,16 +520,51 @@ function getData () {
 //     }
 //   }
 // }
-function handleAutosaveDisplay () {
-
+function handleAutosaveDisplay ({ newState, previous, current }) {
+  console.log({ newState, previous, current })
+  switch (newState) {
+    case 'notif':
+      if (autosaveDisplayState === 'alert' || autosaveDisplayState === 'open') return
+      autosaveDisplay.className = 'autosave notif'
+      autosaveDisplay.querySelector('.autosave_notification p').textContent = `Autosaved: ${new Date().toLocaleTimeString()}`
+      autosaveDisplayState = 'notif'
+      break;
+    case 'alert':
+      autosaveDisplay.className = 'autosave alert'
+      autosaveDisplayState = 'alert'
+      break;
+    case 'none':
+      autosaveDisplay.className = 'autosave none'
+      autosaveDisplayState = 'none'
+      break;
+    case 'open':
+      autosaveDisplay.className = 'autosave open'
+      autosaveDisplayState = 'open'
+      autosaveWindow.querySelector('.descriptor_date').innerHTML = new Date(previous.timestamp).toLocaleString()
+      autosaveWindow.querySelector('.descriptor_title').innerHTML = previous.body.title
+      autosaveWindow.querySelector('.previous_content').innerHTML = JSON.stringify(previous)
+      autosaveWindow.querySelector('.current_content').innerHTML = JSON.stringify(current)
+      break;
+    default: break;
+  }
 }
 
+const toggleAutosaveOpen = () => {
+  handleAutosaveDisplay({
+    newState: autosaveDisplayState === 'open' ? 'alert' : 'open',
+    previous: JSON.parse(localStorage.getItem("editing")),
+    current: getData()
+  })
+}
+autosaveDisplay.querySelector('.autosave_alert button').onclick = toggleAutosaveOpen
+
 function handleAutoSave () {
-  if (!canAutoSave) return
+  if (!canAutoSave || autosaveDisplayState === 'alert' || autosaveDisplayState === 'open') return
   clearTimeout(autoSaveReset)
   canAutoSave = false
   const data = getData()
   localStorage.setItem("editing", JSON.stringify(data))
+  handleAutosaveDisplay ({ newState: 'notif' })
   console.log('AUTOSAVE: ', new Date().toLocaleTimeString('en-GB'))
   autoSaveReset = setTimeout(() => {
     // let newData = getData()
@@ -620,14 +658,12 @@ function initialisePage () {
       })
     })
 
-    console.log('-=-=-=-=-=-=-=-=-=-')
-    // if (type == "paragraph") {
     let allTextarea = each.querySelectorAll('textarea')
     allTextarea.forEach(each => {
       each.addEventListener('keydown', textInputResize)
       each.addEventListener('input', handleAutoSave)
     })
-    // }
+
     if (type == "image") {
       let srcInput = each.querySelector('.image_input--src')
       srcInput.addEventListener('keydown', e => imagePreviewUpdate(e, idx))
@@ -653,15 +689,9 @@ function initialisePage () {
       localStorage.setItem("editing", JSON.stringify(Object.assign({}, current, { unsavedChanges: false })))
       break;
     case 'prompt_user_comparison':
-      canAutoSave = false
-      console.error('NEED: ability for user to select which to restore')
-      break;
     case 'restore_previous_save':
       canAutoSave = false
-      if (window.confirm(`Warning: There is unsaved autosave data from the last post. \nTitle: ${pageLoadAutosaveStatus.data.title}.\nWould you like to restore this post?`)) {
-        console.warn('Re-writing page state to previous autosave.')
-        localStorage.setItem("editing", JSON.stringify(Object.assign({}, previous, { unsavedChanges: false, timestamp: Date.now(), expires: Date.now() + 90000, unsavedChanges: false })))
-      }
+      handleAutosaveDisplay ({ newState: 'alert', previous, current })
       break;
     default: break;
   }
