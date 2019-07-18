@@ -695,11 +695,15 @@ form {
   .autosave_window {
     grid-template-columns: 1fr 1fr;
     grid-gap: 40px;
-    margin: 50px;
+    margin: 100px 50px;
     .descriptor {
       grid-column: 1 / -1;
-      padding: 20px;
+      padding: 50px;
       background: #fff;
+      font-size: 1.2em;
+      .descriptor_date, .descriptor_title {
+        font-weight: bold;
+      }
     }
     .previous, .current {
       background: #fff;
@@ -709,9 +713,72 @@ form {
       // top: 20px;
       min-width: 100px;
       min-height: 100px;
+      position: relative;
+      padding: 15px;
+      img {
+        max-width: 100%;
+        // max-height: ;
+      }
+      .previous_content, .current_content {
+        border-bottom: 1px solid #bec3c7;
+        .compare_content_head {
+          height: 150px;
+          border-bottom: 1px dashed #ecf0f1;
+        }
+      }
+      .autosave__controls {
+        border-top: 1px solid #bec3c7;
+        margin-top: 10px;
+        padding-top: 10px;
+        display: flex;
+        justify-content: flex-end;
+        &--edit {
+          background: #1bbc9b;
+          border: 2px solid #16a086;
+          color: #fff;
+          margin: 0 10px;
+          transition: .1s linear;
+          border-radius: 5px;
+          padding: 5px;
+          cursor: pointer;
+          &:hover {
+            background: #16a086;
+          }
+        }
+        &--save {
+          background: #3598db;
+          border: 2px solid #297fb8;
+          color: #fff;
+          margin: 0 10px;
+          transition: .1s linear;
+          border-radius: 5px;
+          padding: 5px;
+          cursor: pointer;
+          &:hover {
+            background: #297fb8;
+          }
+        }
+        &--discard {
+          color: #c1392b;
+          border: none;
+          background: none;
+          margin: 0 10px;
+          transition: .1s linear;
+          border-radius: 5px;
+          padding: 5px;
+          cursor: pointer;
+          border: 2px solid #fff;
+          &:hover {
+            border: 2px solid #c1392b;
+            text-decoration: underline;
+          }
+        }
+      }
     }
     .previous {
       // left: 20px;
+      border: 2px solid #c1392b;
+      box-shadow: 5px 5px 15px rgba(0,0,0,.3);
     }
     .current {
       // right: 20px;

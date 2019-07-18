@@ -654,18 +654,86 @@ form {
 .autosave .autosave_window {
   grid-template-columns: 1fr 1fr;
   grid-gap: 40px;
-  margin: 50px;
+  margin: 100px 50px;
 }
 .autosave .autosave_window .descriptor {
   grid-column: 1/-1;
-  padding: 20px;
+  padding: 50px;
   background: #fff;
+  font-size: 1.2em;
+}
+.autosave .autosave_window .descriptor .descriptor_date, .autosave .autosave_window .descriptor .descriptor_title {
+  font-weight: bold;
 }
 .autosave .autosave_window .previous, .autosave .autosave_window .current {
   background: #fff;
   border-radius: 10px;
   min-width: 100px;
   min-height: 100px;
+  position: relative;
+  padding: 15px;
+}
+.autosave .autosave_window .previous img, .autosave .autosave_window .current img {
+  max-width: 100%;
+}
+.autosave .autosave_window .previous .previous_content, .autosave .autosave_window .previous .current_content, .autosave .autosave_window .current .previous_content, .autosave .autosave_window .current .current_content {
+  border-bottom: 1px solid #bec3c7;
+}
+.autosave .autosave_window .previous .previous_content .compare_content_head, .autosave .autosave_window .previous .current_content .compare_content_head, .autosave .autosave_window .current .previous_content .compare_content_head, .autosave .autosave_window .current .current_content .compare_content_head {
+  height: 150px;
+  border-bottom: 1px dashed #ecf0f1;
+}
+.autosave .autosave_window .previous .autosave__controls, .autosave .autosave_window .current .autosave__controls {
+  border-top: 1px solid #bec3c7;
+  margin-top: 10px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+.autosave .autosave_window .previous .autosave__controls--edit, .autosave .autosave_window .current .autosave__controls--edit {
+  background: #1bbc9b;
+  border: 2px solid #16a086;
+  color: #fff;
+  margin: 0 10px;
+  transition: 0.1s linear;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.autosave .autosave_window .previous .autosave__controls--edit:hover, .autosave .autosave_window .current .autosave__controls--edit:hover {
+  background: #16a086;
+}
+.autosave .autosave_window .previous .autosave__controls--save, .autosave .autosave_window .current .autosave__controls--save {
+  background: #3598db;
+  border: 2px solid #297fb8;
+  color: #fff;
+  margin: 0 10px;
+  transition: 0.1s linear;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+.autosave .autosave_window .previous .autosave__controls--save:hover, .autosave .autosave_window .current .autosave__controls--save:hover {
+  background: #297fb8;
+}
+.autosave .autosave_window .previous .autosave__controls--discard, .autosave .autosave_window .current .autosave__controls--discard {
+  color: #c1392b;
+  border: none;
+  background: none;
+  margin: 0 10px;
+  transition: 0.1s linear;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  border: 2px solid #fff;
+}
+.autosave .autosave_window .previous .autosave__controls--discard:hover, .autosave .autosave_window .current .autosave__controls--discard:hover {
+  border: 2px solid #c1392b;
+  text-decoration: underline;
+}
+.autosave .autosave_window .previous {
+  border: 2px solid #c1392b;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
 .autosave.none .autosave_notification {
   display: none;

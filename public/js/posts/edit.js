@@ -472,7 +472,7 @@ function getData () {
   }
 
   function convertInput (input) {
-    console.log(input)
+    // console.log(input)
     let parsed = {
       data_type: input.dataset.type,
       subhead: input.querySelector('.subhead').value,
@@ -520,8 +520,68 @@ function getData () {
 //     }
 //   }
 // }
-function handleAutosaveDisplay ({ newState, previous, current }) {
-  console.log({ newState, previous, current })
+function handlePostSave ({ body, id }, cb) {
+  const url = `/api/posts/${id}`
+  const opts = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }
+  fetch(url, opts)
+    .then(res => res.json())
+    .then(res => {
+      console.log(res)
+      cb(res)
+    })
+    .catch(err => console.log(err))
+}
+
+function createAutosaveCompare ({ body, timestamp, id }, previous) {
+  let html = previous ? `
+    <div class="compare_content_head">
+      <h2>${body.title}</h2>
+      <p><em>id: ${id}</em></p>
+      <strong>Autosaved: ${new Date(timestamp).toLocaleString()}</strong>
+    </div>
+    ` : `
+    <div class="compare_content_head">
+      <h2>${body.title}</h2>
+      <p><em>id: ${id}</em></p>
+    </div>
+  `
+  // console.log({ html })
+  function compareInput (input) {
+    let out = `<h3>#${/\w/gi.test(input.subhead) ? input.subhead : '[no shubhead]'}</h3>`
+    switch (input.data_type) {
+      case 'paragraph':
+        out += `<p>${input.text}</p>`
+        break;
+      case 'image':
+        out += `<img src="${input.src}" />`
+        break;
+      case 'quote':
+        out += `<p>Quote: ${input.text} by: -${input.author}</p>`
+        break;
+      case 'code':
+        out += `<p>${input.text}</p>`
+        break;
+      default: return;
+    }
+    return out
+  }
+  const inputs = body.inputs.map(each => compareInput(each))
+  // console.log({ inputs })
+  html += inputs.join(`\n`)
+  // console.log({ html })
+  return html
+}
+
+function restoreSave (data) {
+  reWritePage(data)
+}
+
+function handleAutosaveDisplay ({ newState, previous, current, divergant_post }) {
+  console.log({ newState, previous, current, divergant_post })
   switch (newState) {
     case 'notif':
       if (autosaveDisplayState === 'alert' || autosaveDisplayState === 'open') return
@@ -542,8 +602,19 @@ function handleAutosaveDisplay ({ newState, previous, current }) {
       autosaveDisplayState = 'open'
       autosaveWindow.querySelector('.descriptor_date').innerHTML = new Date(previous.timestamp).toLocaleString()
       autosaveWindow.querySelector('.descriptor_title').innerHTML = previous.body.title
-      autosaveWindow.querySelector('.previous_content').innerHTML = JSON.stringify(previous)
-      autosaveWindow.querySelector('.current_content').innerHTML = JSON.stringify(current)
+      autosaveWindow.querySelector('.previous_content').innerHTML = createAutosaveCompare(previous, true)
+      autosaveWindow.querySelector('.current_content').innerHTML = createAutosaveCompare(current, false)
+      autosaveWindow.querySelector('.autosave .previous .autosave__controls--discard').onclick = () => {
+        localStorage.setItem("editing", current)
+        restoreSave(current)
+      }
+      autosaveWindow.querySelector('.autosave .previous .autosave__controls--save').onclick = () => handlePostSave(current, () => console.log('#'))
+      autosaveWindow.querySelector('.autosave .previous .autosave__controls--edit').onclick = () => handlePostSave(current, () => {
+        localStorage.setItem("editing", previous)
+        restoreSave(previous)
+      })
+      autosaveWindow.querySelector('.autosave .current .autosave__controls--save').onclick = () => handlePostSave(current, () => console.log('##'))
+      autosaveWindow.querySelector('.autosave .current .autosave__controls--edit').onclick = () => handlePostSave(current, () => restoreSave(current))
       break;
     default: break;
   }
@@ -689,9 +760,12 @@ function initialisePage () {
       localStorage.setItem("editing", JSON.stringify(Object.assign({}, current, { unsavedChanges: false })))
       break;
     case 'prompt_user_comparison':
-    case 'restore_previous_save':
       canAutoSave = false
       handleAutosaveDisplay ({ newState: 'alert', previous, current })
+      break;
+    case 'restore_previous_save':
+      canAutoSave = false
+      handleAutosaveDisplay ({ newState: 'alert', previous, current, divergant_post: true })
       break;
     default: break;
   }

@@ -280,15 +280,26 @@
       <div class="autosave_window">
         <div class="descriptor">
           <p>There is autosave data from <span class="descriptor_date"></span> for post entitled: <span class="descriptor_title"></span>.</p>
-          <p>Please select if you would like to restore that save (tihs will discard any changes to the surrent post).</p>
+          <p>Please select if you would like to restore that save (tihs will discard any changes to the current post).</p>
         </div>
         <div class="previous">
-          <p>Saved Data</p>
+          <p><em>Autosave Found</em></p>
+          <div class="autosave__controls">
+            <button class="autosave__controls--discard">Discard</button>
+            <button class="autosave__controls--save">Save to Database</button>
+            <button class="autosave__controls--edit">Save and Edit</button>
+          </div>
           <div class="previous_content"></div>
+          <p><em>End of autosave data</em></p>
         </div>
         <div class="current">
-          <p>Current Post</p>
+          <p><em>Currently Working On</em></p>
+          <div class="autosave__controls">
+            <button class="autosave__controls--save">Save to Database</button>
+            <button class="autosave__controls--edit">Continue Editing</button>
+          </div>
           <div class="current_content"></div>
+          <p><em>End of current data</em></p>
         </div>
       </div>
     </div>
