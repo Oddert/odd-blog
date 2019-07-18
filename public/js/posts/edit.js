@@ -531,6 +531,9 @@ function handlePostSave ({ body, id }, cb) {
     .then(res => res.json())
     .then(res => {
       console.log(res)
+      localStorage.setItem("editing", JSON.stringify({
+        body, id, timestamp: Date.now(), expires: Date.now() + 90000, unsavedChanges: false
+      }))
       cb(res)
     })
     .catch(err => console.log(err))
@@ -605,16 +608,21 @@ function handleAutosaveDisplay ({ newState, previous, current, divergant_post })
       autosaveWindow.querySelector('.previous_content').innerHTML = createAutosaveCompare(previous, true)
       autosaveWindow.querySelector('.current_content').innerHTML = createAutosaveCompare(current, false)
       autosaveWindow.querySelector('.autosave .previous .autosave__controls--discard').onclick = () => {
-        localStorage.setItem("editing", current)
+        localStorage.setItem("editing", JSON.stringify(current))
         restoreSave(current)
+        handleAutosaveDisplay({ newState: 'none' })
       }
       autosaveWindow.querySelector('.autosave .previous .autosave__controls--save').onclick = () => handlePostSave(current, () => console.log('#'))
       autosaveWindow.querySelector('.autosave .previous .autosave__controls--edit').onclick = () => handlePostSave(current, () => {
-        localStorage.setItem("editing", previous)
+        localStorage.setItem("editing", JSON.stringify(previous))
         restoreSave(previous)
+        handleAutosaveDisplay({ newState: 'none' })
       })
       autosaveWindow.querySelector('.autosave .current .autosave__controls--save').onclick = () => handlePostSave(current, () => console.log('##'))
-      autosaveWindow.querySelector('.autosave .current .autosave__controls--edit').onclick = () => handlePostSave(current, () => restoreSave(current))
+      autosaveWindow.querySelector('.autosave .current .autosave__controls--edit').onclick = () => handlePostSave(current, () => {
+        restoreSave(current)
+        handleAutosaveDisplay({ newState: 'none' })
+      })
       break;
     default: break;
   }
@@ -647,7 +655,7 @@ function handleAutoSave () {
 function handleSave () {
 
   const { body, id } = getData()
-  const url = `/api/posts/${id}`
+  const url = `/api/posts/${id}?bounce=true`
   const options = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -679,14 +687,18 @@ function compareAutoSaves (previous, current, callback) {
         console.log('No unsaved change flag found, assuming items are in sync')
         return { outOfSync: false, action: 'reset_last_check_flag' }
       }
-    } else {
-      console.warn("Local store found for previous post.")
-      return { outOfSync: true, action: 'restore_previous_save', data: { title: previous.title } }
+      // check for unsaved changes first
+      if (previous.unsavedChanges) {
+        console.warn("Local store found for previous post with unsaved changes.")
+        return { outOfSync: true, action: 'restore_previous_save', data: { title: previous.title } }
+      } else {
+        console.warn("Local store found for previous post. No unsaved changes")
+        return { outOfSync: true, action: 'rewrite_autosave' }
+      }
     }
-  } else {
-    console.log('Local store not found.')
-    return { outOfSync: true, action: 'rewrite_autosave' }
   }
+  console.log('Local store not found.')
+  return { outOfSync: true, action: 'rewrite_autosave' }
   // reset_unsaved_flag
   // prompt_user_comparison
   // reset_last_check_flag
@@ -748,7 +760,9 @@ function initialisePage () {
     handleNewInput(e)
   })
 
-  const previous = JSON.parse(localStorage.getItem("editing"))
+  const previous_raw = localStorage.getItem("editing")
+  const previous = JSON.parse(previous_raw === "[object Object]" ? "{}" : previous_raw)
+  if (previous_raw === "[object Object]") localStorage.setItem("editing", "{}")
   const current = getData()
   console.log({ previous }, { current })
   const pageLoadAutosaveStatus = compareAutoSaves(previous, current, null)

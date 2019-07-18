@@ -48,16 +48,35 @@ router.route('/tester/:id')
 
 // NEW
 router.route('/new')
-  .get(mw.checkAuth, (req, res, next) => res.render('posts/create'))
-  .post(mw.checkAuth, (req, res, next) => {
-    let date = new Date()
+  // .get(mw.checkAuth, (req, res, next) => res.render('posts/create'))
+  .get(mw.checkAuth, (req, res, next) => {
     Post.create(Object.assign({},
+        {
+          tags: [],
+          year: new Date().getFullYear(),
+          month: new Date().getMonth()+1,
+          day: new Date().getDate(),
+          word_count: 0,
+          active: true,
+          author: {
+            username: req.user.username,
+            id: req.user._id,
+            user: req.user._id,
+            displayName: createReadableName(req.user)
+          }
+        }
+      ))
+      .then(post => Post.findById(post._id))
+      .then(data => res.render('posts/edit', { data }))
+      .catch(err => handleErrorPage(req, res, next, err))
+  })
+  .post(mw.checkAuth, (req, res, next) => res.json(Object.assign({},
       req.body,
       {
         tags: req.body.tags.split(', '),
-        year: date.getFullYear(),
-        month: date.getMonth()+1,
-        day: date.getDate(),
+        year: new Date().getFullYear(),
+        month: new Date().getMonth()+1,
+        day: new Date().getDate(),
         word_count: calculateRead(req.body),
         active: true,
         author: {
@@ -67,17 +86,35 @@ router.route('/new')
           displayName: createReadableName(req.user)
         }
       }
-    ))
-    // -Header External Internal
-    // -Image External Internal
-    .then(post => {
-      console.log({ post })
-      return Post.findById(post._id)
-    })
-    .then(post => User.findByIdAndUpdate(req.user._id, { $push: { posts: post._id } }).then(user => post))
-    .then(post => res.redirect(`/posts/${post._id}`))
-    .catch(err => res.status(500).json({ err }))
-  })
+    )))
+  // .post(mw.checkAuth, (req, res, next) => {
+  //   Post.create(Object.assign({},
+  //     req.body,
+  //     {
+  //       tags: req.body.tags.split(', '),
+  //       year: date.getFullYear(),
+  //       month: date.getMonth()+1,
+  //       day: date.getDate(),
+  //       word_count: calculateRead(req.body),
+  //       active: true,
+  //       author: {
+  //         username: req.user.username,
+  //         id: req.user._id,
+  //         user: req.user._id,
+  //         displayName: createReadableName(req.user)
+  //       }
+  //     }
+  //   ))
+  //   // -Header External Internal
+  //   // -Image External Internal
+  //   .then(post => {
+  //     console.log({ post })
+  //     return Post.findById(post._id)
+  //   })
+  //   .then(post => User.findByIdAndUpdate(req.user._id, { $push: { posts: post._id } }).then(user => post))
+  //   .then(post => res.redirect(`/posts/${post._id}`))
+  //   .catch(err => res.status(500).json({ err }))
+  // })
 
 function renderSinglePage (req, res, next, id) {
   console.log('rendering single page: ', id, { ...id })

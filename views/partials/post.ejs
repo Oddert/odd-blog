@@ -9,8 +9,8 @@
     <div class="details_primary">
       <!-- <h3><a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>"><%= post.title %></a></h3> -->
       <h3><a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>"><%= post.title %></a></h3>
-      <% if (post.subtitle.length > 150) { %>
-        <p><%- post.subtitle.substring(0,150) %>...</p>
+      <% if (post.subtitle && post.subtitle.length > 150) { %>
+        <p><%- post.subtitle ? post.subtitle.substring(0,150) : '' %>...</p>
       <% } else { %>
         <p><%- post.subtitle %></p>
       <% } %>
