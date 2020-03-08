@@ -31,7 +31,7 @@ const saveButton      = document.querySelector('.save')
 const submitButton    = document.querySelector('.submit')
 
 let lastClicked = document.querySelector('body *')
-let loadTime = Date.now()
+let loadTimestamp = Date.now()
 let autosaveDisplay = document.querySelector('.autosave')
 let autosaveWindow = autosaveDisplay.querySelector('.autosave_window')
 let autosaveDisplayState = 'none'

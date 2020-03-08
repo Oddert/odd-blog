@@ -22,6 +22,35 @@ $nav_background--hover: linear-gradient(45deg, #1bbc9b, #9a59b5);
 $readButtonColour--hover: $light_readButtonColour--hover;
 
 
+
+@mixin standard_button {
+  border: 1px solid #bec3c7;
+  text-decoration: none;
+  padding: 10px 20px;
+  transition: .1s linear;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #2d3e50;
+  font-weight: bold;
+  &:hover {
+    // background: rgba(27,188,155,.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+    border: 1px solid rgba(0,0,0,0);
+    color: black;
+  }
+  &:active {
+    // background: rgba(27,188,155,.5);
+    background: rgba(149, 165, 165, .3);
+    box-shadow: 0 5px 8px rgba(0,0,0,.3);
+    color: #2d3e50;
+  }
+}
+
+button {
+  @include standard_button;
+}
+
 .intro_card {
   // border: 1px solid red;
   width: 100%;
@@ -229,7 +258,9 @@ $readButtonColour--hover: $light_readButtonColour--hover;
           display: flex;
           justify-content: flex-end;
           a {
-            transition: .1s linear;
+            transition: 0s color linear;
+            transition: .1s box-shadow linear;
+            transition: .1s background linear;
             border: $readButtonBorder;
             border-radius: 10px;
             padding: 10px 20px;
@@ -244,6 +275,7 @@ $readButtonColour--hover: $light_readButtonColour--hover;
               background: $nav_background--hover;
               color: $readButtonColour--hover;
               box-shadow: $light_readButtonShadow--hover;
+              text-decoration: none;
               i {
                 color: $readButtonColour--hover;
               }

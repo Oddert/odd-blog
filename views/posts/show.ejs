@@ -14,7 +14,7 @@
   <body>
     <% include ../partials/nav %>
 
-    <% if (/\w/gi.test(data.header_image.src)) { %>
+    <% if (data.header_image && /\w/gi.test(data.header_image.src)) { %>
       <div class="header_image">
         <img src="<%= data.header_image.src %>" alt="<%= data.header_image.src %>" />
         <figcaption><%= data.header_image.caption %></figcaption>
@@ -273,7 +273,7 @@
               <div class="post_details">
                 <div class="post_details_primary">
                   <h3><a href="/posts/<%= nextPost.year %>/<%= nextPost.month %>/<%= nextPost.day %>/<%= nextPost.title %>"><%= nextPost.title %></a></h3>
-                  <% if (nextPost.subtitle.length > 150) { %>
+                  <% if (nextPost.subtitle && nextPost.subtitle.length > 150) { %>
                     <p><%- nextPost.subtitle.substring(0,150) %>...</p>
                   <% } else { %>
                     <p><%- nextPost.subtitle %></p>

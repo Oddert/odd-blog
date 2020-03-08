@@ -22,6 +22,7 @@ const mw = require('./utils/middleware') //Utils
 const cloudinaryParser = require('./config/cloudinary') //Config
 
 app.use(helmet())
+app.use(require('cors')())
 
 app.set('view engine', 'ejs')
 app.use(methodOverride('_method'))
@@ -46,6 +47,7 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 function addUserToLocals (req, res, next) {
+  console.log(req.originalUrl)
   res.locals.user = req.user
   res.locals.blog_name = process.env.BLOG_NAME || 'Blog'
   res.locals.location = process.env.LOCATION || "https://oddert.github.io/"

@@ -1,3 +1,25 @@
+button {
+  border: 1px solid #bec3c7;
+  text-decoration: none;
+  padding: 10px 20px;
+  transition: 0.1s linear;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #2d3e50;
+  font-weight: bold;
+}
+button:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0);
+  color: black;
+}
+button:active {
+  background: rgba(149, 165, 165, 0.3);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
+  color: #2d3e50;
+}
+
 .intro_card {
   width: 100%;
   margin-top: 40px;
@@ -182,7 +204,9 @@
   justify-content: flex-end;
 }
 .posts .post .details .details_primary .read_button a {
-  transition: 0.1s linear;
+  transition: 0s color linear;
+  transition: 0.1s box-shadow linear;
+  transition: 0.1s background linear;
   border: 1px solid #bec3c7;
   border-radius: 10px;
   padding: 10px 20px;
@@ -198,6 +222,7 @@
   background: linear-gradient(45deg, #1bbc9b, #9a59b5);
   color: #ecf0f1;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
 }
 .posts .post .details .details_primary .read_button a:hover i {
   color: #ecf0f1;

@@ -1,4 +1,4 @@
-<div class="post">
+<div class="post" data-part='partials/post'>
   <% if (post.header_image.src && /\w/gi.test(post.header_image.src)) { %>
     <!-- <a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>" class="image"> -->
     <a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>" class="image">
@@ -14,11 +14,17 @@
       <% } else { %>
         <p><%- post.subtitle %></p>
       <% } %>
-      <p class="read_button"><a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>">Read Post <i class="fas fa-chevron-right"></i></a></p>
+      <p class="read_button">
+        <a href="/posts/<%= post.year %>/<%= post.month %>/<%= post.day %>/<%= post.title %>">
+          Read Post <i class="fas fa-chevron-right"></i>
+        </a>
+      </p>
     </div>
     <div class="details_meta">
-      <h4 class="details_author">By <a href="/user/<%= post.author.username %>"><%= /\w/gi.test(post.author.displayName) ? post.author.displayName : post.author.username %></a></h4>
-      <strong><%= new Date(post.created).toLocaleDateString() %></strong>
+      <h4 class="details_author">By <a href="/user/<%= post.author.username %>">
+        <%= /\w/gi.test(post.author.displayName) ? post.author.displayName : post.author.username %>
+      </a></h4>
+      <strong data-trace='en-GB'><%= new Date(post.created).toLocaleDateString('en-GB') %></strong>
       <p class="details_read_time"><em>Read Time: <%= post.word_count < 265 ? '1 min' : Math.ceil(post.word_count/265) > 1 ? Math.ceil(post.word_count/265)+' mins' : Math.ceil(post.word_count/265)+' min' %></em></p>
     </div>
     <% if (user && post.author.id.equals(user._id)) { %>

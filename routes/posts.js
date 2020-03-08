@@ -71,22 +71,22 @@ router.route('/new')
       .catch(err => handleErrorPage(req, res, next, err))
   })
   .post(mw.checkAuth, (req, res, next) => res.json(Object.assign({},
-      req.body,
-      {
-        tags: req.body.tags.split(', '),
-        year: new Date().getFullYear(),
-        month: new Date().getMonth()+1,
-        day: new Date().getDate(),
-        word_count: calculateRead(req.body),
-        active: true,
-        author: {
-          username: req.user.username,
-          id: req.user._id,
-          user: req.user._id,
-          displayName: createReadableName(req.user)
-        }
+    req.body,
+    {
+      tags: /\w/gi.test(req.body.tags) ? req.body.tags.split(', ') : [],
+      year: new Date().getFullYear(),
+      month: new Date().getMonth()+1,
+      day: new Date().getDate(),
+      word_count: calculateRead(req.body),
+      active: true,
+      author: {
+        username: req.user.username,
+        id: req.user._id,
+        user: req.user._id,
+        displayName: createReadableName(req.user)
       }
-    )))
+    })
+  ))
   // .post(mw.checkAuth, (req, res, next) => {
   //   Post.create(Object.assign({},
   //     req.body,
@@ -193,10 +193,11 @@ router.route('/:id/edit')
       .catch(err => handleErrorPage(req, res, next, err))
   })
   .put(mw.checkPostOwnership, (req, res, next) => {
+    console.log(req.body.tags)
     Post.findByIdAndUpdate(req.params.id, Object.assign({},
       req.body,
       {
-        tags: req.body.tags.split(', '),
+        tags: /\w/gi.test(req.body.tags) ? req.body.tags.split(', ') : [],
         word_count: calculateRead(req.body),
         $push: {
           updates: {

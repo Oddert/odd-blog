@@ -1,4 +1,4 @@
-<div class="post experimental">
+<div class="post experimental" data-part='post_tags'>
   <% if (each.header_image.src && /\w/gi.test(each.header_image.src)) { %>
     <!-- <a href="/posts/<%= each.year %>/<%= each.month %>/<%= each.day %>/<%= each.title %>" class="image"> -->
     <a href="/posts/<%= each._id %>" class="image">
@@ -23,7 +23,7 @@
     </div>
     <div class="details_meta">
       <h4 class="details_author">By <a href="/user/<%= each.author.username %>"><%= /\w/gi.test(each.author.displayName) ? each.author.displayName : each.author.username %></a></h4>
-      <strong><%= new Date(each.created).toLocaleDateString() %></strong>
+      <strong><%= new Date(each.created).toLocaleDateString('en-GB') %></strong>
       <p class="details_read_time"><em>Read Time: <%= each.word_count < 265 ? '1 min' : Math.ceil(each.word_count/265) > 1 ? Math.ceil(each.word_count/265)+' mins' : Math.ceil(each.word_count/265)+' min' %></em></p>
     </div>
     <% if (user && each.author.id.equals(user._id)) { %>
