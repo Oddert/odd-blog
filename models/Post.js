@@ -11,6 +11,14 @@ const PostSchema = new mongoose.Schema ({
     type: String,
     default: 'Blog Post'
   },
+  thumbnails: [
+    {
+      src: String,
+      alt: String,
+      caption: String,
+      size: Number
+    }
+  ],
   header_image: {
     src: String,
     alt: String,
