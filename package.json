@@ -30,7 +30,7 @@
     "start": "node app.js"
   },
   "author": "Robyn Veitch",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Oddert/odd-blog.git"
